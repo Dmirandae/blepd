@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 01 - 16"
+date: "2018 - 01 - 17"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -9,7 +9,7 @@ output:
 
 # The Algorithm
 
-##  Deconstructing the functions
+##  Constructing the functions
 
 First, we load the required libraries:
 
@@ -38,7 +38,7 @@ library(gridExtra)
 
 ```
 
-Now, we load the data: trees and distribution
+Now, we load the data: tree and distributions
 
 ```{r}
 
@@ -112,9 +112,9 @@ To test the effect of changing a single terminal branch length, we will:
 
 1. create a copy of the initial branch length.
 2. calculate the initial PD and get the area(s) with the max value.
-2. change the length of a give terminal: t1.
+2. change the length of a given terminal: t1.
 2. recalculate PD and get the area(s) with the max value.
-3. compare both areas to evaluate the effect of the perturbation.
+3. compare both results (from steps 2 and 4) to evaluate the effect of the perturbation.
 
 ```{r}
 
@@ -126,7 +126,7 @@ bestInitialArea
 
 tipToEval <- "t1"
 
-value <- 1.1
+value <- 1.01
 
 numberTipToEval <- which(initialTree$tip.label %in% tipToEval) 
 
@@ -163,14 +163,12 @@ bestInitialArea == bestModifiedArea
 
 ```
 
-As shown, a modification in the branch lenght will impact the area selected, 
+As shown, a modification in the branch length will impact the area selected, 
 we can consider that the results are *very* sensible to changes in branch length.
 
 ## THE function
 
-To evaluate the behaviour we can modify a branch length, recalculate the 
-PD value and compare the effect of this perturbation. We can turn this code 
-into a function called evalTerminal, with four parameters:
+To evaluate the behaviour we must: modify a branch length, recalculate the PD value and compare the effect of this perturbation. We can turn these steps into a function called *evalTerminal*, with four parameters:
 
 1. a tree with branch lengths
 2. the distribution object
@@ -183,10 +181,10 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", app
 
 ```
 
-The lower limit when we change the branch length for terminal A is 0.99, 
+The lower limit when we change the branch length for terminal t1 is 0.99, 
 as any change in branch length will modify the area selected from A1A2 to A2, 
-as the tie between the paths terminals A1/A3 vs A2/A4 will be solved
-in favour of B/D when A1 is shorter.
+as the tie between the paths terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
+in favour of t2/t4 when A1 is shorter.
 
 ```{r}
 
@@ -195,7 +193,7 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t2", app
 ```
 
 A similar result will arrive from changing the terminal branch t2, but in 
-this case the tie is solved to favour  A1.
+this case the tie is solved to favour A1.
 
 ```{r}
 
@@ -203,11 +201,7 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", app
 
 ```
 
-And, the same result will arrive from changing the branch length of the 
-terminal A from 1 and up, to find the upper limmit, the tie is solved in 
-favour of B, opposite to the solution when we found the lower limit. 
-
-In this case, even the smaller change in any terminal branch will modify the results.
+And, the same result will arrive from changing the branch length of the terminal t1 from 1 and up, to find the upper limmit, the tie is solved in favour of area A2, opposite to the solution when we found the lower limit. In this case, even the smaller change in any terminal branch will modify the results.
 
 We test the effect of the branch length for all terminals.
 
@@ -225,12 +219,9 @@ evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "t3", approac
 
 ```
 
-The THING is the PD difference between areas, and whether this value could be 
-accumulated in a single terminal branch or if the PD value is evenly distributed 
-among all terminal branches and therefore to change the PD value more than one 
-terminal must have to change in order to get another value.
+The THING is the PD difference between areas, and whether this value could be accumulated in a single terminal branch or if the contribution to the PD value is evenly distributed among all terminal branches and therefore to change the PD value more than one terminal branch length must have to change, to select another area.
 
-The function to test all terminals at the same time is evalTree, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
+The function to test all terminals at the same time is *evalTree*, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
 
 
 ```{r}
@@ -240,4 +231,4 @@ evalTree(tree = initialTree, distribution = dist4taxa)
 ```
 
 
-The column abDelta shows that any change  -larger than 0- in the branch length will change the area selected, showing the sensitivity of the PD results to the terminal branch lengths. 
+The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will change the area selected.
