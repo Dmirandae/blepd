@@ -44,7 +44,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         
         if (is.na(numberTipToEval)){stop("Check names in tree / distribution. Mind the closing door")}
 
-        if(!all(colnames(distribution) == tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
+        if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
 
 
 ## in house functions
