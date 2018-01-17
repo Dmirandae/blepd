@@ -20,8 +20,6 @@ rm(list = ls())
 
 ## libraries
 
-library(ape)
-
 ## installing and loading the package
 
 ##install.packages("../../blepd_0.1.1.tar.gz", repos = NULL, type="source")
@@ -132,7 +130,7 @@ numberTipToEval <- which(initialTree$tip.label %in% tipToEval)
 
 newTree <- initialTree
 
-## a funtion to create a table binding tree$edge and tree$edge.length
+## a table, binding tree$edge and tree$edge.length
 createTable <- function(tree = tree){
                   allDataTable <- tree$edge
                   allDataTable <- cbind (allDataTable, tree$edge.length)
@@ -143,7 +141,8 @@ newTree$edge.length[which(createTable(initialTree)[,2] %in% numberTipToEval)] <-
 
 newTree$edge.length
 
-plotNewTree <- ggtree(newTree) + theme_tree2() +  
+plotNewTree <- ggtree(newTree) + 
+               theme_tree2() +  
                geom_tiplab(size=6, color="black") +
                labs(title = "C. Four terminals, non equal branch length")
 
