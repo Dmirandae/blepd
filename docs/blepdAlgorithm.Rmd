@@ -1,7 +1,7 @@
 ---
-title: "Branch length evaluation for Phylogenetic Diversity"
+title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "today"
+date: "2018 - 01 - 16"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -19,9 +19,6 @@ First, we load the required libraries:
 rm(list = ls())
 
 ## libraries
-library(ape)
-library(vegan)
-library(picante)
 
 ## installing and loading the package
 
@@ -45,11 +42,13 @@ Now, we load the data: trees and distribution
 
 ## trees
 
-initialTree <- read.tree("../data/tree00")
+initialTree <- read.tree("../testData/tree00")
+
+initialTree
 
 ## distributions
 
-dist4taxa <- as.matrix(read.table("../data/dist4T00",
+dist4taxa <- as.matrix(read.table("../testData/dist4T00",
                                   stringsAsFactors=FALSE,
                                   header=TRUE,
                                   row.names=1)
@@ -57,21 +56,19 @@ dist4taxa <- as.matrix(read.table("../data/dist4T00",
 
 ## distribution to XY
 
-distXY <-    matrix2XY(dist4taxa)
+distXY <- matrix2XY(dist4taxa)
 
 ## plotting
 
 ## the tree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-            color=c("black","black","black","black","black","black","black"), size=1 #, linetype="dotted"
-            ) +  
-            geom_tiplab(size=6, color="black") +
-            # geom_nodepoint(color="#b5e521", alpha=1/4, size=c(0,15,10)) +
-           theme_tree2() +  # geom_treescale() +
-            labs(title = "A. Four terminals, equal branch length")
+             color="black", size=1 , linetype="dotted") +  
+             geom_tiplab(size=6, color="black") +
+             theme_tree2() +  
+             labs(title = "A. Four terminals, equal branch length")
 
-plotTree
+print(plotTree)
 
 ## the distribution
 
@@ -103,19 +100,19 @@ initialTree$edge.length
 
 initialPD <- myPD(tree=initialTree, distribution = dist4taxa)
                                                                                                                         
+initialPD
+
 ```
 
 ## Single taxon evaluation function
 
-We can test the effect of changing a single branch length:
+To test the effect of changing a single terminal branch length, we will:
 
-we will:
-
-1. create a copy of the initial branch length
-2. calculate the initial PD and get the area(s) with the max value
-2. change the length of a give terminal !!!(minus 9 and 11 in this example)
-2. recalculate PD and get the area(s) with the max value
-3. compare both areas to evaluate the effect of the perturbation
+1. create a copy of the initial branch length.
+2. calculate the initial PD and get the area(s) with the max value.
+2. change the length of a give terminal: t1.
+2. recalculate PD and get the area(s) with the max value.
+3. compare both areas to evaluate the effect of the perturbation.
 
 ```{r}
 
@@ -125,7 +122,7 @@ bestInitialArea <- row.names(dist4taxa)[which(initialPD == max(initialPD))]
 
 bestInitialArea
 
-tipToEval <- "C"
+tipToEval <- "t1"
 
 value <- 2 
 
@@ -133,17 +130,24 @@ numberTipToEval <- which(initialTree$tip.label %in% tipToEval)
 
 newTree <- initialTree
 
+## a funtion to create a table binding tree$edge and tree$edge.length
+createTable <- function(tree = tree){
+                  allDataTable <- tree$edge
+                  allDataTable <- cbind (allDataTable, tree$edge.length)
+                  return(allDataTable)
+                  }
+
 newTree$edge.length[which(createTable(initialTree)[,2] %in% numberTipToEval)] <- value
 
 newTree$edge.length
 
 plotNewTree <- ggtree(newTree) + theme_tree2() +  
                geom_tiplab(size=6, color="black") +
-               labs(title = "B. Four terminals, non equal branch length")
+               labs(title = "C. Four terminals, non equal branch length")
 
-plotNewTree
+print(plotNewTree)
 
-### PD for th modified tree
+### PD for the modified tree
 
 modifiedPD <- myPD(tree = newTree, distribution = dist4taxa)
 
@@ -158,44 +162,42 @@ bestInitialArea == bestModifiedArea
 ```
 
 As shown, a modification in the branch lenght will impact the area selected, 
-we can consider that the results are *very* sensible to chages in branch length.
+we can consider that the results are *very* sensible to changes in branch length.
 
 ## THE function
 
-To evaluate the behaviour we cand modify a branch length, recalculate the 
+To evaluate the behaviour we can modify a branch length, recalculate the 
 PD value and compare the effect of this perturbation. We can turn this code 
 into a function called evalTerminal, with four parameters:
 
-1. a tree with branch length(s)
+1. a tree with branch lengths
 2. the distribution object
 3. the terminal to evaluate
-4. the approach to evaluate the terminal, that could be "lower",  or "upper" 
-limits, to evaluate the minimal or the maximal value of the branch length 
-where the PD value changes therefore another area is selected.  
+4. the approach to evaluate the terminal, that could be "lower",  or "upper"  limits, to evaluate the minimal or the maximal value of the branch length where the PD value changes, therefore another area is selected.  
 
 ```{r}
 
-evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "A", approach = "lower" )
+evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", approach = "lower" )
 
 ```
 
 The lower limit when we change the brnach length for terminal A is 0.99, 
-as any change in branch length will modify the area selected from AB to B, 
-as the tie between the path between the terminals A/C vs B/D will be solved
-in foavour of B/D when A is shorter.
+as any change in branch length will modify the area selected from A1A2 to A2, 
+as the tie between the paths terminals A1/A3 vs A2/A4 will be solved
+in favour of B/D when A1 is shorter.
 
 ```{r}
 
-evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "B", approach = "lower" )
+evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t2", approach = "lower" )
 
 ```
 
-A similar result will arrive from changing terminal beranch B, but in 
-this case the tie is solved to favour of A.
+A similar result will arrive from changing the terminal branch t2, but in 
+this case the tie is solved to favour  A1.
 
 ```{r}
 
-evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "A", approach = "upper" )
+evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", approach = "upper" )
 
 ```
 
@@ -205,13 +207,7 @@ favour of B, opposite to the solution when we found the lower limit.
 
 In this case, even the smaller change in any terminal branch will modify the results.
 
-We test the effect of the branch length for all terminals:
-
-                                                                                                                                    FALTA LE CODIGO AQUI PARA ARBOL CON LOG IGUALES TODAS Y EMPATE, EL CASO
-DISCUTIDO HASTA AHORA PERO EN UNA SOLA FUNCION
-
-let's see  the effect ina tree with non equal branch lengths as the tree p
-reviously modified
+We test the effect of the branch length for all terminals.
 
 ```{r}
 
@@ -221,13 +217,25 @@ modifiedPD
 
 bestModifiedArea
 
-evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "C", approach = "upper" )
+evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "t3", approach = "upper" )
 
-evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "C", approach = "lower" )
+evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "t3", approach = "lower" )
 
 ```
 
-The THING is the PD differenc between areas, and whether this value could be 
-acumoulated in a single terminal branch or if the PD value is evnly distributed 
+The THING is the PD difference between areas, and whether this value could be 
+accumulated in a single terminal branch or if the PD value is evenly distributed 
 among all terminal branches and therefore to change the PD value more than one 
-terminal must have to change ir order to get another value.
+terminal must have to change in order to get another value.
+
+The function to test all terminals at the same time is evalTree, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
+
+
+```{r}
+
+evalTree(tree = initialTree, distribution = dist4taxa)
+
+```
+
+
+The column abDelta shows that any change  -larger than 0- in the branch length will change the area selected, showing the sensitivity of the PD results to the terminal branch lengths. 

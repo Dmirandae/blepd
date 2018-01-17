@@ -13,7 +13,7 @@
 #' 
 #' @param approach is the type of limit to evaluate, "upper": from the actual length to maxVal, or "lower": from the actual length to 0. 
 #' 
-#' @param maxMultiplier is the value to multiply the maxPD value as the upper limit to evaluate. 
+#' @param maxMultiplier is the value to multiply the sum of the PD values. This value will be the upper limit to evaluate. 
 #' 
 #' @param root is use.root in PD function. 
 #' 
@@ -42,7 +42,9 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
 
         numberTipToEval <- which(tree$tip.label %in% tipToEval) 
         
-        if (is.na(numberTipToEval)){stop("mind the closing door")}
+        if (is.na(numberTipToEval)){stop("Check names in tree / distribution. Mind the closing door")}
+
+        if(!all(colnames(distribution) == tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
 
 
 ## in house functions
