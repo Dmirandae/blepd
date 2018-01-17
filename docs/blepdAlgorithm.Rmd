@@ -20,6 +20,8 @@ rm(list = ls())
 
 ## libraries
 
+library(ape)
+
 ## installing and loading the package
 
 ##install.packages("../../blepd_0.1.1.tar.gz", repos = NULL, type="source")
@@ -124,7 +126,7 @@ bestInitialArea
 
 tipToEval <- "t1"
 
-value <- 2 
+value <- 1.1
 
 numberTipToEval <- which(initialTree$tip.label %in% tipToEval) 
 
@@ -181,7 +183,7 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", app
 
 ```
 
-The lower limit when we change the brnach length for terminal A is 0.99, 
+The lower limit when we change the branch length for terminal A is 0.99, 
 as any change in branch length will modify the area selected from A1A2 to A2, 
 as the tie between the paths terminals A1/A3 vs A2/A4 will be solved
 in favour of B/D when A1 is shorter.

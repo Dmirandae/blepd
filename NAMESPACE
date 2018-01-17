@@ -1,4 +1,6 @@
-import(ape)
-import(picante)
-importFrom("utils", "read.csv")
+import(
+       ape,
+       picante
+)
+importFrom(utils,read.csv)
 exportPattern("^[[:alpha:]]+")
