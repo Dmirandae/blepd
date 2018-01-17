@@ -18,7 +18,7 @@ evalTerminal(tree = tree, distribution = distribution, tipToEval = "taxB",
 
 \item{root}{is use.root in PD function.}
 
-\item{maxMultiplier}{is the value to multiply the maxPD value as the upper limit to evaluate.}
+\item{maxMultiplier}{is the value to multiply the sum of the PD values. This value will be the upper limit to evaluate.}
 }
 \value{
 Four fields; and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD+1, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
