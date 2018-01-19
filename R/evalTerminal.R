@@ -3,7 +3,7 @@
 #'
 #' @description The function calculates whether a change in the terminal branch length generates a change in area selected; and when applies, the terminal branch length value for that change.  
 #' 
-#' @return Four fields; and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD+1, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
+#' @return Returns four fields, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper limit or 0.0 for the lower limit, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object.
 #' 
@@ -22,8 +22,8 @@
 #' library(blepd)
 #' data(tree)
 #' data(distribution)
-#' evalTerminal(tree = tree , distribution = distribution , tipToEval = "t1" , 
-#' approach = "lower" , root = FALSE)
+#' evalTerminal(tree = tree , distribution = distribution , 
+#' tipToEval = "t1" ,  approach = "lower" , root = FALSE)
 #'
 #'
 #'@author Miranda-Esquivel Daniel R.
@@ -33,7 +33,7 @@
 evalTerminal <- function(tree = tree , distribution = distribution , 
                          tipToEval = "taxB" , approach = "lower" , 
                          root = FALSE ,
-                         maxMultiplier = 1.5  ){
+                         maxMultiplier = 1.5 ){
 
 
 ##if(debugDRME){cat("\n inicio en terminal:",tipToEval,":",approach,"\n")}
@@ -64,8 +64,6 @@ bestVal <- function(distribution = distribution, initialVal){
 }
 
 
-
-
 createTable <- function(tree = tree){
     ## create table
     allDataTable <- tree$edge
@@ -78,13 +76,11 @@ return(allDataTable)
 }
 
 
-
         
 ## initial stuff
 
         initialPD <- myPD(tree = tree, distribution = distribution, root = root)
         
-        maxPD <- max(initialPD) +1
         
         bestInitialArea <- c(bestVal(distribution,initialPD))
         
@@ -96,7 +92,11 @@ return(allDataTable)
                newTree <- tree
     
         if (tolower(approach) %in% c("lower") ){
-			newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  0
+			
+            newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  0
+            
+            maxPD <- 0 ##+ 1
+            
 			}
                 
         if (tolower(approach) %in% c("upper") ){
@@ -104,6 +104,10 @@ return(allDataTable)
 			maxVal <- maxMultiplier * round(sum(tree$edge.length),6)
 			
 			newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  maxVal
+            
+            
+            maxPD <- max(initialPD) - min(initialPD)
+            ##maxPD <- round(sum(tree$edge.length),6)
 			}
         
                 
@@ -113,7 +117,8 @@ return(allDataTable)
         bestModifiedArea <-  c(bestVal(distribution,modifiedPD))
         
         
-        if(all(bestInitialArea %in% bestModifiedArea)){
+        if(all(bestInitialArea %in% bestModifiedArea) &
+           all(bestModifiedArea %in% bestInitialArea)){
             
             ans <-c (maxPD , bestInitialArea, 
                       "*" , initialLength)
