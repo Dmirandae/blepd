@@ -66,9 +66,13 @@ for(terminal in tree$tip.label){
 }
 
 
-results$changeLower <- paste(results$InitialArea,results$lowerFinalArea,sep = "->")
+#results$changeLower <- paste(results$InitialArea,results$lowerFinalArea,sep = "->")
 
-results$changeUpper <- paste(results$InitialArea,results$upperFinalArea,sep = "->")
+#results$changeUpper <- paste(results$InitialArea,results$upperFinalArea,sep = "->")
+
+results$changeLower <- results$lowerFinalArea
+
+results$changeUpper <- results$upperFinalArea
 
 results$deltaUpper <- abs(as.numeric(results$upperBranchLength) - as.numeric(results$initialLength))
 
@@ -94,13 +98,22 @@ abDelta <- rep(0,length(nDelta))
 
 tmp1 <- results$upperFinalArea == "*"
 
+#Delta[tmp1] <- paste("Lb",results$changeLower[tmp1],sep="_")
+#
 Delta[tmp1] <- paste("Lb",results$changeLower[tmp1],sep="_")
+
+
+
 abDelta[tmp1] <- results$deltaLower[tmp1]
 
 
 tmp2 <- results$lowerFinalArea == "*"
 
+#Delta[tmp2] <- paste("Ub",results$changeUpper[tmp2],sep="_")
+#
 Delta[tmp2] <- paste("Ub",results$changeUpper[tmp2],sep="_")
+
+
 abDelta[tmp2] <- results$deltaUpper[tmp2]
 
 
