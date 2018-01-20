@@ -100,19 +100,17 @@ tmp1 <- results$upperFinalArea == "*"
 
 #Delta[tmp1] <- paste("Lb",results$changeLower[tmp1],sep="_")
 #
-Delta[tmp1] <- paste("Lb",results$changeLower[tmp1],sep="_")
-
-
+Delta[tmp1] <- results$changeLower[tmp1]
 
 abDelta[tmp1] <- results$deltaLower[tmp1]
+
 
 
 tmp2 <- results$lowerFinalArea == "*"
 
 #Delta[tmp2] <- paste("Ub",results$changeUpper[tmp2],sep="_")
 #
-Delta[tmp2] <- paste("Ub",results$changeUpper[tmp2],sep="_")
-
+Delta[tmp2] <- results$changeUpper[tmp2]
 
 abDelta[tmp2] <- results$deltaUpper[tmp2]
 
@@ -125,6 +123,10 @@ abDelta[tmp3] <- results$deltaLower[tmp3] + results$deltaUpper[tmp3]
 
 
 results$areaDelta <- Delta
+
+tmp4 <- results$areaDelta  == "LU"
+
+results$areaDelta[tmp4] <- paste("LU",results$changeLower[tmp4],results$changeUpper[tmp4],sep="_")
 
 results$abDelta <- abDelta
 
