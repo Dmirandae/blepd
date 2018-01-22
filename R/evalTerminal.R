@@ -1,9 +1,9 @@
 #'
 #' @title evalTerminal
 #'
-#' @description The function calculates whether a change in the terminal branch length generates a change in area selected; and when applies, the terminal branch length value for that change.  
+#' @description The function calculates whether a change in the terminal branch length generates a change in the area selected; and when applies, the terminal branch length value for that change.  
 #' 
-#' @return Returns four fields, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper limit or 0.0 for the lower limit, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
+#' @return Returns four fields, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper limit, or 0.0 for the lower limit, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object.
 #' 

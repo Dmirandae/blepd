@@ -1,7 +1,7 @@
 #'
 #' @title evalTree
 #'
-#' @description The function is a wrap for evalTerminal and calculates whether a change in all the terminal branches length generates a change in area selected; and when applies, the terminal branch length value for that change.  
+#' @description The function is a wrap for evalTerminal and calculates whether changes in all the terminal branches length generate changes in the area selected; and when applies, the terminal branch length value for that change(s).  
 #' 
 #' @return A data.frame object with 14 fields:  labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower.   deltaPD,  areaDelta, and  abDelta.
 #'
