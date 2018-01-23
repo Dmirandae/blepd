@@ -1,7 +1,7 @@
 library(devtools)
 library(rmarkdown)
 
-archivos <- dir(pattern="Rmd")
+archivos <- dir(pattern=".Rmd")
 
 for(nombre in archivos){
 #render(input=nombre, "all")
