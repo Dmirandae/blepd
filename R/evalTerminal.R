@@ -123,6 +123,13 @@ return(allDataTable)
             ans <-c (maxPD , bestInitialArea, 
                       "*" , initialLength)
             
+            
+            
+            names(ans) <- c("maxPD","bestInitialArea","unModifiedArea","initialLength")
+            
+            
+            
+            
             return(ans)
             
               break("got it")
@@ -197,8 +204,13 @@ return(allDataTable)
             reCalculatedPD  <- myPD(tree = newTree, distribution = distribution, root = root)
             
             bestModifiedArea <-  c(bestVal(distribution,reCalculatedPD))
-                        
-			return(c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength))
+            
+            resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+            
+            names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            
+            return(resp)
+            
             
             break("got it")
         }
@@ -208,7 +220,11 @@ return(allDataTable)
             
             promedio <- promedio + 0.0001
             
-            return(c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength))
+            resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+            
+            names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            
+            return(resp)
             
             break("got it")
             
