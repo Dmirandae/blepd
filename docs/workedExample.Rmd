@@ -34,6 +34,8 @@ library(ggtree)
 
 library(gridExtra)
 
+library(RColorBrewer)
+
 ```
 
 Now, we load the data included in the package: tree and distributions
@@ -112,12 +114,10 @@ initialPD
 
 ## Single taxon evaluation function
 
-To test the effect of changing the branch length for a single terminal, we will use evalTerminal:
+To test the effect of changing the branch length for a single terminal ("t1"), we will use evalTerminal:
 
 
 ```{r}
-
-tipToEval <- "t1"
 
 evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", approach = "lower" )
 
@@ -200,11 +200,12 @@ or plotted into the tree:
 
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
                        color="black", size=0.8 ) + 
-         theme(legend.position="right") +
+         theme(legend.position="right") + 
          labs(title = paste("Initial area selected: ",finalResults$maxPD, sep = ""))
 
 
-p <- p0 %<+% finalResults + geom_tiplab(aes(color=areaDelta), size =6)
+p <- p0 %<+% finalResults + geom_tiplab(aes(color=areaDelta), size =6) +
+          scale_colour_brewer("Area change", palette="Dark2")
 
 
 print(p)

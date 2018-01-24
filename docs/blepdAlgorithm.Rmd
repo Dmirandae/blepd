@@ -34,6 +34,8 @@ library(ggtree)
 
 library(gridExtra)
 
+library(RColorBrewer)
+
 ```
 
 Now, we load the data: tree and distributions
@@ -42,13 +44,13 @@ Now, we load the data: tree and distributions
 
 ## trees
 
-initialTree <- read.tree("../testData/tree00")
+initialTree <- read.tree("../testData/tree")
 
 initialTree
 
 ## distributions
 
-dist4taxa <- as.matrix(read.table("../testData/dist4T00",
+dist4taxa <- as.matrix(read.table("../testData/distribution",
                                   stringsAsFactors=FALSE,
                                   header=TRUE,
                                   row.names=1)
