@@ -94,7 +94,7 @@ all(colnames(dist4taxa) == initialTree$tip.label)
 
 ```
 
-We report all branches' length and calculate the PD values. 
+We report all branch lengths and calculate the PD values. 
 
 ```{r}
 
@@ -118,7 +118,6 @@ To test the effect of changing a single terminal branch length, we will:
 
 ```{r}
 
-initialLength <- initialTree$edge.length
 
 bestInitialArea <- row.names(dist4taxa)[which(initialPD == max(initialPD))]
 

@@ -1,5 +1,5 @@
 #'
-#' @title Distribution of four taxa. 
+#' @title Distribution data for four taxa in two areas. 
 #'
 #' @description
 #' A matrix with four species distributions in two areas.

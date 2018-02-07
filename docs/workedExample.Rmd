@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 01 - 22"
+date: "2018 - 02 - 07"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -28,7 +28,8 @@ library(blepd)
 
 packageVersion("blepd")
 
-## To plot trees; you can use ape or phytools 
+## To plot trees you can use ggtree, ape or phytools. The example is based on
+## ggtree as a matter of choice
 
 library(ggtree)
 
@@ -38,7 +39,7 @@ library(RColorBrewer)
 
 ```
 
-Now, we load the data included in the package: tree and distributions
+Now, we load the data included in the package: tree and distribution
 
 ```{r}
 
@@ -47,6 +48,8 @@ Now, we load the data included in the package: tree and distributions
 data(package = "blepd")
   
 data(tree)
+
+str(tree)
 
 initialTree <- tree   
 
@@ -75,7 +78,9 @@ plotTree <-  ggtree(initialTree, ladderize=TRUE,
              theme_tree2() +  
              labs(title = "Four terminals, equal branch length")
 
+
 print(plotTree)
+
 
 
 ## the distribution
@@ -84,7 +89,7 @@ plotDistrib <- ggplot(data=distXY,
                        aes(x= Area, y= Terminal), 
                        size =11) +
                geom_point() +
-               labs(title = "B. Terminals and Distributions",
+               labs(title = "Terminals and Distributions",
                     y = "Terminal",
                     x = "Area")
 
@@ -92,7 +97,7 @@ print(plotDistrib)
 
 ```
 
-We check whether names in both objects, trees and distributions are the same:
+We check whether names in both objects: initialTree and dist4taxa are the same:
 
 ```{r}
 
@@ -100,21 +105,21 @@ all(colnames(dist4taxa) == initialTree$tip.label)
 
 ```
 
-We report all branches' length and calculate the PD values. 
+We report the branch length, and calculate the PD values. 
 
 ```{r}
 
 initialTree$edge.length
 
 initialPD <- myPD(tree=initialTree, distribution = dist4taxa)
-                                                                                                                        
+
 initialPD
 
 ```
 
-## Single taxon evaluation function
+##  Function to evalute a single terminal
 
-To test the effect of changing the branch length for a single terminal ("t1"), we will use evalTerminal:
+To test the effect of changing the branch length for a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all brach lengths). 
 
 
 ```{r}
@@ -123,8 +128,8 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", app
 
 ```
 
-The lower limit when we change the branch length for terminal t1 is 0.99, 
-as any change in branch length will modify the area selected from A1A2 to A2, 
+The lower limit reported when we change the branch length for terminal t1 is 0.99, 
+therefore any change in branch length will modify the area selected from A1A2 to A2, 
 as the tie between the paths terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
 in favour of t2/t4 when A1 is shorter.
 
@@ -152,21 +157,17 @@ We plot the results to see the effect in each terminal, as a table:
 
 
 plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
-                              shape="Actual",
-                              colour=InitialArea
-                              ) ) +
-    geom_point(size= 7) +
-  geom_point(aes(x= labelTerminal, y= lowerBranchLength,
-                 colour=lowerFinalArea,
-                 shape="Lower_limit"), size=7) +
-  geom_point(aes(x= labelTerminal, y= upperBranchLength,
-                 colour=upperFinalArea,
-                 shape="Upper_limit"), size=7) +
-  labs(title = "C. Branch length change, All branches are equal",
-       colour = "Area selected",
-       shape = "Terminal branch length value",
-       y = "Terminal branch length",
-       x = "Terminal")
+                      shape="Actual",
+                      colour=InitialArea)) +
+               geom_point(size= 7) +
+               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
+                              colour=lowerFinalArea,
+                              shape="Lower_limit"), size=7) +
+               labs(title = "C. Branch length change, All branches are equal",
+                    colour = "Area selected",
+                    shape = "Terminal branch length value",
+                    y = "Terminal branch length",
+                    x = "Terminal")
 
 print(plotResults)
 
@@ -199,7 +200,7 @@ or plotted into the tree:
 
 
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
-                       color="black", size=0.8 ) + 
+                color="black", size=0.8 ) + 
          theme(legend.position="right") + 
          labs(title = paste("Initial area selected: ",finalResults$maxPD, sep = ""))
 
