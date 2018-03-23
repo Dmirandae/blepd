@@ -73,7 +73,7 @@ distXY <- matrix2XY(dist4taxa)
 ## the tree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-             color="black", size=1 , linetype="dotted") +  
+                    color="black", size=1 , linetype="dotted") +  
              geom_tiplab(size=6, color="black") +
              theme_tree2() +  
              labs(title = "Four terminals, equal branch length")
@@ -86,8 +86,8 @@ print(plotTree)
 ## the distribution
 
 plotDistrib <- ggplot(data=distXY, 
-                       aes(x= Area, y= Terminal), 
-                       size =11) +
+                      aes(x= Area, y= Terminal), 
+                      size =11) +
                geom_point() +
                labs(title = "Terminals and Distributions",
                     y = "Terminal",
@@ -97,7 +97,7 @@ print(plotDistrib)
 
 ```
 
-We check whether names in both objects: initialTree and dist4taxa are the same:
+We check whether names in both objects: initialTree and dist4taxa are the same.
 
 ```{r}
 
@@ -124,14 +124,16 @@ To test the effect of changing the branch length for a single terminal ("t1"), w
 
 ```{r}
 
-evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", approach = "lower" )
+evalTerminal(tree = initialTree, 
+             distribution = dist4taxa, 
+             tipToEval = "t1", 
+             approach = "lower" )
 
 ```
 
 The lower limit reported when we change the branch length for terminal t1 is 0.99, 
-therefore any change in branch length will modify the area selected from A1A2 to A2, 
-as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
-in favour of t2/t4 when A1 is shorter.
+therefore any change in this branch length will modify the area selected from A1A2 to A2, 
+as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
 
 
 ## Tree evaluation function
@@ -163,7 +165,7 @@ plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
                geom_point(aes(x= labelTerminal, y= lowerBranchLength,
                               colour=lowerFinalArea,
                               shape="Lower_limit"), size=7) +
-               labs(title = "C. Branch length change, All branches are equal",
+               labs(title = "Branch length change, lower limits. Equal branches.",
                     colour = "Area selected",
                     shape = "Terminal branch length value",
                     y = "Terminal branch length",
@@ -199,7 +201,7 @@ or plotted into the tree:
 ```{r}
 
 
-theTitle <- paste("Initial area selected: ",finalResults$InitialArea[1], sep = "")
+theTitle <- paste("Initial area selected:",finalResults$InitialArea[1])
 
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
                 color="black", size=0.8 ) + 
@@ -217,4 +219,4 @@ print(p)
 ```
 
 
-For terminals t1/t3, a change from 1 to 0.99 in branch length (the lower limit) will change the initial area A1A2  to A2; or a change from 1 to 1.01 in branch length (the upper limit) a change to A1.
+For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (=L)- will change the initial area selected (A1A2) to A2; or a change from 1 to 1.01 in branch length -the upper limit(=U)-, will change the area to A1.
