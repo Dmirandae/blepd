@@ -3,7 +3,7 @@
 \docType{data}
 \name{distribution}
 \alias{distribution}
-\title{Distribution data for four taxa in two areas.}
+\title{Distribution of four taxa.}
 \format{A matrix object with two areas (rows) and four species (rows).}
 \usage{
 distribution

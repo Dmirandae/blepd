@@ -30,14 +30,14 @@ evalTree <- function(tree = tree, distribution = distribution,  root=FALSE){
 #maxLength <- 2*max(tree$edge.length)
 
 results <-  data.frame(
-                labelTerminal        =   character() , #1
+                labelTerminal         =   character() , #1
                 lowerBranchLength     =   double(),
-                InitialArea          =   character() , #3
-                lowerFinalArea       =   character() , 
-                initialLength        =   double(),     #5
+                InitialArea           =   character() , #3
+                lowerFinalArea        =   character() , 
+                initialLength         =   double(),     #5
                 upperBranchLength     =   double(),
-                upperFinalArea       =   character() , #7
-                stringsAsFactors=   FALSE) 
+                upperFinalArea        =   character() , #7
+                stringsAsFactors      =   FALSE) 
 
 counter <- 1
 
@@ -126,7 +126,7 @@ results$areaDelta <- Delta
 
 tmp4 <- results$areaDelta  == "LU"
 
-results$areaDelta[tmp4] <- paste("LU",results$changeLower[tmp4],results$changeUpper[tmp4],sep="_")
+results$areaDelta[tmp4] <- paste("L:",results$changeLower[tmp4],"/U:",results$changeUpper[tmp4],sep="_")
 
 results$abDelta <- abDelta
 

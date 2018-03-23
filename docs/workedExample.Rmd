@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 02 - 07"
+date: "2018 - 03 - 22"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -29,7 +29,7 @@ library(blepd)
 packageVersion("blepd")
 
 ## To plot trees you can use ggtree, ape or phytools. The example is based on
-## ggtree as a matter of choice
+## ggtree as a matter of choice.
 
 library(ggtree)
 
@@ -119,7 +119,7 @@ initialPD
 
 ##  Function to evalute a single terminal
 
-To test the effect of changing the branch length for a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all brach lengths). 
+To test the effect of changing the branch length for a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths). 
 
 
 ```{r}
@@ -130,7 +130,7 @@ evalTerminal(tree = initialTree, distribution = dist4taxa, tipToEval = "t1", app
 
 The lower limit reported when we change the branch length for terminal t1 is 0.99, 
 therefore any change in branch length will modify the area selected from A1A2 to A2, 
-as the tie between the paths terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
+as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
 in favour of t2/t4 when A1 is shorter.
 
 
@@ -149,7 +149,7 @@ finalResults
 ```
 
 
-The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will change the area selected.
+The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will modify the area selected.
 
 We plot the results to see the effect in each terminal, as a table:
 
@@ -185,11 +185,11 @@ countFreqChanges <- as.data.frame(countFreqChanges, ncol=1)
 
 colnames(countFreqChanges) <- c("Area change","Freq")
 
+
 row.names(countFreqChanges) <- NULL
 
 
 countFreqChanges
-
 
 
 ```
@@ -199,10 +199,12 @@ or plotted into the tree:
 ```{r}
 
 
+theTitle <- paste("Initial area selected: ",finalResults$InitialArea[1], sep = "")
+
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
                 color="black", size=0.8 ) + 
          theme(legend.position="right") + 
-         labs(title = paste("Initial area selected: ",finalResults$maxPD, sep = ""))
+         labs(title = theTitle)
 
 
 p <- p0 %<+% finalResults + geom_tiplab(aes(color=areaDelta), size =6) +
@@ -213,3 +215,6 @@ print(p)
 
 
 ```
+
+
+For terminals t1/t3, a change from 1 to 0.99 in branch length (the lower limit) will change the initial area A1A2  to A2; or a change from 1 to 1.01 in branch length (the upper limit) a change to A1.
