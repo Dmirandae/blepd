@@ -204,7 +204,8 @@ or plotted into the tree:
 theTitle <- paste("Initial area selected:",finalResults$InitialArea[1])
 
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
-                color="black", size=0.8 ) + 
+                color=c("red","blue","red","blue","black","black","black"),
+                 size=0.8 ) + 
          theme(legend.position="right") + 
          labs(title = theTitle)
 
