@@ -137,6 +137,23 @@ results$initialLength        <- as.numeric(results$initialLength)
 #
 results$upperBranchLength     <- as.numeric(results$upperBranchLength)
 
+results <- results[c("labelTerminal",
+"InitialArea",
+"initialLength",
+"lowerFinalArea",
+"lowerBranchLength",
+"changeLower",
+"deltaLower",
+"upperFinalArea",
+"upperBranchLength",
+"changeUpper",
+"deltaUpper",
+"deltaPD",
+"areaDelta",
+"abDelta")
+]
+
+
 
 return(results)
 

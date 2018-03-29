@@ -1,0 +1,10 @@
+library(blepd)
+data(distribution)
+data(tree)
+results <-  evalTree(tree,distribution)
+
+results
+
+
+
+
