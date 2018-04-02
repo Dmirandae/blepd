@@ -8,5 +8,32 @@ evalTree(tree, distribution)
 swapBL(tree, distribution)
 
 
+newTree <- tree
+
+num <- length(newTree$edge.length)
+
+ valoresUnif <- runif(num,0,1)
+        
+        newTree$edge.length <- valoresUnif 
+
+swapBL(newTree, distribution,model="uniform")
+
+
+
+
+newTree <- tree
+
+num <- length(newTree$edge.length)
+
+ valoresUnif <- rnorm(num)
+        
+        newTree$edge.length <- valoresUnif 
+
+swapBL(newTree, distribution,model="uniform")
+
+swapBL(newTree, distribution,model="Uniform")
+
+
+
 
 

@@ -27,13 +27,18 @@
 #'
 
 swapBL <- function(tree = tree , distribution = distribution , 
-                   nTimes = 100, root = TRUE){
+                   model= "simpleswap" ,
+                   nTimes = 100,  root = TRUE){
 
 ## potential errors
 
+`%nin%` = Negate(`%in%`)
   
         if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
-
+        
+        #if (model!="simpleswap" || model!="uniform" ){stop("Check models. Mind the closing door")}
+        if (model %in% c("simpleswap","uniform") ){cat("model to test",model,"reps",nTimes,"\n")}else{stop("Check models. Mind the closing door")}
+        
 
 ## in house functions
 
@@ -55,8 +60,7 @@ bestVal <- function(distribution = distribution, initialVal){
 ## initial stuff from  initial tree
 
 #        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
-        
-        
+               
 #        bestInitialArea <- c(bestVal(distribution,initialPD))
         
         
@@ -64,9 +68,12 @@ bestVal <- function(distribution = distribution, initialVal){
 
         
         AreaSelected <- vector()
+        
 ## modified tree
 
     for(repeticiones in 1:nTimes){
+        
+        if (model == "simpleswap"){ 
         
         numberOfTerminalSwap <- 0
 
@@ -74,8 +81,7 @@ bestVal <- function(distribution = distribution, initialVal){
         terminalsToSwap <- as.integer(runif(2,1,numberTerminals))
         numberOfTerminalSwap <- which(tree$edge[,2] %in% terminalsToSwap )
         }
-
-        
+      
         newTree <- tree 
         
         rama1 <- newTree$edge.length[numberOfTerminalSwap[1]]
@@ -83,7 +89,25 @@ bestVal <- function(distribution = distribution, initialVal){
         
         newTree$edge.length[numberOfTerminalSwap[1]] <- rama2
         newTree$edge.length[numberOfTerminalSwap[2]] <- rama1
+	}
+	
+        if (model == "uniform"){ 
+						
+        newTree <- tree 
         
+        numberOfTerminalSwap <- which(tree$edge[,2] %in% 1:numberTerminals )
+        
+        minLong <- min(newTree$edge.length[c(numberOfTerminalSwap)])
+        
+        maxLong <- max(newTree$edge.length[c(numberOfTerminalSwap)])
+        
+        valoresUnif <- runif(numberTerminals,minLong,maxLong)
+        
+        newTree$edge.length[c(numberOfTerminalSwap)] <- valoresUnif 
+        
+	}
+	
+	
         modifiedPD <- myPD(tree = newTree, distribution = distribution, root = root)
         
         AreaSelected[repeticiones] <-  c(bestVal(distribution,modifiedPD))

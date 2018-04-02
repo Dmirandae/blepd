@@ -138,6 +138,7 @@ as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2)
 
 ## Tree evaluation function
 
+### branch length
 
 The function to test all terminals at the same time is *evalTree*, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
 
@@ -223,12 +224,29 @@ print(p)
 For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (=L)- will change the initial area selected (A1A2) to A2; or a change from 1 to 1.01 in branch length -the upper limit(=U)-, will change the area to A1.
 
 
+### branch swap
+
 A second, and different approach, is to evaluate the effect in PD when two terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
 
 ```{r}
 
 swapBL(tree = initialTree, 
        distribution = dist4taxa)
+
+```
+
+As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
+
+
+Or we could use a random uniform brach length distribution
+
+
+
+```{r}
+
+swapBL(tree = initialTree, 
+       distribution = dist4taxa,
+       model = "uniform")
 
 ```
 

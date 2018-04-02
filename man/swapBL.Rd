@@ -4,8 +4,8 @@
 \alias{swapBL}
 \title{swapBL}
 \usage{
-swapBL(tree = tree, distribution = distribution, nTimes = 100,
-  root = TRUE)
+swapBL(tree = tree, distribution = distribution, model = "simpleswap",
+  nTimes = 100, root = TRUE)
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
