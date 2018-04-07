@@ -1,13 +1,13 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 03 - 25"
+date: "2018 - 04 - 06"
 output: 
   pdf_document: 
     latex_engine: xelatex
 ---
 
-# The Algorithm
+# The Algorithms
 
 ##  Constructing the functions
 
@@ -242,7 +242,7 @@ evalTerminal(tree = newTree, distribution = dist4taxa, tipToEval = "t3", approac
 
 ```
 
-The THING is the PD difference between areas, and whether this value could be accumulated in a single terminal branch or if the contribution to the PD value is evenly distributed among all terminal branches, and therefore to change the PD value more than one terminal branch length must have to change, to select another area.
+The THING is the PD difference between areas, and whether this value could be accumulated in a single terminal branch, or if the contribution to the PD value is evenly distributed among all terminal branches, and therefore to change the PD value more than one terminal branch length must have to change, to select another area.
 
 The function to test all terminals at the same time is *evalTree*, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
 
@@ -256,3 +256,12 @@ evalTree(tree = initialTree,
 
 
 The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will change the area selected.
+
+
+
+
+##  Null model tests
+
+We could also swap branch lengths and evaluate the behaviour before and after swapping. This swapping could be done by swapping two terminal branch lengths *simpleswap*, all terminal branch lengths *allswap* or replacing the terminal brach length with randomly distributed values, using an uniform distribution -*uniform*-, where thwe min and max values are obtained from the actual branch lengths.
+
+

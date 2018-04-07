@@ -1,34 +1,42 @@
-## testing blepd   
-
 library(blepd)
 data(distribution)
 data(tree)
 
+
+evalTree(tree, distribution)
+
+swapBL(tree, distribution)
+
+
 newTree <- tree
-
-
-
-evalTree(newTree, distribution)
-
-
-swapBL(newTree, distribution)
-
 
 num <- length(newTree$edge.length)
 
-valoresUnif <- abs(rnorm(num))*abs(runif(num,0,1)*runif(num,1,10))
-       
-        newTree$edge.length <- valoresUnif
+ valoresUnif <- runif(num,0,1)
+        
+        newTree$edge.length <- valoresUnif 
+
+swapBL(newTree, distribution,model="uniform")
 
 
-evalTree(newTree, distribution)
 
-##plot(newTree)
 
-swapBL(newTree, distribution)
+newTree <- tree
 
-swapBL(newTree, distribution,model="uniform", nTimes=100)
+num <- length(newTree$edge.length)
 
-swapBL(newTree, distribution,model="allswap", nTimes=100)
+ valoresUnif <- rnorm(num)
+        
+        newTree$edge.length <- valoresUnif 
 
-swapBL(newTree, distribution,model="Uniform", nTimes=10000)
+
+swapBL(newTree, distribution,model="uniform", nTimes=1000)
+
+swapBL(newTree, distribution,model="allswap", nTimes=1000)
+
+swapBL(newTree, distribution,model="Uniform") ## to check the error
+
+
+
+
+

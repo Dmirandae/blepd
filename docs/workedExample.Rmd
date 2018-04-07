@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 05"
+date: "2018 - 04 - 06"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -39,7 +39,7 @@ library(RColorBrewer)
 
 ```
 
-Now, we load the data included in the package: tree and distribution.
+Now, we load the data included in the package: tree and distribution
 
 ```{r}
 
@@ -56,8 +56,7 @@ initialTree <- tree
 
 
 ## distributions
-
-
+q
 data(distribution)
 
 str(distribution)
@@ -98,7 +97,7 @@ print(plotDistrib)
 
 ```
 
-We check whether names in both objects -initialTree and dist4taxa- are the same.
+We check whether names in both objects: initialTree and dist4taxa are the same.
 
 ```{r}
 
@@ -198,7 +197,7 @@ countFreqChanges
 
 ```
 
-or plotted onto the tree:
+or plotted into the tree:
 
 ```{r}
 
@@ -227,10 +226,12 @@ For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (
 
 ### branch swap
 
-A second, and different approach, is to evaluate the effect in PD when the terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths, using a null model approach. 
+A second, and different approach, is to evaluate the effect in PD when two terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
+
+The function to perfomr the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap"-the default-, "allswap" and "uniform"), and the number of times to swap (default value = 100).
 
 
-We could swap two terminal branches (*simpleswap*, the default), swap ALL terminal branches (*allswap*), or replace the terminal branches using a random uniform vector with min and max limits obtained from the the actual branch length distribution.
+Uning the default parameters we get:
 
 ```{r}
 
@@ -242,7 +243,7 @@ swapBL(tree = initialTree,
 As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
 
 
-Or we could use a random uniform brach length distribution
+Or we could use the random uniform branch length model.
 
 
 
@@ -254,36 +255,4 @@ swapBL(tree = initialTree,
 
 ```
 
-As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
-
-
-
-Now we generated new branch lengths, using a normal by an uniform distribution.
- 
- 
- 
-```{r}
-
-set.seed(343)
-
-newTree  <-  tree
-
-num      <- length(newTree$edge.length)
-
-newBL    <- abs(rnorm(num))*runif(num,1,10)
-       
-    newTree$edge.length <- newBL
-
-
-evalTree(newTree, distribution)
-
-plot(newTree)
-
-swapBL(newTree, distribution)
-
-swapBL(newTree, distribution,model="uniform", nTimes=100)
-
-swapBL(newTree, distribution,model="allswap", nTimes=100)
-
-
-```
+Again, as this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
