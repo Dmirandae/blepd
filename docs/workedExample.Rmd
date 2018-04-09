@@ -1,7 +1,7 @@
----
+﻿---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 06"
+date: "2018 - 04 - 08"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -39,24 +39,24 @@ library(RColorBrewer)
 
 ```
 
-Now, we load the data included in the package: tree and distribution
+Now, we load the data included in the package: tree and distribution.
 
 ```{r}
 
-## trees
 
-data(package = "blepd")
+#data(package = "blepd")
+
+## trees
   
 data(tree)
 
 str(tree)
 
-initialTree <- tree   
-
+initialTree <- tree
 
 
 ## distributions
-q
+
 data(distribution)
 
 str(distribution)
@@ -73,7 +73,7 @@ distXY <- matrix2XY(dist4taxa)
 ## the tree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=1 , linetype="dotted") +  
+                    color="black", size=1, linetype="dotted") +  
              geom_tiplab(size=6, color="black") +
              theme_tree2() +  
              labs(title = "Four terminals, equal branch length")
@@ -119,7 +119,7 @@ initialPD
 
 ##  Function to evalute a single terminal
 
-To test the effect of changing the branch length for a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths). 
+To test the effect of changing the branch length in a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
 
 
 ```{r}
@@ -132,8 +132,7 @@ evalTerminal(tree = initialTree,
 ```
 
 The lower limit reported when we change the branch length for terminal t1 is 0.99, 
-therefore any change in this branch length will modify the area selected from A1A2 to A2, 
-as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
+therefore any change in this branch length will modify the area selected from A1A2 to A2, as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
 
 
 ## Tree evaluation function
@@ -154,10 +153,9 @@ finalResults
 
 The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will modify the area selected.
 
-We plot the results to see the effect in each terminal, as a table:
+We plot the results to see the effect in each terminal, as a table.
 
 ```{r}
-
 
 plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
                       shape="Actual",
@@ -176,7 +174,7 @@ print(plotResults)
 
 ```
 
-or plotted as a simple table:
+or plotted as a simple table.
 
 ```{r}
 
@@ -226,12 +224,12 @@ For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (
 
 ### branch swap
 
-A second, and different approach, is to evaluate the effect in PD when two terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
+A second, and different approach, is to evaluate the effect in PD when terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
 
-The function to perfomr the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap"-the default-, "allswap" and "uniform"), and the number of times to swap (default value = 100).
+The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap"-the default-, "allswap" and "uniform"), and the number of times to swap (default value = 100).
 
 
-Uning the default parameters we get:
+Uning the default parameters we get.
 
 ```{r}
 
@@ -255,4 +253,4 @@ swapBL(tree = initialTree,
 
 ```
 
-Again, as this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
+This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and half of the times area A1 (or A2) is selected.
