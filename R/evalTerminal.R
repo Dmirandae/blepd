@@ -47,44 +47,15 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
 
 
-## in house functions
-
-
-bestVal <- function(distribution = distribution, initialVal){ 
-
-   best <- row.names(distribution)[which(initialVal == max(initialVal))]
-        
-   resp <- tmpBest <- gsub("area","",best)
-   
-   if(length(tmpBest) > 1){
-   resp <- paste(tmpBest,collapse="")
-   }
-   
-   return(resp)
-}
-
-
-createTable <- function(tree = tree){
-    ## create table
-    allDataTable <- tree$edge
-
-    ## bind tree length
-    allDataTable <- cbind (allDataTable, tree$edge.length)
-
-return(allDataTable)
-
-}
-
-
         
 ## initial stuff
 
         initialPD <- myPD(tree = tree, distribution = distribution, root = root)
         
         
-        bestInitialArea <- c(bestVal(distribution,initialPD))
+        bestInitialArea <- c(.bestVal(distribution,initialPD))
         
-        initialLength <- round(tree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)],4)
+        initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
         
                
 ## initial test of branch length equal to zero
@@ -93,7 +64,7 @@ return(allDataTable)
     
         if (tolower(approach) %in% c("lower") ){
 			
-            newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  0
+            newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  0
             
             maxPD <- 0 ##+ 1
             
@@ -103,7 +74,7 @@ return(allDataTable)
 			
 			maxVal <- maxMultiplier * round(sum(tree$edge.length),6)
 			
-			newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  maxVal
+			newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  maxVal
             
             
             maxPD <- max(initialPD) - min(initialPD)
@@ -114,7 +85,7 @@ return(allDataTable)
         modifiedPD <- myPD(tree = newTree, distribution = distribution, root = root)
         
     
-        bestModifiedArea <-  c(bestVal(distribution,modifiedPD))
+        bestModifiedArea <-  c(.bestVal(distribution,modifiedPD))
         
         
         if(all(bestInitialArea %in% bestModifiedArea) &
@@ -163,11 +134,11 @@ return(allDataTable)
     repeat{
             promedio <- mean(c(final,initial))
             
-            newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
+            newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
             reCalculatedPD  <- myPD(tree = newTree, distribution = distribution, root=root)
             
-            bestModifiedArea <-  c(bestVal(distribution,reCalculatedPD))
+            bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
         
  
 ##if(debugDRME & fineDebug){cat((promedio != ValorPrevio),"|",ValorPrevio,"==",promedio,"|  init",bestInitialArea,"modif",bestModifiedArea,"||",initial,"---",final,"| val PD:",paste(reCalculatedPD,sep="__"),"\n")}
@@ -199,11 +170,11 @@ return(allDataTable)
             
             promedio <- promedio - 0.0001
             
-             newTree$edge.length[which(createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
+             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
             reCalculatedPD  <- myPD(tree = newTree, distribution = distribution, root = root)
             
-            bestModifiedArea <-  c(bestVal(distribution,reCalculatedPD))
+            bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
             
             resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
             

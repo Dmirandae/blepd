@@ -6,7 +6,11 @@ data(tree)
 evalTree(tree, distribution)
 
 swapBL(tree, distribution)
+swapBL(tree, distribution,model="uniform")
+swapBL(tree, distribution,model="allswap")
 
+
+print("Simulated values, uniform dist 0-1")
 
 newTree <- tree
 
@@ -19,6 +23,7 @@ num <- length(newTree$edge.length)
 swapBL(newTree, distribution,model="uniform")
 
 
+print("Simulated values, normal dist 0-1")
 
 
 newTree <- tree
@@ -30,11 +35,11 @@ num <- length(newTree$edge.length)
         newTree$edge.length <- valoresUnif 
 
 
-swapBL(newTree, distribution,model="uniform", nTimes=1000)
+#swapBL(newTree, distribution,model="uniform", nTimes=1000)
 
-swapBL(newTree, distribution,model="allswap", nTimes=1000)
+#swapBL(newTree, distribution,model="allswap", nTimes=1000)
 
-swapBL(newTree, distribution,model="Uniform") ## to check the error
+#swapBL(newTree, distribution,model="Uniform") ## to check the error
 
 
 

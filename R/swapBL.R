@@ -36,25 +36,10 @@ swapBL <- function(tree = tree , distribution = distribution ,
 
 `%nin%` = Negate(`%in%`)
   
-        if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
+        if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door.")}
         
         if (model %in% c("simpleswap","allswap","uniform") ){cat("model to test",model,"reps",nTimes,"\n")}else{stop("Check models. Mind the closing door.")}
         
-
-## in house functions
-
-bestVal <- function(distribution = distribution, initialVal){ 
-
-   best <- row.names(distribution)[which(initialVal == max(initialVal))]
-        
-   resp <- tmpBest <- gsub("area","",best)
-   
-   if(length(tmpBest) > 1){
-   resp <- paste(tmpBest,collapse="")
-   }
-   
-   return(resp)
-}
 
 
 
@@ -62,7 +47,7 @@ bestVal <- function(distribution = distribution, initialVal){
 
 #        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
                
-#        bestInitialArea <- c(bestVal(distribution,initialPD))
+#        bestInitialArea <- c(.bestVal(distribution,initialPD))
                 
         numberTerminals <- length(tree$tip.label)
         
@@ -124,7 +109,7 @@ bestVal <- function(distribution = distribution, initialVal){
 		
         modifiedPD <- myPD(tree = newTree, distribution = distribution, root = root)
         
-        AreaSelected[repeticiones] <-  c(bestVal(distribution,modifiedPD))
+        AreaSelected[repeticiones] <-  c(.bestVal(distribution,modifiedPD))
 
 }
 
