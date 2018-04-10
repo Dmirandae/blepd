@@ -1,7 +1,7 @@
 ﻿---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 08"
+date: "2018 - 04 - 09"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -253,4 +253,4 @@ swapBL(tree = initialTree,
 
 ```
 
-This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and half of the times area A1 (or A2) is selected.
+This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and areas A1A2 are selected.

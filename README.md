@@ -1,7 +1,7 @@
 ---
 title: "blepd README"
 author: "D.R. Miranda Esquivel"
-date: "2018 / 04 / 06"
+date: "2018 / 04 / 09"
 ---
 
 These functions evaluate 

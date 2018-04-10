@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 06"
+date: "2018 - 04 - 09"
 output: 
   pdf_document: 
     latex_engine: xelatex

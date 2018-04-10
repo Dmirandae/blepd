@@ -12,7 +12,7 @@ swapBL(tree = tree, distribution = distribution, model = "simpleswap",
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
 
-\item{number}{of times the swap is performed.}
+\item{number}{of times to repeat the swap.}
 }
 \value{
 Returns a data frame with the frequency of each area recovered.

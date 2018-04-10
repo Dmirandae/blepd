@@ -11,7 +11,7 @@
 #' 
 #' @model type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by unifoemed distributed values; min and max are extracted from the actual lengths-.
 #' 
-#' @param number of times the swap is performed.
+#' @param number of times to repeat the swap.
 #' 
 
 #' 
