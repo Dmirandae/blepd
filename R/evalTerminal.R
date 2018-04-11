@@ -39,6 +39,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
 ##if(debugDRME){cat("\n inicio en terminal:",tipToEval,":",approach,"\n")}
 
 ## potential errors
+        .checkInput(tree = tree , distribution = distribution)
 
         numberTipToEval <- which(tree$tip.label %in% tipToEval) 
         

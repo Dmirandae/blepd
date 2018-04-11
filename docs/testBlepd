@@ -35,6 +35,8 @@ num <- length(newTree$edge.length)
         newTree$edge.length <- valoresUnif 
 
 
+evalTree(tree, as.data.frame(distribution))
+
 #swapBL(newTree, distribution,model="uniform", nTimes=1000)
 
 #swapBL(newTree, distribution,model="allswap", nTimes=1000)

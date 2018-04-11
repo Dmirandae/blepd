@@ -24,6 +24,10 @@
 #'
 
 evalTree <- function(tree = tree, distribution = distribution,  root=FALSE){
+     
+	## potential errors
+	
+	.checkInput(tree = tree , distribution = distribution)
 
 ##cat(approach)
 
