@@ -45,9 +45,9 @@ swapBL <- function(tree = tree , distribution = distribution ,
 
 ## initial stuff from  initial tree
 
-#        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
+        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
                
-#        bestInitialArea <- c(.bestVal(distribution,initialPD))
+        bestInitialArea <- c(.bestVal(distribution,initialPD))
                 
         numberTerminals <- length(tree$tip.label)
         
@@ -114,6 +114,18 @@ swapBL <- function(tree = tree , distribution = distribution ,
 }
 
     finaldf <- as.data.frame(table(AreaSelected))
+
+    finaldf <- as.data.frame(table(AreaSelected))
+
+    niveles <- levels(finaldf$AreaSelected)
+
+    numero <- which(niveles == bestInitialArea)
+
+    niveles[numero] <- paste(niveles[numero],"*")
+
+    levels(finaldf$AreaSelected) <- niveles
+
+
 
 return(finaldf)
 }
