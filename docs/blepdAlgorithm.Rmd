@@ -125,7 +125,7 @@ bestInitialArea
 
 tipToEval <- "t1"
 
-value <- 1.01
+value <- 1.1
 
 numberTipToEval <- which(initialTree$tip.label %in% tipToEval) 
 
@@ -139,7 +139,7 @@ createTable <- function(tree = tree){allDataTable <- tree$edge
                   }
 
 
-## new tree, with t1 branch chaged to "value" 
+## new tree, with t1 branch changed to "value" 
 
 newTree$edge.length[which(createTable(initialTree)[,2] %in% numberTipToEval)] <- value
 
@@ -175,7 +175,7 @@ we can consider that the results are *very* sensible to changes in branch length
 
 ## THE function
 
-To evaluate the behaviour os a single termianl branch length we must:
+To evaluate the behaviour os a single terminal branch length we must:
 
 1. modify a branch length,
 2. recalculate the PD value and
@@ -224,7 +224,7 @@ evalTerminal(tree = initialTree,
 
 ```
 
-And, the same result will arrive from changing the branch length of the terminal t1 from 1 and up, to find the upper limmit, the tie is solved in favour of area A2, opposite to the solution when we found the lower limit. In this case, even the smaller change in any terminal branch value, will modify the results.
+And, we will get the same result by changing the branch length of the terminal t1 from 1 to 1.x, to find the upper limit. The tie is solved in favour of area A2, opposite to the solution when we found the lower limit. In this case, even the smaller change in any terminal branch value, will modify the results.
 
 We test the effect of the branch length for all terminals.
 

@@ -117,7 +117,7 @@ initialPD
 
 ```
 
-##  Function to evalute a single terminal
+##  Function to evaluate a single terminal
 
 To test the effect of changing the branch length in a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
 
