@@ -35,7 +35,12 @@ num <- length(newTree$edge.length)
         newTree$edge.length <- valoresUnif 
 
 
-evalTree(tree, as.data.frame(distribution))
+
+print("testing PE")
+swapBL(newTree, distribution,model="uniform", index ="PE")
+
+
+#evalTree(tree, as.data.frame(distribution))
 
 #swapBL(newTree, distribution,model="uniform", nTimes=1000)
 

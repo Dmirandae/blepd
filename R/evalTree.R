@@ -23,7 +23,7 @@
 #'
 #'
 
-evalTree <- function(tree = tree, distribution = distribution,  root=FALSE){
+evalTree <- function(tree = tree, distribution = distribution,  root=FALSE, index = "PD"){
      
 	## potential errors
 	
@@ -82,7 +82,7 @@ results$deltaUpper <- abs(as.numeric(results$upperBranchLength) - as.numeric(res
 
 results$deltaLower <- abs(as.numeric(results$initialLength) - as.numeric(results$lowerBranchLength))
 
-initialPD <- myPD(tree = tree, distribution = distribution, root=root)
+initialPD <- PDindex(tree = tree, distribution = distribution, root=root, index = index )
 ## remenber include root
 
 results$deltaPD <- max(initialPD) - min(initialPD)

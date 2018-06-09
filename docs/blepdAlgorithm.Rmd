@@ -100,7 +100,7 @@ We report all branch lengths and calculate the PD values.
 
 initialTree$edge.length
 
-initialPD <- myPD(tree=initialTree, distribution = dist4taxa)
+initialPD <- PDindex(tree=initialTree, distribution = dist4taxa)
                                                                                                                         
 initialPD
 
@@ -156,7 +156,7 @@ print(plotNewTree)
 
 ### PD for the modified tree
 
-modifiedPD <- myPD(tree = newTree, distribution = dist4taxa)
+modifiedPD <- PDindex(tree = newTree, distribution = dist4taxa)
 
 bestModifiedArea <- row.names(dist4taxa)[which(modifiedPD == max(modifiedPD))]
 

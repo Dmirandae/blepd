@@ -35,3 +35,45 @@ return(allDataTable)
 							}
 				}
 
+
+
+
+
+PDindex <- function (tree = tree , distribution = distribution, root =FALSE, index= "PD" ){
+        
+
+    if(index == "PD" ){
+
+    PDcalc <- pd(samp =distribution,tree = tree,include.root = root)$PD
+    
+        return(PDcalc)    
+        
+        }
+
+   if(index == "PE" ){
+       
+           PDtotal <- sum(tree$edge.length)
+           
+           PDcomplement <- pd(samp =!distribution,tree = tree,include.root = root)$PD
+           
+           endemism <-  c(PDtotal - PDcomplement)
+           
+           return(endemism)
+       
+   }
+
+
+  #c <- cophenetic(tree)
+  #AvTD <- taxondive(comm = distribution ,
+  #                  dis = c,
+  #                  match.force = T)            
+  #res <- AvTD$Dplus
+  #res[is.nan(res)] <- 0
+                    
+}
+
+
+
+    
+    
+

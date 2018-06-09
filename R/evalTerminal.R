@@ -33,6 +33,7 @@
 evalTerminal <- function(tree = tree , distribution = distribution , 
                          tipToEval = "taxB" , approach = "lower" , 
                          root = FALSE ,
+                         index = "PD",
                          maxMultiplier = 1.5 ){
 
 
@@ -51,7 +52,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         
 ## initial stuff
 
-        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
+        initialPD <- PDindex(tree = tree, distribution = distribution, root = root, index = index )
         
         
         bestInitialArea <- c(.bestVal(distribution,initialPD))
@@ -83,7 +84,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
 			}
         
                 
-        modifiedPD <- myPD(tree = newTree, distribution = distribution, root = root)
+        modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
         
     
         bestModifiedArea <-  c(.bestVal(distribution,modifiedPD))
@@ -137,7 +138,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             
             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
-            reCalculatedPD  <- myPD(tree = newTree, distribution = distribution, root=root)
+            reCalculatedPD  <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
         
@@ -173,7 +174,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             
              newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
-            reCalculatedPD  <- myPD(tree = newTree, distribution = distribution, root = root)
+            reCalculatedPD  <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
             

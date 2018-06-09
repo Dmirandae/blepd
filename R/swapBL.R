@@ -30,7 +30,7 @@
 
 swapBL <- function(tree = tree , distribution = distribution , 
                    model= "simpleswap" ,
-                   nTimes = 100,  root = TRUE){
+                   nTimes = 100,  root = TRUE, index = "PD"){
 
 ## potential errors
 
@@ -45,7 +45,7 @@ swapBL <- function(tree = tree , distribution = distribution ,
 
 ## initial stuff from  initial tree
 
-        initialPD <- myPD(tree = tree, distribution = distribution, root = root)
+        initialPD <- PDindex(tree = tree, distribution = distribution, root = root)
                
         bestInitialArea <- c(.bestVal(distribution,initialPD))
                 
@@ -107,7 +107,7 @@ swapBL <- function(tree = tree , distribution = distribution ,
         
 	}
 		
-        modifiedPD <- myPD(tree = newTree, distribution = distribution, root = root)
+        modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root)
         
         AreaSelected[repeticiones] <-  c(.bestVal(distribution,modifiedPD))
 

@@ -111,7 +111,7 @@ We report the branch length, and calculate the PD values.
 
 initialTree$edge.length
 
-initialPD <- myPD(tree=initialTree, distribution = dist4taxa)
+initialPD <- PDindex(tree=initialTree, distribution = dist4taxa)
 
 initialPD
 
