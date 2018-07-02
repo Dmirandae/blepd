@@ -5,12 +5,14 @@
 \title{swapBL}
 \usage{
 swapBL(tree = tree, distribution = distribution, model = "simpleswap",
-  nTimes = 100, root = TRUE)
+  nTimes = 100, root = TRUE, index = "PD")
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
+
+\item{model}{type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
 
 \item{number}{of times to repeat the swap.}
 }

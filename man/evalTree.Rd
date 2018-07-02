@@ -4,7 +4,8 @@
 \alias{evalTree}
 \title{evalTree}
 \usage{
-evalTree(tree = tree, distribution = distribution, root = FALSE)
+evalTree(tree = tree, distribution = distribution, root = FALSE,
+  index = "PD")
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}

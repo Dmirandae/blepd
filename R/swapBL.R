@@ -9,7 +9,7 @@
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
 #' 
-#' @model type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by unifoemed distributed values; min and max are extracted from the actual lengths-.
+#' @param model type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
 #' 
 #' @param number of times to repeat the swap.
 #' 
