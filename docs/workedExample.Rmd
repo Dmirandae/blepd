@@ -1,7 +1,7 @@
 ﻿---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 09"
+date: "2018 - 07 - 02"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -226,7 +226,7 @@ For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (
 
 A second, and different approach, is to evaluate the effect in PD when terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
 
-The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap"-the default-, "allswap" and "uniform"), and the number of times to swap (default value = 100).
+The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), and the number of times to swap (default value = 100).
 
 
 Uning the default parameters we get.

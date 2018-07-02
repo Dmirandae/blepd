@@ -4,7 +4,7 @@
 \alias{swapBL}
 \title{swapBL}
 \usage{
-swapBL(tree = tree, distribution = distribution, model = "simpleswap",
+swapBL(tree = tree, distribution = distribution, model = "allswap",
   nTimes = 100, root = TRUE, index = "PD")
 }
 \arguments{
@@ -12,7 +12,7 @@ swapBL(tree = tree, distribution = distribution, model = "simpleswap",
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
 
-\item{model}{type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
+\item{model}{is the type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -default, all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
 
 \item{number}{of times to repeat the swap.}
 }
