@@ -20,7 +20,7 @@ swapBL(tree = tree, distribution = distribution, model = "allswap",
 Returns a data frame with the frequency of each area recovered.
 }
 \description{
-The function calculates the effect on PD of swapping two terminal brach lengths.
+The function calculates the effect on PD of swapping two terminal branch lengths.
 }
 \examples{
 library(blepd)

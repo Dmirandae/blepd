@@ -262,6 +262,6 @@ The extreme sensitivity of the PD results to the terminal branch length is seen 
 
 ##  Null model tests
 
-We could also swap branch lengths and evaluate the behaviour before and after swapping. This swapping could be done by swapping two terminal branch lengths *simpleswap*, all terminal branch lengths *allswap* or replacing the terminal brach length with randomly distributed values, using an uniform distribution -*uniform*-, where thwe min and max values are obtained from the actual branch lengths.
+We could also swap branch lengths and evaluate the behaviour before and after swapping. This swapping could be done by swapping two terminal branch lengths *simpleswap*, all terminal branch lengths *allswap* or replacing the terminal branch length with randomly distributed values, using an uniform distribution -*uniform*-, where thwe min and max values are obtained from the actual branch lengths.
 
 

@@ -108,7 +108,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
               break("got it")
         }
                         
-        ## end of est brach of zero length or max       
+        ## end of est branch of zero length or max       
     
         
         ## let's continue

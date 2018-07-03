@@ -1,7 +1,7 @@
 #'
 #' @title swapBL
 #'
-#' @description The function calculates the effect on PD of swapping two terminal brach lengths.  
+#' @description The function calculates the effect on PD of swapping two terminal branch lengths.  
 #' 
 #' @return Returns a data frame with the frequency of each area recovered.
 #'

@@ -8,7 +8,7 @@ print(archivos)
 
 for(nombre in archivos){
 
-render(input=nombre, "all")
+render(input=nombre, "all", clean=TRUE)
 
 }
 
