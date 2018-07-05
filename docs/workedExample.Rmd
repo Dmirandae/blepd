@@ -502,9 +502,9 @@ tmpCol
 ```
 
 
-In all three cases _R._ _diademata_ changes the selected to second optional area, what might suggests that this species, its distribution (only in area B) or its branch length, could be leading the results.
+In all three cases _R._ _diademata_ changes the initial selection to the second "optional" area, what might suggests that this species, its distribution (only in area B) or its branch length, could be leading the results.
 
-to test our hypothesis, we can delete the species or we could remove the species or change its branch length ot zero, or change its distribution to null, and rerun the analysis.
+To test our hypothesis, we can delete the species or we could remove the species or change its branch length to zero, or change its distribution to null, and rerun the analysis.
 
 ```{r}
 
@@ -532,4 +532,4 @@ RhinoclemmysData$newMaxPD
 
 ```
 
-As expected, now all trees give the same result, they select the area F.
+As expected, now all trees give the same result, they select the area F. While this effect could be assigned to the distribution alone -the species is a singleton-. most of the species (17 out of 22) are singletons, therefore, the most plausible explanation must include the branch length.
