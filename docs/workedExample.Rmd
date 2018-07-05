@@ -254,3 +254,183 @@ swapBL(tree = initialTree,
 ```
 
 This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and areas A1A2 are selected.
+
+
+# An empirical example: _Rhynoclemmys_ data.
+
+We read the data sets: distribution and trees.
+
+
+```{r}
+
+## read distributional data
+
+setwd("../testData/")
+
+distribution <- as.matrix(read.table("Rhinoclemmys_Distribution",
+                                  stringsAsFactors=FALSE,
+                                  header=TRUE,
+                                  row.names=1,
+                                  sep=",")
+                          )
+
+
+## trees
+
+treeFiles <- dir(pattern=".tre")
+
+treeFiles
+
+
+RhinoclemmysData <- list()
+
+RhinoclemmysData$distribution <- distribution
+
+RhinoclemmysData$trees  <- lapply(treeFiles,FUN=read.nexus)
+
+RhinoclemmysData$trees  <-lapply(RhinoclemmysData$trees,
+                                   FUN=root,
+                                   outgroup=c("Go_polyphemus","Go_agassizii"),
+                                   resolve.root = TRUE)
+
+
+```
+
+These three trees correspond to different clock models, and we want to test whether the clock used will have any effect in the areas chosen.
+
+
+Fist we calculate the PD value for each tree, we save the values as a table and later we convert the table to a matrix:
+
+```{r}
+
+
+RhinoclemmysData$tablePD <- lapply(RhinoclemmysData$trees,
+                                   FUN=PDindex,
+                                   distribution=RhinoclemmysData$dist,
+                                   root=TRUE)
+
+RhinoclemmysData$matrixPD <- as.data.frame(
+                                  matrix(
+                                      unlist(RhinoclemmysData$tablePD),
+                                      nrow= length(treeFiles),
+                                      byrow=TRUE))
+
+
+```
+
+
+now, it is time to name trees, terminals and areas:
+
+```{r}
+
+RhinoclemmysData$nameTrees <- rownames(RhinoclemmysData$matrixPD) <- gsub("Rhinoclemmys_","",
+                                           gsub("_data.nexus.con.tre","",
+                                                      treeFiles))
+
+RhinoclemmysData$nameAreas <- colnames(RhinoclemmysData$matrixPD) <-
+                              rownames(RhinoclemmysData$dist)
+
+RhinoclemmysData$nameTerminals <- colnames(RhinoclemmysData$dist)
+  
+```
+
+
+now we can plot the trees
+
+```{r}
+
+for(treeNumber in 1:length(treeFiles)){
+
+cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
+
+       plot.phylo(RhinoclemmysData$trees[[treeNumber]], 
+                  main=RhinoclemmysData$nameTrees[[treeNumber]])
+
+
+
+   }
+
+```
+
+We perform some basic calculations:
+
+```{r}
+
+# eval tree function
+
+RhinoclemmysData$evalPD <- lapply(RhinoclemmysData$trees,
+                                  FUN=evalTree,
+                                  distribution=RhinoclemmysData$dist,
+                                  root=TRUE)
+
+
+# sum of deltas
+RhinoclemmysData$sumDeltas <-   sapply(RhinoclemmysData$evalPD,
+                                    function (x) {sum(x$abDelta/x$deltaPD)})
+
+
+# max PD value
+
+RhinoclemmysData$maxPD <- colnames(RhinoclemmysData$matrixPD)[apply(
+                                      RhinoclemmysData$matrixPD,1,which.max)]
+
+
+# swap branch lengths, allswap
+
+
+RhinoclemmysData$swapBLalls <- lapply(RhinoclemmysData$trees,
+                                  FUN=swapBL,
+                                  distribution=RhinoclemmysData$dist,
+                                  root=TRUE)
+
+
+RhinoclemmysData$swapBLalls
+
+RhinoclemmysData$swapBLunif <- lapply(RhinoclemmysData$trees,
+                                  FUN=swapBL,
+                                  distribution=RhinoclemmysData$dist,
+                                  model = "uniform",
+                                  root=TRUE)
+
+
+RhinoclemmysData$swapBLunif
+
+
+```
+
+In this case, the tree selected changes the area selected, and we are confident in the results as in the three cases the branch swap does not affect the results.
+
+
+And plotted into the trees:
+
+```{r}
+options(warn=-1)
+
+for(treeNumber in 1:length(treeFiles)){
+
+cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
+
+
+theTitle <- paste("Initial area selected:",RhinoclemmysData$evalPD[[treeNumber]]$InitialArea[1])
+
+
+
+p0 <-    ggtree(RhinoclemmysData$trees[[treeNumber]], layout="slanted", ladderize=TRUE,
+                ##color=c("red","blue","red","blue","black","black","black"),
+                color=c("black"),
+                 size=0.5 ) + 
+         theme(legend.position="right") + 
+         labs(title = theTitle)
+
+
+
+p <- p0 %<+% RhinoclemmysData$evalPD[[treeNumber]] + 
+             geom_tiplab(aes(color=areaDelta), size =5) +
+             scale_colour_brewer("Area change", palette="Dark2")
+
+
+print(p)
+
+
+}
+```
