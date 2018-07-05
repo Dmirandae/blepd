@@ -39,14 +39,14 @@ return(allDataTable)
 
 
 
-PDindex <- function (tree = tree , distribution = distribution, root =FALSE, index= "PD" ){
+PDindex <- function (tree = tree, distribution = distribution, root = FALSE, index= "PD", percentual = FALSE){
         
 
     if(index == "PD" ){
 
     PDcalc <- pd(samp =distribution,tree = tree,include.root = root)$PD
     
-        return(PDcalc)    
+         indexVal <- PDcalc
         
         }
 
@@ -58,10 +58,20 @@ PDindex <- function (tree = tree , distribution = distribution, root =FALSE, ind
            
            endemism <-  c(PDtotal - PDcomplement)
            
-           return(endemism)
+           indexVal <- endemism
        
    }
 
+
+	if(percentual){
+		
+		indexVal <- round((indexVal/sum(indexVal)*100),2)
+		
+		}else{
+			
+         return(indexVal)
+	 
+	 }
 
   #c <- cophenetic(tree)
   #AvTD <- taxondive(comm = distribution ,
@@ -74,6 +84,14 @@ PDindex <- function (tree = tree , distribution = distribution, root =FALSE, ind
 
 
 
-    
+terminals <- function (tree = tree){
+
+      numberTerminals <- length(tree$tip.label)   
+
+       terminals <- which(tree$edge[,2] %in% 1:numberTerminals)
+
+  return(terminals)
+
+}    
     
 

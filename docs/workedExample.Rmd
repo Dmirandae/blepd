@@ -316,6 +316,19 @@ RhinoclemmysData$matrixPD <- as.data.frame(
                                       byrow=TRUE))
 
 
+RhinoclemmysData$tablePDPercentage <- lapply(RhinoclemmysData$trees,
+                                             FUN=PDindex,
+                                             distribution=RhinoclemmysData$dist,
+                                             percentual=TRUE,
+                                             root=TRUE)
+
+RhinoclemmysData$matrixPDPercentage <- as.data.frame(
+                                          matrix(
+                                              unlist(RhinoclemmysData$tablePDPercentage),
+                                              nrow= length(treeFiles),
+                                              byrow=TRUE))
+
+
 ```
 
 
@@ -323,11 +336,14 @@ now, it is time to name trees, terminals and areas:
 
 ```{r}
 
-RhinoclemmysData$nameTrees <- rownames(RhinoclemmysData$matrixPD) <- gsub("Rhinoclemmys_","",
+RhinoclemmysData$nameTrees <- rownames(RhinoclemmysData$matrixPD) <- 
+                              rownames(RhinoclemmysData$matrixPDPercentage) <- 
+                                       gsub("Rhinoclemmys_","",
                                            gsub("_data.nexus.con.tre","",
                                                       treeFiles))
 
-RhinoclemmysData$nameAreas <- colnames(RhinoclemmysData$matrixPD) <-
+RhinoclemmysData$nameAreas <- colnames(RhinoclemmysData$matrixPD) <- 
+                              colnames(RhinoclemmysData$matrixPDPercentage) <-
                               rownames(RhinoclemmysData$dist)
 
 RhinoclemmysData$nameTerminals <- colnames(RhinoclemmysData$dist)
@@ -375,6 +391,26 @@ RhinoclemmysData$maxPD <- colnames(RhinoclemmysData$matrixPD)[apply(
                                       RhinoclemmysData$matrixPD,1,which.max)]
 
 
+
+
+RhinoclemmysData$matrixPDPercentage   
+  
+RhinoclemmysData$maxPD 
+
+
+```
+
+
+Dependending on the tree/clock, PD prefers whether area B or F, but we do not know if the values in the analyses are close enough to consider the difference in PD values an artifact or a real difference given the tree / clock used.
+
+
+
+
+
+```{r}
+
+
+
 # swap branch lengths, allswap
 
 
@@ -403,7 +439,9 @@ In this case, the tree selected changes the area selected, and we are confident 
 
 And plotted into the trees:
 
+
 ```{r}
+
 options(warn=-1)
 
 for(treeNumber in 1:length(treeFiles)){
@@ -415,7 +453,7 @@ theTitle <- paste("Initial area selected:",RhinoclemmysData$evalPD[[treeNumber]]
 
 
 
-p0 <-    ggtree(RhinoclemmysData$trees[[treeNumber]], layout="slanted", ladderize=TRUE,
+p0 <-    ggtree(RhinoclemmysData$trees[[treeNumber]], layout="rectangular", ladderize=TRUE,
                 ##color=c("red","blue","red","blue","black","black","black"),
                 color=c("black"),
                  size=0.5 ) + 
@@ -425,7 +463,7 @@ p0 <-    ggtree(RhinoclemmysData$trees[[treeNumber]], layout="slanted", ladderiz
 
 
 p <- p0 %<+% RhinoclemmysData$evalPD[[treeNumber]] + 
-             geom_tiplab(aes(color=areaDelta), size =5) +
+             geom_tiplab(aes(color=areaDelta), size =3) +
              scale_colour_brewer("Area change", palette="Dark2")
 
 
@@ -434,3 +472,64 @@ print(p)
 
 }
 ```
+
+As this is too messy, we will focus our attention in areas B and F 
+
+```{r}
+
+options(warn=-1)
+
+for(treeNumber in 1:length(treeFiles)){
+
+if(treeNumber == 1){tmpCol <- cbind(RhinoclemmysData$evalPD[[1]][,1],
+                                 RhinoclemmysData$evalPD[[treeNumber]]$areaDelta)
+                   }else{
+                      tmpCol <- cbind(tmpCol,RhinoclemmysData$evalPD[[treeNumber]]$areaDelta)
+                    }
+}
+
+
+rowNames <- tmpCol[,1]
+
+tmpCol <- tmpCol[,-1]
+
+colnames(tmpCol) <- RhinoclemmysData$nameTrees
+
+row.names(tmpCol) <- rowNames
+
+tmpCol
+
+```
+
+
+In all three cases _R._ _diademata_ changes the selected to second optional area, what might suggests that this species, its distribution (only in area B) or its branch length, could be leading the results.
+
+to test our hypothesis, we can delete the species or we could remove the species or change its branch length ot zero, or change its distribution to null, and rerun the analysis.
+
+```{r}
+
+RhinoclemmysData$distribution[,13] <- rep(0,14)
+
+RhinoclemmysData$newPD <- lapply(RhinoclemmysData$trees,
+                                  FUN=PDindex,
+                                  distribution=RhinoclemmysData$dist,
+                                  root=TRUE)
+
+
+RhinoclemmysData$newMatrixPD <- as.data.frame(
+                                  matrix(
+                                      unlist(RhinoclemmysData$newPD),
+                                      nrow= length(treeFiles),
+                                      byrow=TRUE))
+
+colnames(RhinoclemmysData$newMatrixPD) <- rownames(RhinoclemmysData$dist)
+
+RhinoclemmysData$newMaxPD <- colnames(RhinoclemmysData$newMatrixPD)[apply(
+                                      RhinoclemmysData$newMatrixPD,1,which.max)]
+
+
+RhinoclemmysData$newMaxPD
+
+```
+
+As expected, now all trees give the same result, they select the area F.
