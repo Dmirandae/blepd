@@ -1,8 +1,15 @@
+# Collect arguments
+args <- commandArgs(TRUE)
+ 
+
 library(devtools)
 library(rmarkdown)
 
+if(length(args) != 0) {
+  archivos <- args
+}else{archivos <- dir(pattern=".Rmd")}
 
-archivos <- dir(pattern=".Rmd")
+
 
 print(archivos)
 
