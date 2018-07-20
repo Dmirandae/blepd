@@ -39,6 +39,18 @@ num <- length(newTree$edge.length)
 print("testing PE")
 swapBL(newTree, distribution,model="uniform", index ="PE")
 
+lengthTerminals(newTree)
+
+for ( numTree in 1:3){
+
+tmpTree <- reorder.phylo(RhinoclemmysData$trees[[numTree]], order = "post")
+
+plot.phylo(tmpTree)
+
+print(lengthTerminals(RhinoclemmysData$trees[[numTree]]))
+
+}
+
 
 #evalTree(tree, as.data.frame(distribution))
 

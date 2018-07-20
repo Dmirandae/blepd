@@ -95,3 +95,20 @@ terminals <- function (tree = tree){
 }    
     
 
+
+lengthTerminals <- function (tree = tree){
+
+      
+
+       terminals <- terminals ( tree )
+       
+       BLterminals <- NULL
+       
+       BLterminals <- tree$edge.length[c(terminals)]
+       
+       names(BLterminals) <- tree$tip.label
+
+  return(BLterminals)
+
+}    
+    
