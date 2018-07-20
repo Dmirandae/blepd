@@ -39,6 +39,9 @@ num <- length(newTree$edge.length)
 print("testing PE")
 swapBL(newTree, distribution,model="uniform", index ="PE")
 
+
+## testing lengthTerminals
+
 lengthTerminals(newTree)
 
 for ( numTree in 1:3){
