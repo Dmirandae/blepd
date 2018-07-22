@@ -48,9 +48,11 @@ for ( numTree in 1:3){
 
 tmpTree <- reorder.phylo(RhinoclemmysData$trees[[numTree]], order = "post")
 
-plot.phylo(tmpTree)
+##plot.phylo(tmpTree)
 
 print(lengthTerminals(RhinoclemmysData$trees[[numTree]]))
+
+print(RhinoclemmysData$evalPD[[numTree]])
 
 }
 

@@ -486,6 +486,7 @@ if(treeNumber == 1){tmpCol <- cbind(RhinoclemmysData$evalPD[[1]][,1],
                    }else{
                       tmpCol <- cbind(tmpCol,RhinoclemmysData$evalPD[[treeNumber]]$areaDelta)
                     }
+
 }
 
 
@@ -550,3 +551,33 @@ RhinoclemmysData$newMaxPD
 ```
 
 As expected, now all trees give the same result, they select the area F. While this effect could be assigned to the distribution alone -the species is a singleton-. most of the species (17 out of 22) are singletons, therefore, the most plausible explanation must include the branch length.
+
+```{r}
+
+for(treeNumber in 1:length(treeFiles)){
+
+##print(RhinoclemmysData$evalPD[[treeNumber]])
+
+finalResults <- RhinoclemmysData$evalPD[[treeNumber]]
+
+
+
+plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
+                      shape="Actual",
+                      colour=InitialArea)) +
+               geom_point(size= 7) +
+               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
+                              colour=lowerFinalArea,
+                              shape="Lower_limit"), size=7) +
+               labs(title = "Branch length change, lower limits. Equal branches.",
+                    colour = "Area selected",
+                    shape = "Terminal branch length value",
+                    y = "Terminal branch length",
+                    x = "Terminal")
+
+print(plotResults)
+
+
+}
+
+```
