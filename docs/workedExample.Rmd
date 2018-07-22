@@ -558,18 +558,39 @@ for(treeNumber in 1:length(treeFiles)){
 
 ##print(RhinoclemmysData$evalPD[[treeNumber]])
 
+print(RhinoclemmysData$nameTrees[[treeNumber]])
+
+
+
 finalResults <- RhinoclemmysData$evalPD[[treeNumber]]
 
+### ordenar las terminales de acuerdo a la long de las ramas terminales
 
+##plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
+plotResults <- ggplot(data=finalResults, aes(x= row.names(finalResults), y= initialLength,
+                      shape="Actual",
+                      colour=InitialArea)) +
+               geom_point(size= 7) +
+##               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
+               geom_point(aes(x= row.names(finalResults), y= lowerBranchLength,
+                              colour=lowerFinalArea,
+                              shape="Lower_limit"), size=7) +
+               labs(title = "Branch length change, lower limits.",
+                    colour = "Area selected",
+                    shape = "Terminal branch length value",
+                    y = "Terminal branch length",
+                    x = "Terminal")
+
+print(plotResults)
 
 plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
                       shape="Actual",
                       colour=InitialArea)) +
                geom_point(size= 7) +
-               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
-                              colour=lowerFinalArea,
-                              shape="Lower_limit"), size=7) +
-               labs(title = "Branch length change, lower limits. Equal branches.",
+               geom_point(aes(x= labelTerminal, y= upperBranchLength,
+                              colour=upperFinalArea,
+                              shape="Upper_limit"), size=7) +
+               labs(title = "Branch length change, upper limits.",
                     colour = "Area selected",
                     shape = "Terminal branch length value",
                     y = "Terminal branch length",
