@@ -34,12 +34,13 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
                          tipToEval = "taxB" , approach = "lower" , 
                          root = FALSE ,
                          index = "PD",
-                         maxMultiplier = 1.5 ){
+                         maxMultiplier = 1.01 ){
 
 
 ##if(debugDRME){cat("\n inicio en terminal:",tipToEval,":",approach,"\n")}
 
 ## potential errors
+
         .checkInput(tree = tree , distribution = distribution)
 
         numberTipToEval <- which(tree$tip.label %in% tipToEval) 
@@ -53,8 +54,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
 ## initial stuff
 
         initialPD <- PDindex(tree = tree, distribution = distribution, root = root, index = index )
-        
-        
+                
         bestInitialArea <- c(.bestVal(distribution,initialPD))
         
         initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)

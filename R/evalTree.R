@@ -135,13 +135,18 @@ results$areaDelta[tmp4] <- paste("L:",results$changeLower[tmp4],"/U:",results$ch
 results$abDelta <- abDelta
 
 #
-results$lowerBranchLength     <- as.numeric(results$lowerBranchLength)
+results$lowerBranchLength     <-  as.numeric(results$lowerBranchLength)
 #
-results$initialLength        <- as.numeric(results$initialLength)
+results$initialLength         <-  as.numeric(results$initialLength)
 #
-results$upperBranchLength     <- as.numeric(results$upperBranchLength)
+results$upperBranchLength     <-  as.numeric(results$upperBranchLength)
+
+results$shortLabelTerminal    <-  paste("t", 1:length(tree$tip.label) ,sep="")
+
+
 
 results <- results[c("labelTerminal",
+"shortLabelTerminal",
 "InitialArea",
 "initialLength",
 "lowerFinalArea",

@@ -22,7 +22,7 @@ rm(list = ls())
 
 ## installing and loading the package
 
-##install.packages("../../blepd_0.1.1.tar.gz", repos = NULL, type="source")
+##install.packages("../../blepd_0.mainRev.minorRev.tar.gz", repos = NULL, type="source")
 
 library(blepd)
 
@@ -564,15 +564,22 @@ print(RhinoclemmysData$nameTrees[[treeNumber]])
 
 finalResults <- RhinoclemmysData$evalPD[[treeNumber]]
 
-### ordenar las terminales de acuerdo a la long de las ramas terminales
 
-##plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
-plotResults <- ggplot(data=finalResults, aes(x= row.names(finalResults), y= initialLength,
+### ordering according to terminalBL
+
+
+finalResults <- finalResults[(order(finalResults$initialLength)),]
+
+finalResults$shortLabelTerminal    <-  paste("t", 1:length(RhinoclemmysData$trees[[treeNumber]]$tip.label) ,sep="")
+
+
+plotResults <- ggplot(data=finalResults, aes(x= shortLabelTerminal, y= initialLength,
+##plotResults <- ggplot(data=finalResults, aes(x= row.names(finalResults), y= initialLength,
                       shape="Actual",
                       colour=InitialArea)) +
                geom_point(size= 7) +
-##               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
-               geom_point(aes(x= row.names(finalResults), y= lowerBranchLength,
+               geom_point(aes(x= shortLabelTerminal, y= lowerBranchLength,
+##               geom_point(aes(x= row.names(finalResults), y= lowerBranchLength,
                               colour=lowerFinalArea,
                               shape="Lower_limit"), size=7) +
                labs(title = "Branch length change, lower limits.",
@@ -583,11 +590,11 @@ plotResults <- ggplot(data=finalResults, aes(x= row.names(finalResults), y= init
 
 print(plotResults)
 
-plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
+plotResults <- ggplot(data=finalResults, aes(x= shortLabelTerminal, y= initialLength,
                       shape="Actual",
                       colour=InitialArea)) +
                geom_point(size= 7) +
-               geom_point(aes(x= labelTerminal, y= upperBranchLength,
+               geom_point(aes(x= shortLabelTerminal, y= upperBranchLength,
                               colour=upperFinalArea,
                               shape="Upper_limit"), size=7) +
                labs(title = "Branch length change, upper limits.",
@@ -602,3 +609,5 @@ print(plotResults)
 }
 
 ```
+
+

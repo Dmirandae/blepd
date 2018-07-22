@@ -5,7 +5,7 @@
 \title{evalTerminal}
 \usage{
 evalTerminal(tree = tree, distribution = distribution, tipToEval = "taxB",
-  approach = "lower", root = FALSE, index = "PD", maxMultiplier = 1.5)
+  approach = "lower", root = FALSE, index = "PD", maxMultiplier = 1.01)
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
