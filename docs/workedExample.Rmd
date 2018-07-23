@@ -570,9 +570,8 @@ finalResults <- RhinoclemmysData$evalPD[[treeNumber]]
 
 finalResults <- finalResults[(order(finalResults$initialLength)),]
 
-finalResults$shortLabelTerminal  <- paste("t",
-                                    formatC(1:length(RhinoclemmysData$trees[[treeNumber]]$tip.label), 
-                                            width = 2, format = "d", flag = "0"),sep="")
+finalResults$shortLabelTerminal  <- sprintf("t%02d",
+                                            1:length(RhinoclemmysData$trees[[treeNumber]]$tip.label))
 
 
 plotResults <- ggplot(data=finalResults, aes(x= shortLabelTerminal, y= initialLength,
