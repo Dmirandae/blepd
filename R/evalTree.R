@@ -136,31 +136,30 @@ results$abDelta <- abDelta
 
 #
 results$lowerBranchLength     <-  as.numeric(results$lowerBranchLength)
+
 #
 results$initialLength         <-  as.numeric(results$initialLength)
+
 #
 results$upperBranchLength     <-  as.numeric(results$upperBranchLength)
 
-results$shortLabelTerminal    <-  paste("t", 1:length(tree$tip.label) ,sep="")
 
 
 
 results <- results[c("labelTerminal",
-"shortLabelTerminal",
-"InitialArea",
-"initialLength",
-"lowerFinalArea",
-"lowerBranchLength",
-"changeLower",
-"deltaLower",
-"upperFinalArea",
-"upperBranchLength",
-"changeUpper",
-"deltaUpper",
-"deltaPD",
-"areaDelta",
-"abDelta")
-]
+                   "InitialArea",
+                   "initialLength",
+                   "lowerFinalArea",
+                   "lowerBranchLength",
+                   "changeLower",
+                   "deltaLower",
+                   "upperFinalArea",
+                   "upperBranchLength",
+                   "changeUpper",
+                   "deltaUpper",
+                   "deltaPD",
+                   "areaDelta",
+                   "abDelta")]
 
 
 
