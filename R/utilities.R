@@ -93,6 +93,7 @@ terminals <- function (tree = tree){
   return(terminals)
 
 }    
+
     
 
 
@@ -112,3 +113,12 @@ lengthTerminals <- function (tree = tree){
 
 }    
     
+
+
+
+graficar <- function(x){
+
+  qplot(x$AreaSelected,x$Freq, ylim=c(0,sum(x$Freq)), xlab="", ylab="Frec")
+
+}
+

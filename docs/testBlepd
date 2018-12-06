@@ -67,5 +67,12 @@ print(RhinoclemmysData$evalPD[[numTree]])
 
 
 
+## test internals
+
+ ## calculate values
+ 
+##
+
+evalTerminalvsInternal(newTree,distribution,nTimes=10)
 
 

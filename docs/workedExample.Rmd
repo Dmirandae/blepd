@@ -611,4 +611,29 @@ print(plotResults)
 
 ```
 
+To test whether internal branches hava more impact than terminal branches we can use the function evalTerminalvsInternal
+
+
+```{r}
+
+data(tree)
+ data(distribution)
+ ## calculate values
+ 
+ data1 <- evalTerminalvsInternal(tree,distribution,nTimes=10)
+ plot1 <- lapply(data1,graficar)
+
+## plot the results 
+ 
+ library(gridExtra)
+ 
+ grid.arrange(
+ plot1[[1]]+ggtitle(names(data1)[1]),
+ plot1[[2]]+ggtitle(names(data1)[2]),
+ plot1[[3]]+ggtitle(names(data1)[3]),
+ plot1[[4]]+ggtitle(names(data1)[4]),
+ nrow = 2)
+
+```
+
 
