@@ -41,7 +41,6 @@ return(allDataTable)
 
 PDindex <- function (tree = tree, distribution = distribution, root = FALSE, index= "PD", percentual = FALSE){
         
-
     if(index == "PD" ){
 
     PDcalc <- pd(samp =distribution,tree = tree,include.root = root)$PD
@@ -84,7 +83,7 @@ PDindex <- function (tree = tree, distribution = distribution, root = FALSE, ind
 
 
 
-terminals <- function (tree = tree){
+getTerminals <- function (tree = tree){
 
       numberTerminals <- length(tree$tip.label)   
 
@@ -99,9 +98,7 @@ terminals <- function (tree = tree){
 
 lengthTerminals <- function (tree = tree){
 
-      
-
-       terminals <- terminals ( tree )
+       terminals <- getTerminals ( tree )
        
        BLterminals <- NULL
        

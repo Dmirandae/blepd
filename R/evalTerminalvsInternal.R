@@ -54,7 +54,7 @@ evalTerminalvsInternal <- function( tree = tree,
 
 
 
-  terminals <- terminals(tree)
+  terminals <- getTerminals(tree)
 
   initialLongs <- tree$edge.length
   
