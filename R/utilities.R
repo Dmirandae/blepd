@@ -127,4 +127,6 @@ graficar <- function(x){
 ##
 ## from https://stackoverflow.com/questions/32470937/exchange-two-elements-of-a-vector-in-one-call
 ##
+
+
 .swtch <- function(x,i,j) {x[c(i,j)] <- x[c(j,i)]; x} 

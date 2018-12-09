@@ -43,10 +43,12 @@ swapBL0 <- function(tree = tree ,
   
         if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door.")}
         
-        if (model %in% c("simpleswap","allswap","uniform") ){
+        if ((model %in% c("simpleswap","allswap","uniform")) &
+             (branch %in% c("terminals","internals"))
+           ){
 			cat("model to test",model,"reps",nTimes,"\n")
 			}else{
-				stop("Check models. Mind the closing door.")}
+				stop("Check models/branch selection. Mind the closing door.")}
         
 
 ## initial stuff from  initial tree
@@ -77,19 +79,19 @@ swapBL0 <- function(tree = tree ,
         
         if (model == "simpleswap"){ 
         
-        newTree <- tree
+          newTree <- tree
 
-        twoEdges <- sample(which(nodos),2)
+          twoEdges <- sample(which(nodos),2)
 
-        newTree$edge.length <- .swtch(tree$edge.length,twoEdges[1],twoEdges[2])        
+          newTree$edge.length <- .swtch(tree$edge.length,twoEdges[1],twoEdges[2])        
 
 	}
 	        
         if (model == "allswap"){ 
 
-        newTree <- tree
+          newTree <- tree
 
-		newTree$edge.length <- sample(tree$edge.length[nodos])
+		  newTree$edge.length[nodos] <- sample(tree$edge.length[nodos])
                      
 	}
 	
@@ -106,8 +108,7 @@ swapBL0 <- function(tree = tree ,
         newTree$edge.length[nodos] <- valoresUnif 
         
 	}
-	
-		
+			
         modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root)
         
         AreaSelected[repeticiones] <-  c(.bestVal(distribution,modifiedPD))
@@ -124,6 +125,6 @@ swapBL0 <- function(tree = tree ,
 
     levels(finaldf$AreaSelected) <- niveles
 
+  return(finaldf)
 
-return(finaldf)
 }
