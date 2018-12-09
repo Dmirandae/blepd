@@ -1,6 +1,10 @@
 
 ## in house functions
 
+
+`%nin%` = Negate(`%in%`)
+
+
 .bestVal <- function(distribution = distribution, initialVal){ 
 
    best <- row.names(distribution)[which(initialVal == max(initialVal))]
@@ -87,7 +91,7 @@ getTerminals <- function (tree = tree){
 
       numberTerminals <- length(tree$tip.label)   
 
-       terminals <- which(tree$edge[,2] %in% 1:numberTerminals)
+       terminals <- tree$edge[,2] < (numberTerminals + 1)
 
   return(terminals)
 
@@ -119,3 +123,8 @@ graficar <- function(x){
 
 }
 
+
+##
+## from https://stackoverflow.com/questions/32470937/exchange-two-elements-of-a-vector-in-one-call
+##
+.swtch <- function(x,i,j) {x[c(i,j)] <- x[c(j,i)]; x} 
