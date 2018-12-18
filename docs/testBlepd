@@ -42,7 +42,7 @@ valoresUnif <- runif(num,0,1)
 newTree$edge.length <- valoresUnif 
 
 ##swapBL(newTree, distribution,model="uniform")
-swapBL0(newTree, distribution,model="uniform",branch = "internals")
+swapBL(newTree, distribution,model="uniform",branch = "internals")
 cat("\nSimulated values, normal dist 0-1\n\n")
 newTree <- tree
 num <- length(newTree$edge.length)
@@ -62,8 +62,15 @@ cat("\nmean::",mean(lengthTerminals(RhinoclemmysData$trees[[numTree]])),"\n\n")
 ##cat("\n",lengthTerminals(RhinoclemmysData$trees[[numTree]]))
 print(RhinoclemmysData$evalPD[[numTree]])
 cat("\nTest internals vs externals \n\n")
- cat("\nCalculate values \n\n")
+ cat("\nCalculate values terminals\n\n")
 print(evalTerminalvsInternal(RhinoclemmysData$trees[[numTree]],
                              RhinoclemmysData$distribution,
                              nTimes=10))
+
+ 
+ cat("\nCalculate values internals\n\n")
+print(evalTerminalvsInternal(RhinoclemmysData$trees[[numTree]],
+                             RhinoclemmysData$distribution,
+                             nTimes=10, branch="internals"))
+
 }

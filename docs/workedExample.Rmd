@@ -1,7 +1,7 @@
 ﻿---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 07 - 02"
+date: "2018 - 12 - 20"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -97,7 +97,7 @@ print(plotDistrib)
 
 ```
 
-We check whether names in both objects: initialTree and dist4taxa are the same.
+We check whether names in both objects: initialTree and dist4taxa, are the same.
 
 ```{r}
 
@@ -224,9 +224,9 @@ For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (
 
 ### branch swap
 
-A second, and different approach, is to evaluate the effect in PD when terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
+A second, and different approach, is to evaluate the effect in PD when internal and terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
 
-The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), and the number of times to swap (default value = 100).
+The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), the number of times to swap (default value = 100), and branch to swap ("terminals" (default) or "internals").
 
 
 Uning the default parameters we get.
@@ -242,7 +242,6 @@ As this is a tree where all branches are equal, there is no impact when the bran
 
 
 Or we could use the random uniform branch length model.
-
 
 
 ```{r}
@@ -611,7 +610,7 @@ print(plotResults)
 
 ```
 
-To test whether internal branches hava more impact than terminal branches we can use the function evalTerminalvsInternal
+To test whether internal branches have more impact than terminal branches, we can use the function evalTerminalvsInternal.
 
 
 ```{r}

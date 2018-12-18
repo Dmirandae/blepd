@@ -13,8 +13,6 @@
 #' 
 #' @param number of times to repeat the swap.
 #' 
-#' @param branch to swap "terminals" (default) or "internals"
-#' 
 
 #' 
 #' 
@@ -30,26 +28,20 @@
 #'
 #'
 
-swapBL0 <- function(tree = tree , 
-                   distribution = distribution , 
-                   model  = "allswap" ,
-                   nTimes = 100,  
-                   root   = TRUE, 
-                   index  = "PD",
-                   branch = "terminals"){
+swapBL <- function(tree = tree , distribution = distribution , 
+                   model= "allswap" ,
+                   nTimes = 100,  root = TRUE, index = "PD"){
 
 ## potential errors
 
+`%nin%` = Negate(`%in%`)
   
         if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door.")}
         
-        if ((model %in% c("simpleswap","allswap","uniform")) &
-             (branch %in% c("terminals","internals"))
-           ){
-			cat("model to test",model,"reps",nTimes,"\n")
-			}else{
-				stop("Check models/branch selection. Mind the closing door.")}
+        if (model %in% c("simpleswap","allswap","uniform") ){cat("model to test",model,"reps",nTimes,"\n")}else{stop("Check models. Mind the closing door.")}
         
+
+
 
 ## initial stuff from  initial tree
 
@@ -61,59 +53,67 @@ swapBL0 <- function(tree = tree ,
         
         AreaSelected <- vector()
         
-        terminals <- getTerminals(tree)
-        
-     
-		if (branch == "terminals") {
-			nodos <- terminals
-			}else{
-			nodos <- !terminals
-			}
-
-
-
-        
 ## modified tree
 
     for(repeticiones in 1:nTimes){
         
         if (model == "simpleswap"){ 
         
-          newTree <- tree
+        numberOfTerminalSwap <- 0
 
-          twoEdges <- sample(which(nodos),2)
+        while (length(numberOfTerminalSwap) != 2){
+        terminalsToSwap <- as.integer(runif(2,1,numberTerminals))
+        numberOfTerminalSwap <- which(tree$edge[,2] %in% terminalsToSwap )
+        }
+      
+        newTree <- tree 
+        
+        rama1 <- newTree$edge.length[numberOfTerminalSwap[1]]
 
-          newTree$edge.length <- .swtch(tree$edge.length,twoEdges[1],twoEdges[2])        
+        rama2 <- newTree$edge.length[numberOfTerminalSwap[2]]
+        
+        newTree$edge.length[numberOfTerminalSwap[1]] <- rama2
+
+        newTree$edge.length[numberOfTerminalSwap[2]] <- rama1
 
 	}
 	        
         if (model == "allswap"){ 
-
-          newTree <- tree
-
-		  newTree$edge.length[nodos] <- sample(tree$edge.length[nodos])
-                     
+                
+        newTree <- tree 
+                
+        numberOfTerminalSwap <- which(tree$edge[,2] %in% 1:numberTerminals )
+        
+        blOriginal <- newTree$edge.length[c(numberOfTerminalSwap)]
+        
+        blSampled <- sample(blOriginal)
+        
+        newTree$edge.length[c(numberOfTerminalSwap)] <- blSampled
 	}
 	
         if (model == "uniform"){ 
 						
         newTree <- tree 
-           
-        minLong <- min(newTree$edge.length[nodos])
         
-        maxLong <- max(newTree$edge.length[nodos])
+        numberOfTerminalSwap <- which(tree$edge[,2] %in% 1:numberTerminals )
         
-        valoresUnif <- runif(sum(nodos),minLong,maxLong)
+        minLong <- min(newTree$edge.length[c(numberOfTerminalSwap)])
         
-        newTree$edge.length[nodos] <- valoresUnif 
+        maxLong <- max(newTree$edge.length[c(numberOfTerminalSwap)])
+        
+        valoresUnif <- runif(numberTerminals,minLong,maxLong)
+        
+        newTree$edge.length[c(numberOfTerminalSwap)] <- valoresUnif 
         
 	}
-			
+		
         modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root)
         
         AreaSelected[repeticiones] <-  c(.bestVal(distribution,modifiedPD))
 
 }
+
+    finaldf <- as.data.frame(table(AreaSelected))
 
     finaldf <- as.data.frame(table(AreaSelected))
 
@@ -125,6 +125,7 @@ swapBL0 <- function(tree = tree ,
 
     levels(finaldf$AreaSelected) <- niveles
 
-  return(finaldf)
 
+
+return(finaldf)
 }

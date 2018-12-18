@@ -1,7 +1,7 @@
 #'
 #' @title evalTerminalvsInternal
 #'
-#' @description This function tests whether the internal branch lengths impacts the results.  
+#' @description This function tests whether the internal/terminal branch lengths impact the results.  
 #' 
 #' @return A list of four data.frame objects, branch swapping eval for: 1. Empirical branch lengths. 2. All branches equal to 1. 3. Internal braches set to valueAssign (default=0). 4. Terminal braches set to valueAssign (default=0).
 #'
@@ -18,7 +18,7 @@
 #' data(distribution)
 #' ## calculate values
 #' 
-#' data1 <- evalTerminalvsInternal(tree,distribution,nTimes=10)
+#' data1 <- evalTerminalvsInternal(tree,distribution,nTimes=10, branch="terminals")
 #' plot1 <- lapply(data1,graficar)
 #' 
 #' library(gridExtra)
@@ -36,12 +36,12 @@
 #'
 
 
-
 evalTerminalvsInternal <- function( tree = tree,
                                    distribution = distribution,
                                    useRoot = TRUE,
                                    valueAssign = 0,
-                                   nTimes = 100){
+                                   nTimes = 100,
+                                   branch = "terminals"){
 
 ## internal functions
 
@@ -50,9 +50,7 @@ evalTerminalvsInternal <- function( tree = tree,
         return(arbol2)}
 
     .getPDbs <- function(x){
-        swapBL(x, distribution, root=useRoot, nTimes=nTimes)}
-
-
+        swapBL(x, distribution, root=useRoot, nTimes = nTimes, branch = branch)}
 
   terminals <- getTerminals(tree)
 
