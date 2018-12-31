@@ -27,7 +27,12 @@ evalTree <- function(tree = tree, distribution = distribution,  root=FALSE, inde
      
 	## potential errors
 	
-	.checkInput(tree = tree , distribution = distribution)
+	valor <- .checkInput(tree = tree , distribution = distribution)
+	
+	
+	if(valor == 2){stop("Check tree / distribution. Mind the closing door.")}
+						
+
 
 ##cat(approach)
 

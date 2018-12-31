@@ -34,9 +34,18 @@ return(allDataTable)
 ## utils check tree
 
 .checkInput <- function(distribution = distribution, tree = tree){
-                        if ((class(tree)!="phylo") || (class(distribution)!="matrix")){
-							stop("Check  tree and/or distribution. Mind the closing door")
-							}
+                        if ( (class(tree)!="phylo") || 
+                             (class(distribution)!="matrix") ||
+                             (!all(colnames(distribution) == tree$tip.label))
+                            ){
+												
+							return(2)
+							
+							stop("Check claass. tree and/or distribution. Mind the closing door")
+							
+							}else{
+								return(1)
+								}									
 				}
 
 
