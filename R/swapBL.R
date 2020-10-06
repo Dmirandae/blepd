@@ -33,42 +33,45 @@
 swapBL <- function(tree = tree , 
                    distribution = distribution , 
                    model  = "allswap" ,
-                   nTimes = 100,  
-                   root   = TRUE, 
-                   index  = "PD",
-                   branch = "terminals"){
+                   nTimes = 100 ,  
+                   root   = TRUE , 
+                   index  = "PD" ,
+                   branch = "terminals"
+                   ){
 
 ## potential errors
-
   
-        if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door.")}
+        if(!all(colnames(distribution) %in% tree$tip.label)){
+			stop("Check names in tree / distribution. Mind the closing door.")
+			}
         
-        if ((model %in% c("simpleswap","allswap","uniform")) &
+        if ( (model %in%  c("simpleswap","allswap","uniform")) &
              (branch %in% c("terminals","internals"))
            ){
 			cat("model to test",model,"reps",nTimes,"\n")
 			}else{
-				stop("Check models/branch selection. Mind the closing door.")}
+				stop("Check models/branch selection. Mind the closing door.")
+				}
         
 
 ## initial stuff from  initial tree
 
-        initialPD <- PDindex(tree = tree, distribution = distribution, root = root)
+        initialPD         <-  PDindex(tree = tree, distribution = distribution, root = root)
                
-        bestInitialArea <- c(.bestVal(distribution,initialPD))
+        bestInitialArea   <-  c(.bestVal(distribution,initialPD))
                 
-        numberTerminals <- length(tree$tip.label)
+        numberTerminals   <-  length(tree$tip.label)
         
-        AreaSelected <- vector()
+        AreaSelected      <-  vector()
         
-        terminals <- getTerminals(tree)
+        terminals         <-   getTerminals(tree)
         
      
-		if (branch == "terminals") {
-			nodos <- terminals
-			}else{
-			nodos <- !terminals
-			}
+			if (branch == "terminals") {
+				nodos <- terminals
+				}else{
+				nodos <- !terminals
+				}
 
 
 
@@ -79,52 +82,65 @@ swapBL <- function(tree = tree ,
         
         if (model == "simpleswap"){ 
         
-          newTree <- tree
+          newTree              <-   tree
 
-          twoEdges <- sample(which(nodos),2)
+          twoEdges             <-   sample(which(nodos),2)
 
-          newTree$edge.length <- .swtch(tree$edge.length,twoEdges[1],twoEdges[2])        
+          newTree$edge.length  <-   .swtch(tree$edge.length,twoEdges[1],twoEdges[2])        
 
-	}
+		}
+		
 	        
         if (model == "allswap"){ 
 
-          newTree <- tree
+          newTree                      <-    tree
 
-		  newTree$edge.length[nodos] <- sample(tree$edge.length[nodos])
+		  newTree$edge.length[nodos]   <-    sample(tree$edge.length[nodos])
                      
 	}
 	
         if (model == "uniform"){ 
 						
-        newTree <- tree 
+        newTree                    <-  tree 
            
-        minLong <- min(newTree$edge.length[nodos])
+        minLong                    <-  min(newTree$edge.length[nodos])
         
-        maxLong <- max(newTree$edge.length[nodos])
+        maxLong                    <-  max(newTree$edge.length[nodos])
         
-        valoresUnif <- runif(sum(nodos),minLong,maxLong)
+        valoresUnif                <-  runif(sum(nodos),minLong,maxLong)
         
-        newTree$edge.length[nodos] <- valoresUnif 
+        newTree$edge.length[nodos] <-  valoresUnif 
         
 	}
 			
-        modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root)
+        modifiedPD                   <-  PDindex(tree = newTree, distribution = distribution, root = root)
         
-        AreaSelected[repeticiones] <-  c(.bestVal(distribution,modifiedPD))
+        AreaSelected[repeticiones]    <-  c(.bestVal(distribution,modifiedPD))
 
 }
 
-    finaldf <- as.data.frame(table(AreaSelected))
+        finaldf                        <-  as.data.frame(table(AreaSelected))
 
-    niveles <- levels(finaldf$AreaSelected)
+        niveles                        <-  levels(finaldf$AreaSelected)
 
-    numero <- which(niveles == bestInitialArea)
+      ##  numero                       <-  which(niveles == bestInitialArea)
 
-    niveles[numero] <- paste(niveles[numero],"*")
+      ##  niveles[numero]              <-  paste(niveles[numero],"*")
 
-    levels(finaldf$AreaSelected) <- niveles
+        levels(finaldf$AreaSelected)   <-  niveles
+        
+        resultados  <- list()
+        
+        resultados$initialPD           <-  initialPD
+        resultados$selected            <-  finaldf
+        resultados$tree                <-   tree 
+        resultados$distribution        <-   distribution  
+        resultados$model               <-   model 
+        resultados$nTimes              <-  nTimes 
+        resultados$root                <-  root
+        resultados$index               <-  index
+        resultados$branch              <-  branch
 
-  return(finaldf)
+  return(resultados)
 
 }

@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 04 - 09"
+date: "2018 - 12 - 31"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -44,17 +44,19 @@ Now, we load the data: tree and distributions
 
 ## A binary tree with four terminals, newick format. 
 
-initialTree <- read.tree("../testData/tree")
+
+data(tree)
+
+data(distribution)
+
+initialTree <- tree
 
 str(initialTree)
 
 ## distributions for four taxa and two area, table format. 
 
-dist4taxa <- as.matrix(read.table("../testData/distribution",
-                                  stringsAsFactors=FALSE,
-                                  header=TRUE,
-                                  row.names=1)
-                       )
+dist4taxa <- distribution
+
 
 ## distribution to XY
 
@@ -175,7 +177,7 @@ we can consider that the results are *very* sensible to changes in branch length
 
 ## THE function
 
-To evaluate the behaviour os a single terminal branch length we must:
+To evaluate the behaviour of a single terminal branch length we must:
 
 1. modify a branch length,
 2. recalculate the PD value and
@@ -201,7 +203,7 @@ evalTerminal(tree = initialTree,
 The lower limit when we change the branch length for terminal t1 is 0.99, 
 as any change in branch length will modify the area selected from A1A2 to A2, 
 as the tie between the paths terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved
-in favour of t2/t4 when A1 is shorter.
+in favor of t2/t4 when A1 is shorter.
 
 ```{r}
 
