@@ -36,6 +36,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
                          index = "PD",
                          maxMultiplier = 1.01 ){
 
+if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
 ##if(debugDRME){cat("\n inicio en terminal:",tipToEval,":",approach,"\n")}
 
@@ -45,20 +46,28 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
 
         numberTipToEval <- which(tree$tip.label %in% tipToEval) 
         
-        if (is.na(numberTipToEval)){stop("Check names in tree / distribution. Mind the closing door")}
+        if (is.na(numberTipToEval)){
+			stop("Check names in tree / distribution. Mind the closing door")
+			}
 
-        if(!all(colnames(distribution) %in% tree$tip.label)){stop("Check names in tree / distribution. Mind the closing door")}
+        if(!all(colnames(distribution) %in% tree$tip.label)){
+			stop("Check names in tree / distribution. Mind the closing door")
+			}
 
 
         
 ## initial stuff
 
-        initialPD <- PDindex(tree = tree, distribution = distribution, root = root, index = index )
+        initialPD <- PDindex( tree = tree, distribution = distribution, root = root, index = index )
+                
+#~         initialPD[is.na(initialPD)] <-   0.0
+        
                 
         bestInitialArea <- c(.bestVal(distribution,initialPD))
         
-        initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
         
+        initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
+       
                
 ## initial test of branch length equal to zero
         
@@ -71,6 +80,7 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             maxPD <- 0 ##+ 1
             
 			}
+			
                 
         if (tolower(approach) %in% c("upper") ){
 			
@@ -80,9 +90,12 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             
             
             maxPD <- max(initialPD) - min(initialPD)
+            
             ##maxPD <- round(sum(tree$edge.length),6)
+			
 			}
         
+            
                 
         modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
         
@@ -93,12 +106,27 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
             
-            ans <-c (maxPD , bestInitialArea, 
-                      "*" , initialLength)
+            ans <- list (maxPD            =   maxPD , 
+                         areas            =   rownames(distribution),
+                         terminals        =   colnames(distribution),
+                         bestInitialArea  =   bestInitialArea, 
+                         bestModifiedArea =   bestModifiedArea,
+                         modifiedPD       =   modifiedPD,
+                         initialPD        =   initialPD,
+                         initialLength    =   initialLength,
+                         root             =   root,
+                         tipToEval        =   tipToEval  , 
+                         approach         =   approach  , 
+                         index            =   index 
+                         )
+            
+            
+#~             ans <- list (maxPD=maxPD , bestInitialArea=bestInitialArea, 
+#~                       "*" , initialLength)
             
             
             
-            names(ans) <- c("maxPD","bestInitialArea","unModifiedArea","initialLength")
+            #!#names(ans) <- c("maxPD","bestInitialArea","unModifiedArea","initialLength")
             
             
             
@@ -117,11 +145,12 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         
     if (tolower(approach) == "lower"){
     
-        ValorPrevio <- 9999999999
+        ValorPrevio    <-  9999999999
                 
-        initial <- 0.0
+        initial        <-  0.0
         
-        final <- initialLength}
+        final          <- initialLength
+        }
 
 
     if (tolower(approach) == "upper"){
@@ -130,7 +159,8 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
                 
         initial  <- initialLength+0.00001
         
-        final <- maxVal}
+        final <- maxVal
+        }
 
 
     repeat{
@@ -149,26 +179,32 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
         
         ValorPrevio <- promedio
         
-    if((all(bestInitialArea %in% bestModifiedArea)) &
-    (all(bestModifiedArea  %in%  bestInitialArea))){
+     if((all(bestInitialArea %in% bestModifiedArea)) &
+        (all(bestModifiedArea  %in%  bestInitialArea))){
    
-        if (tolower(approach) == "lower"){final <- promedio}
+        if (tolower(approach) == "lower"){
+			final <- promedio
+			}
       
-        if (tolower(approach) == "upper"){inicial <- promedio
-                        
+        if (tolower(approach) == "upper"){
+			inicial <- promedio            
             }
         
         }else{
               
-      if (tolower(approach) == "lower"){initial <- promedio}
+        if (tolower(approach) == "lower"){
+			initial <- promedio
+			}
 
-      if (tolower(approach) == "upper"){final <- promedio}
+        if (tolower(approach) == "upper"){
+			final <- promedio
+			}
             
             }
     
         }else{
          
-       if (tolower(approach) == "lower"){
+        if (tolower(approach) == "lower"){
             
             promedio <- promedio - 0.0001
             
@@ -178,11 +214,27 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
             
-            resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+    ##        resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
             
-            names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            ans <- list (maxPD            =   maxPD , 
+                         average          =   round(promedio,4) ,
+                         areas            =   rownames(distribution),
+                         terminals        =   colnames(distribution),
+                         bestInitialArea  =   bestInitialArea, 
+                         bestModifiedArea =   bestModifiedArea,
+                         modifiedPD       =   modifiedPD,
+                         initialPD        =   initialPD,
+                         initialLength    =   initialLength,
+                         root             =   root,
+                         tipToEval        =   tipToEval  , 
+                         approach         =   approach  , 
+                         index            =   index 
+                         )
             
-            return(resp)
+            
+            #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            
+            return(ans)
             
             
             break("got it")
@@ -193,15 +245,33 @@ evalTerminal <- function(tree = tree , distribution = distribution ,
             
             promedio <- promedio + 0.0001
             
-            resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+      ##      resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+      
+            ans <- list (maxPD            =   maxPD , 
+                         average          =   round(promedio,4) ,
+                         areas            =   rownames(distribution),
+                         terminals        =   colnames(distribution),
+                         bestInitialArea  =   bestInitialArea, 
+                         bestModifiedArea =   bestModifiedArea,
+                         modifiedPD       =   modifiedPD,
+                         initialPD        =   initialPD,
+                         initialLength    =   initialLength,
+                         root             =   root,
+                         tipToEval        =   tipToEval  , 
+                         approach         =   approach  , 
+                         index            =   index 
+                         )
+      
             
-            names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
             
-            return(resp)
+            return(ans)
             
             break("got it")
             
-        }else{initial <- promedio}
+        }else{
+			initial <- promedio
+			}
                       
     }
     
