@@ -9,7 +9,7 @@
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
 #' 
-#' @param model is the type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -default, all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
+#' @param model is the type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -default, all terminal branch lengths are swapped-, and "uniform" -all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
 #' 
 #' @param number of times to repeat the swap.
 #' 
@@ -131,15 +131,16 @@ swapBL <- function(tree = tree ,
         
         resultados  <- list()
         
-        resultados$initialPD           <-  initialPD
-        resultados$selected            <-  finaldf
+        resultados$initialPD           <-   initialPD
+        resultados$bestInitialArea     <-   bestInitialArea
+        resultados$selected            <-   finaldf
         resultados$tree                <-   tree 
         resultados$distribution        <-   distribution  
         resultados$model               <-   model 
-        resultados$nTimes              <-  nTimes 
-        resultados$root                <-  root
-        resultados$index               <-  index
-        resultados$branch              <-  branch
+        resultados$nTimes              <-   nTimes 
+        resultados$root                <-   root
+        resultados$index               <-   index
+        resultados$branch              <-   branch
 
   return(resultados)
 
