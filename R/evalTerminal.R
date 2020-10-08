@@ -46,6 +46,10 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
         numberTipToEval <- which(tree$tip.label %in% tipToEval) 
         
+#~         print(numberTipToEval)
+#~         print(tree$tip.label[numberTipToEval])
+        
+        
         if (is.na(numberTipToEval)){
 			stop("Check names in tree / distribution. Mind the closing door")
 			}
@@ -59,15 +63,19 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 ## initial stuff
 
         initialPD <- PDindex( tree = tree, distribution = distribution, root = root, index = index )
-                
+        
 #~         initialPD[is.na(initialPD)] <-   0.0
         
                 
         bestInitialArea <- c(.bestVal(distribution,initialPD))
         
         
+        #print(bestInitialArea)
+                
+        
         initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
        
+       #print(initialLength)
                
 ## initial test of branch length equal to zero
         
@@ -87,22 +95,18 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			maxVal <- maxMultiplier * round(sum(tree$edge.length),6)
 			
 			newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  maxVal
-            
-            
+                        
             maxPD <- max(initialPD) - min(initialPD)
-            
-            ##maxPD <- round(sum(tree$edge.length),6)
-			
+            	
 			}
         
             
                 
         modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
-        
-    
+          
         bestModifiedArea <-  c(.bestVal(distribution,modifiedPD))
         
-        
+              
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
             
@@ -117,20 +121,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          root             =   root,
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
-                         index            =   index 
+                         index            =   index,
+                         average          =   0.0
                          )
             
-            
-#~             ans <- list (maxPD=maxPD , bestInitialArea=bestInitialArea, 
-#~                       "*" , initialLength)
-            
-            
-            
-            #!#names(ans) <- c("maxPD","bestInitialArea","unModifiedArea","initialLength")
-            
-            
-            
-            
+            print("no effect of 0 or Max branch length")
+                                   
             return(ans)
             
               break("got it")
@@ -164,7 +160,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
 
     repeat{
+		
+		
             promedio <- mean(c(final,initial))
+        
+        #cat("\n",promedio,final,initial,"\n")
+		
             
             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
@@ -215,6 +216,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
             
     ##        resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
+    
+            ## cat("\n\tLOWER:::",round(promedio,4),"\n")
             
             ans <- list (maxPD            =   maxPD , 
                          average          =   round(promedio,4) ,
