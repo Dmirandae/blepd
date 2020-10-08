@@ -109,6 +109,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
               
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
+			   
+			if(approach == "upper"){
+			   promedio <- maxVal
+			   }else{
+				promedio <- 0.0
+				}   
             
             ans <- list (maxPD            =   maxPD , 
                          areas            =   rownames(distribution),
@@ -122,7 +128,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
                          index            =   index,
-                         average          =   0.0
+                         average          =   promedio
                          )
             
             print("no effect of 0 or Max branch length")
