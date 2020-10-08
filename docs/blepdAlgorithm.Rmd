@@ -1,7 +1,7 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: the algorithm"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 12 - 31"
+date: "2020 - 10 - 06"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -56,14 +56,11 @@ str(initialTree)
 ## distributions for four taxa and two area, table format. 
 
 dist4taxa <- distribution
+```
 
 
-## distribution to XY
-
-distXY <- matrix2XY(dist4taxa)
-
-### plotting:
-
+Plotting:
+```{r}
 ## A. the tree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
@@ -76,19 +73,24 @@ print(plotTree)
 
 ## B. the distribution
 
+## distribution to XY
+
+distXY <- matrix2XY(dist4taxa)
+
+
 plotDistrib <- ggplot(data=distXY, 
-                     aes(x= Area, y= Terminal), 
+                     aes(x= Terminal, y= Area), 
                      size =11) +
                geom_point() +
                labs(title = "B. Terminals and Distributions",
-                    y = "Terminal",
-                    x = "Area")
+                    y = "Area",
+                    x = "Terminal")
 
 plotDistrib
 
 ```
 
-We check whether names in both objects, trees and distributions are the same:
+Now we check whether names in both objects, trees and distributions are the same:
 
 ```{r}
 
@@ -116,7 +118,7 @@ To test the effect of changing a single terminal branch length, we will:
 2. calculate the initial PD and get the area(s) with the max value.
 3. change the length of a given terminal: t1.
 4. recalculate PD and get the area(s) with the max value.
-5. compare both results (from steps 3 to 4) to evaluate the effect of the perturbation.
+5. compare both results (from steps 2 to 4) to evaluate the effect of the perturbation.
 
 ```{r}
 
@@ -179,8 +181,8 @@ we can consider that the results are *very* sensible to changes in branch length
 
 To evaluate the behaviour of a single terminal branch length we must:
 
-1. modify a branch length,
-2. recalculate the PD value and
+1. modify a branch length.
+2. recalculate the PD value. 
 3. compare the effect of this perturbation.
 
 We can turn these steps into a function called *evalTerminal*, with four parameters:
@@ -226,7 +228,7 @@ evalTerminal(tree = initialTree,
 
 ```
 
-And, we will get the same result by changing the branch length of the terminal t1 from 1 to 1.x, to find the upper limit. The tie is solved in favour of area A2, opposite to the solution when we found the lower limit. In this case, even the smaller change in any terminal branch value, will modify the results.
+And, we will get the same result by changing the branch length of the terminal t1 from 1 to 1.x, to find the upper limit. The tie is solved in favour of area A1, opposite to the solution when we found the lower limit. In this case, even the smaller change in any terminal branch value, will modify the results.
 
 We test the effect of the branch length for all terminals.
 
@@ -264,6 +266,6 @@ The extreme sensitivity of the PD results to the terminal branch length is seen 
 
 ##  Null model tests
 
-We could also swap branch lengths and evaluate the behaviour before and after swapping. This swapping could be done by swapping two terminal branch lengths *simpleswap*, all terminal branch lengths *allswap* or replacing the terminal branch length with randomly distributed values, using an uniform distribution -*uniform*-, where thwe min and max values are obtained from the actual branch lengths.
+We could also swap branch lengths and evaluate the behaviour before and after swapping. This swapping could be done by swapping two terminal branch lengths *simpleswap*, all terminal branch lengths *allswap* or replacing the terminal branch length with randomly distributed values, using an uniform distribution -*uniform*-, where the min and max values are obtained from the actual branch lengths.
 
 
