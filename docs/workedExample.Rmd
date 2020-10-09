@@ -1,7 +1,7 @@
-﻿---
+---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2018 - 12 - 20"
+date: "2020 - 10 - 20"
 output: 
   pdf_document: 
     latex_engine: xelatex
@@ -30,6 +30,14 @@ packageVersion("blepd")
 
 ## To plot trees you can use ggtree, ape or phytools. The example is based on
 ## ggtree as a matter of choice.
+
+## More about ggtree
+## https://guangchuangyu.github.io/ggtree-book/chapter-ggtree.html
+
+## If you want to install ggtree go to 
+## https://bioconductor.org/packages/release/bioc/html/ggtree.html
+
+library(ggplot2)
 
 library(ggtree)
 
@@ -63,7 +71,7 @@ str(distribution)
 
 dist4taxa <- distribution
 
-## distribution to XY
+## distribution to XY to be able to plot the data, otherwise skip the next step
 
 distXY <- matrix2XY(dist4taxa)
 
@@ -76,7 +84,7 @@ plotTree <-  ggtree(initialTree, ladderize=TRUE,
                     color="black", size=1, linetype="dotted") +  
              geom_tiplab(size=6, color="black") +
              theme_tree2() +  
-             labs(title = "Four terminals, equal branch length")
+             ggtitle("Four terminals, equal branch length")
 
 
 print(plotTree)
@@ -121,6 +129,7 @@ initialPD
 
 To test the effect of changing the branch length in a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
 
+The function reports a list [[todo::convert it to a S3 object]] 
 
 ```{r}
 
@@ -144,7 +153,9 @@ The function to test all terminals at the same time is *evalTree*, with two para
 
 ```{r}
 
-finalResults <- evalTree(tree = initialTree, distribution = dist4taxa)
+finalResults <-   evalTree(tree = initialTree, distribution = dist4taxa) 
+
+## todo: errors to correct evalTree
 
 finalResults
 
