@@ -132,7 +132,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          )
             
             print("no effect of 0 or Max branch length")
-                                   
+            
+                class(ans) <- "blepd"                       
             return(ans)
             
               break("got it")
@@ -236,6 +237,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             
             #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            class(ans) <- "blepd"                       
             
             return(ans)
             
@@ -267,6 +269,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
       
             
             #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
+            
+            class(ans) <- "blepd"                       
             
             return(ans)
             

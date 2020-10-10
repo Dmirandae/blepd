@@ -139,7 +139,8 @@ swapBL <- function(tree = tree ,
         
         resultados$initialPD           <-   initialPD
         resultados$bestInitialArea     <-   bestInitialArea
-        resultados$selected            <-   finaldf
+#~         resultados$selected            <-   finaldf
+        resultados$bestModifiedArea    <-   finaldf
         resultados$tree                <-   tree 
         resultados$distribution        <-   distribution  
         resultados$model               <-   model 
@@ -147,6 +148,8 @@ swapBL <- function(tree = tree ,
         resultados$root                <-   root
         resultados$index               <-   index
         resultados$branch              <-   branch
+        
+        class(resultados) <- "blepd"
 
   return(resultados)
 

@@ -139,3 +139,17 @@ graficar <- function(x){
 
 
 .swtch <- function(x,i,j) {x[c(i,j)] <- x[c(j,i)]; x} 
+
+
+print.blepb <- function(obj) {
+               cat("\nBest Initial",obj$bestInitialArea, "\n")
+#~                cat("Selected",obj$bestModifiedArea, "\n")
+                cat("Selected",unlist(obj$bestModifiedArea), "\n")
+}
+
+blepd.default <- function(obj) {
+               cat("\nBest Initial",obj$bestInitialArea, "\n")
+#~                cat("Selected",obj$bestModifiedArea, "\n")
+                cat("Selected",unlist(obj$bestModifiedArea), "\n")
+
+}
