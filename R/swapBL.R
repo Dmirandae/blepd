@@ -3,13 +3,13 @@
 #'
 #' @description The function calculates the effect on PD of swapping terminal branch lengths.  
 #' 
-#' @return Returns a data frame with the frequency of each area recovered.
+#' @return Returns a blepd object with the frequency of each area recovered.
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object.
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
 #' 
-#' @param model is the type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -default, all terminal branch lengths are swapped-, and "uniform" -all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
+#' @param model is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" -default, all terminal branch lengths are swapped-, and 3. "uniform" -all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
 #' 
 #' @param number of times to repeat the swap.
 #' 
@@ -62,15 +62,15 @@ swapBL <- function(tree = tree ,
 
 ## initial stuff from  initial tree
 
-        initialPD         <-  PDindex(tree = tree, distribution = distribution, root = root)
+        initialPD          <-  PDindex(tree = tree, distribution = distribution, root = root)
                
-        bestInitialArea   <-  c(.bestVal(distribution,initialPD))
-                
-        numberTerminals   <-  length(tree$tip.label)
+        bestInitialArea    <-   c(.bestVal(distribution,initialPD))
+                 
+        numberTerminals    <-   length(tree$tip.label)
         
-        AreaSelected      <-  vector()
+        AreaSelected       <-   vector()
         
-        terminals         <-   getTerminals(tree)
+        terminals          <-   getTerminals(tree)
         
      
 			if (branch == "terminals") {
@@ -129,25 +129,20 @@ swapBL <- function(tree = tree ,
 
         niveles                        <-  levels(finaldf$AreaSelected)
 
-      ##  numero                       <-  which(niveles == bestInitialArea)
-
-      ##  niveles[numero]              <-  paste(niveles[numero],"*")
-
         levels(finaldf$AreaSelected)   <-  niveles
         
-        resultados  <- list()
+        resultados                     <-  list()
         
-        resultados$initialPD           <-   initialPD
-        resultados$bestInitialArea     <-   bestInitialArea
-#~         resultados$selected            <-   finaldf
-        resultados$bestModifiedArea    <-   finaldf
-        resultados$tree                <-   tree 
-        resultados$distribution        <-   distribution  
-        resultados$model               <-   model 
-        resultados$nTimes              <-   nTimes 
-        resultados$root                <-   root
-        resultados$index               <-   index
-        resultados$branch              <-   branch
+          resultados$initialPD         <-   initialPD
+          resultados$bestInitialArea   <-   bestInitialArea
+          resultados$bestModifiedArea  <-   finaldf
+          resultados$tree              <-   tree 
+          resultados$distribution      <-   distribution  
+          resultados$model             <-   model 
+          resultados$nTimes            <-   nTimes 
+          resultados$root              <-   root
+          resultados$index             <-   index
+          resultados$branch            <-   branch
         
         class(resultados) <- "blepd"
 
