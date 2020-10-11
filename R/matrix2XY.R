@@ -1,10 +1,27 @@
+#'
+#' @title matrix2XY
+#'
+#' @description Converts a distribution object in a XY datata.frame.
+#' 
+#' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
+#' 
 
+#' 
+#' @examples
+#' library(blepd)
+#' data(distribution)
+#' matrix2XY(distribution)
+#'
+#'
+#'@author Miranda-Esquivel Daniel R.
+#'
+#'
 
 matrix2XY <- function(distribution = distribution){
 
 numberAreas <-  length(rownames(distribution))
 
-numberAreas
+## numberAreas
 
 tmpX <- function(numberArea){
 

@@ -1,6 +1,31 @@
 
 ## in house functions
 
+#### printing
+
+
+print.blepd <- function(obj,tabular=FALSE) {
+               if(!tabular) cat("\nBestInitial:")
+               cat(obj$bestInitialArea, "\t")
+                if(!tabular) cat("Selected:\t")
+                if(tabular){
+					cat(obj$bestModifiedArea,"\n")
+					}else{
+						print(obj$bestModifiedArea)
+						}
+}
+
+print.multiBlepd <- function(obj,tabular=TRUE) {
+               if(tabular) cat("\nTerminal\tInitial\tSelected\n")	
+	           
+	           for( contador in 1:length(obj) ){
+				   cat(obj[[contador]]$tipToEval ,"\t")
+                   print.blepd(obj[[contador]],tabular=tabular)
+                }
+}
+
+
+
 
 `%nin%` = Negate(`%in%`)
 
@@ -27,9 +52,8 @@
     ## bind tree length
     allDataTable <- cbind (allDataTable, tree$edge.length)
 
-return(allDataTable)
-
-}
+ return(allDataTable)
+ }
 
 ## utils check tree
 
@@ -52,7 +76,11 @@ return(allDataTable)
 
 
 
-PDindex <- function (tree = tree, distribution = distribution, root = FALSE, index= "PD", percentual = FALSE){
+PDindex <- function (tree = tree, 
+                     distribution = distribution, 
+                     root = FALSE, 
+                     index= "PD", 
+                     percentual = FALSE){
         
     if(index == "PD" ){
 
@@ -128,7 +156,7 @@ lengthTerminals <- function (tree = tree){
 
 graficar <- function(x){
 
-  qplot(x$AreaSelected,x$Freq, ylim=c(0,sum(x$Freq)), xlab="", ylab="Frec")
+  qplot(x$AreaSelected,x$Freq, ylim=c(0,sum(x$Freq)), xlab="", ylab="Frecuency")
 
 }
 
@@ -141,18 +169,4 @@ graficar <- function(x){
 .swtch <- function(x,i,j) {x[c(i,j)] <- x[c(j,i)]; x} 
 
 
-print.blepd <- function(obj,tabular=FALSE) {
-               if(!tabular) cat("\nBestInitial:")
-               cat(obj$bestInitialArea, "\t")
-####                cat("Selected",obj$bestModifiedArea, "\n")
-                if(!tabular) cat("Selected:\t")
-                if(tabular){cat(obj$bestModifiedArea,"\n")}else{print(obj$bestModifiedArea)}
-}
-print.multiBlepd <- function(obj) {
-               cat("\nTerminal\tInitial\tSelected\n")	
-	           for( contador in 1:length(obj) ){
-				   cat(obj[[contador]]$tipToEval ,"\t")
-                   print.blepd(obj[[contador]],tabular=TRUE)
-                }
-}
 

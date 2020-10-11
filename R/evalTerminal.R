@@ -57,22 +57,25 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 		 resultadosTotales <- list()
 		 
 		 for(nombre in nombres){
+			 
 			 numeroNombre <- which(nombres == nombre)
-			 		resultadosTotales[[numeroNombre]] <- evalTerminal(tree = tree , 
+			 
+			 resultadosTotales[[numeroNombre]] <- evalTerminal(tree = tree , 
 			 		                            distribution = distribution , 
 			 		                            tipToEval = nombre , 
 			 		                            approach = approach ,
 			 		                            root = root ,
 			 		                            index = index,
 			 		                            maxMultiplier = maxMultiplier )
-					 }
+			}
 		
 		resultadosTotales[[numeroNombre]]$terminalEvaluated <- nombre 
 					 
 		class(resultadosTotales) <- "multiBlepd"		 
+		
 		return(resultadosTotales)		 
 		 
-		 }  ## end loop for all
+		}  ## end loop for all
 		 
 
         
@@ -108,7 +111,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                
 ## initial test of branch length equal to zero
         
-               newTree <- tree
+        newTree <- tree
     
         if (tolower(approach) %in% c("lower") ){
 			
@@ -160,12 +163,13 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          delta            =   promedio
                          )
             
-            print("no effect of 0 or Max branch length")
+            cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
             
-                class(ans) <- "blepd"                       
+            class(ans) <- "blepd" 
+                                      
             return(ans)
             
-              break("got it")
+            break("got it")
         }
                         
         ## end of est branch of zero length or max       
@@ -195,14 +199,14 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         }
 
 
-    repeat{
-		
-		
-            promedio <- mean(c(final,initial))
+    repeat{ promedio <- mean(c(final,initial))
                   
             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
-            reCalculatedPD  <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
+            reCalculatedPD  <- PDindex( tree = newTree, 
+                                        distribution = distribution, 
+                                        root = root, 
+                                        index = index )
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
         
@@ -242,9 +246,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             promedio <- promedio - 0.0001
             
-             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
+            newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
-            reCalculatedPD  <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
+            reCalculatedPD  <- PDindex( tree = newTree, 
+                                        distribution = distribution, 
+                                        root = root, 
+                                        index = index )
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
             
@@ -264,8 +271,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          index            =   index 
                          )
             
-            
-            #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
             class(ans) <- "blepd"                       
             
             return(ans)
@@ -279,8 +284,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             promedio <- promedio + 0.0001
             
-      ##      resp <- c(round(promedio,4), bestInitialArea, bestModifiedArea, initialLength)
-      
             ans <- list (maxPD            =   maxPD , 
                          average          =   round(promedio,4) ,
                          areas            =   rownames(distribution),
@@ -296,8 +299,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          index            =   index 
                          )
       
-            
-            #!#names(resp) <- c("branchLengthChange","bestInitialArea","bestModifiedArea","initialLength")
             
             class(ans) <- "blepd"                       
             
