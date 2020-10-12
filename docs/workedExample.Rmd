@@ -1,9 +1,9 @@
 ---
 title: "Branch length evaluation for Phylogenetic Diversity: a worked example"
 author: "Daniel R. Miranda-Esquivel"
-date: "2020 - 10 - 20"
-output: 
-  pdf_document: 
+date: "2020 - 10 - 11"
+output:
+  pdf_document:
     latex_engine: xelatex
 ---
 
@@ -34,7 +34,7 @@ packageVersion("blepd")
 ## More about ggtree
 ## https://guangchuangyu.github.io/ggtree-book/chapter-ggtree.html
 
-## If you want to install ggtree go to 
+## If you want to install ggtree go to
 ## https://bioconductor.org/packages/release/bioc/html/ggtree.html
 
 library(ggplot2)
@@ -55,7 +55,7 @@ Now, we load the data included in the package: tree and distribution.
 #data(package = "blepd")
 
 ## trees
-  
+
 data(tree)
 
 str(tree)
@@ -81,27 +81,29 @@ distXY <- matrix2XY(dist4taxa)
 ## the tree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=1, linetype="dotted") +  
+                    color="black", size=1, linetype="dotted") +
              geom_tiplab(size=6, color="black") +
-             theme_tree2() +  
+             theme_tree2() +
              ggtitle("Four terminals, equal branch length")
 
 
-print(plotTree)
+##print(plotTree)
 
 
 
 ## the distribution
 
-plotDistrib <- ggplot(data=distXY, 
-                      aes(x= Area, y= Terminal), 
+plotDistrib <- ggplot(data=distXY,
+                      aes(x= Area, y= Terminal),
                       size =11) +
                geom_point() +
-               labs(title = "Terminals and Distributions",
-                    y = "Terminal",
+               labs(title = "Distributions",
+                    y = "",
                     x = "Area")
 
-print(plotDistrib)
+##print(plotDistrib)
+
+cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 
 ```
 
@@ -113,7 +115,7 @@ all(colnames(dist4taxa) == initialTree$tip.label)
 
 ```
 
-We report the branch length, and calculate the PD values. 
+We report the branch length, and calculate the PD values.
 
 ```{r}
 
@@ -125,23 +127,71 @@ initialPD
 
 ```
 
-##  Function to evaluate a single terminal
+As expected there is a tie between both areas.
 
-To test the effect of changing the branch length in a single terminal ("t1"), we will use the function *evalTerminal*. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
 
-The function reports a list [[todo::convert it to a S3 object]] 
+
+
+
+## branch swap
+
+An initial approach, is to evaluate the effect in PD when internal and terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths.
+
+The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), the number of times to swap (default value = 100), and branch to swap ("terminals" (default) or "internals").
+
+
+Uning the default parameters we get.
 
 ```{r}
 
-evalTerminal(tree = initialTree, 
-             distribution = dist4taxa, 
-             tipToEval = "t1", 
-             approach = "lower" )
+swapBL(tree = initialTree,
+       distribution = dist4taxa)
 
 ```
 
-The lower limit reported when we change the branch length for terminal t1 is 0.99, 
-therefore any change in this branch length will modify the area selected from A1A2 to A2, as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
+As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped.
+
+
+Or we could use the random uniform branch length model.
+
+
+```{r}
+
+swapBL(tree = initialTree,
+       distribution = dist4taxa,
+       model = "uniform")
+
+```
+
+This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and areas A1A2 are selected.
+
+
+
+
+
+
+##  Function to evaluate a single terminal
+
+To test the effect of changing the branch length in a single terminal ("t1"), we will use the function **evalTerminal**. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
+
+The function reports a S3 object, printable with **print.blepd**.
+
+```{r}
+
+terminalT1 <- evalTerminal(tree = initialTree,
+             distribution = dist4taxa,
+             tipToEval = "t1",
+             approach = "lower" )
+
+print.blepd(terminalT1)
+
+terminalT1$delta
+
+```
+
+The lower limit reported when we change the branch length for terminal t1 is 0.99 [stored as *object**$delta**], therefore, this branch length will modify the area selected from A1A2 to A2, as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
+
+In the same way, if we chage t1 to 1.01 the will break in favour of the area A1.
 
 
 ## Tree evaluation function
@@ -153,7 +203,7 @@ The function to test all terminals at the same time is *evalTree*, with two para
 
 ```{r}
 
-finalResults <-   evalTree(tree = initialTree, distribution = dist4taxa) 
+finalResults <-   evalTree(tree = initialTree, distribution = dist4taxa)
 
 ## todo: errors to correct evalTree
 
@@ -215,8 +265,8 @@ theTitle <- paste("Initial area selected:",finalResults$InitialArea[1])
 
 p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
                 color=c("red","blue","red","blue","black","black","black"),
-                 size=0.8 ) + 
-         theme(legend.position="right") + 
+                 size=0.8 ) +
+         theme(legend.position="right") +
          labs(title = theTitle)
 
 
@@ -231,419 +281,4 @@ print(p)
 
 
 For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (=L)- will change the initial area selected (A1A2) to A2; or a change from 1 to 1.01 in branch length -the upper limit(=U)-, will change the area to A1.
-
-
-### branch swap
-
-A second, and different approach, is to evaluate the effect in PD when internal and terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths. 
-
-The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), the number of times to swap (default value = 100), and branch to swap ("terminals" (default) or "internals").
-
-
-Uning the default parameters we get.
-
-```{r}
-
-swapBL(tree = initialTree, 
-       distribution = dist4taxa)
-
-```
-
-As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped. 
-
-
-Or we could use the random uniform branch length model.
-
-
-```{r}
-
-swapBL(tree = initialTree, 
-       distribution = dist4taxa,
-       model = "uniform")
-
-```
-
-This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and areas A1A2 are selected.
-
-
-# An empirical example: _Rhynoclemmys_ data.
-
-We read the data sets: distribution and trees.
-
-
-```{r}
-
-## read distributional data
-
-setwd("../testData/")
-
-distribution <- as.matrix(read.table("Rhinoclemmys_Distribution",
-                                  stringsAsFactors=FALSE,
-                                  header=TRUE,
-                                  row.names=1,
-                                  sep=",")
-                          )
-
-
-## trees
-
-treeFiles <- dir(pattern=".tre")
-
-treeFiles
-
-
-RhinoclemmysData <- list()
-
-RhinoclemmysData$distribution <- distribution
-
-RhinoclemmysData$trees  <- lapply(treeFiles,FUN=read.nexus)
-
-RhinoclemmysData$trees  <-lapply(RhinoclemmysData$trees,
-                                   FUN=root,
-                                   outgroup=c("Go_polyphemus","Go_agassizii"),
-                                   resolve.root = TRUE)
-
-
-```
-
-These three trees correspond to different clock models, and we want to test whether the clock used will have any effect in the areas chosen.
-
-
-Fist we calculate the PD value for each tree, we save the values as a table and later we convert the table to a matrix:
-
-```{r}
-
-
-RhinoclemmysData$tablePD <- lapply(RhinoclemmysData$trees,
-                                   FUN=PDindex,
-                                   distribution=RhinoclemmysData$dist,
-                                   root=TRUE)
-
-RhinoclemmysData$matrixPD <- as.data.frame(
-                                  matrix(
-                                      unlist(RhinoclemmysData$tablePD),
-                                      nrow= length(treeFiles),
-                                      byrow=TRUE))
-
-
-RhinoclemmysData$tablePDPercentage <- lapply(RhinoclemmysData$trees,
-                                             FUN=PDindex,
-                                             distribution=RhinoclemmysData$dist,
-                                             percentual=TRUE,
-                                             root=TRUE)
-
-RhinoclemmysData$matrixPDPercentage <- as.data.frame(
-                                          matrix(
-                                              unlist(RhinoclemmysData$tablePDPercentage),
-                                              nrow= length(treeFiles),
-                                              byrow=TRUE))
-
-
-```
-
-
-now, it is time to name trees, terminals and areas:
-
-```{r}
-
-RhinoclemmysData$nameTrees <- rownames(RhinoclemmysData$matrixPD) <- 
-                              rownames(RhinoclemmysData$matrixPDPercentage) <- 
-                                       gsub("Rhinoclemmys_","",
-                                           gsub("_data.nexus.con.tre","",
-                                                      treeFiles))
-
-RhinoclemmysData$nameAreas <- colnames(RhinoclemmysData$matrixPD) <- 
-                              colnames(RhinoclemmysData$matrixPDPercentage) <-
-                              rownames(RhinoclemmysData$dist)
-
-RhinoclemmysData$nameTerminals <- colnames(RhinoclemmysData$dist)
-  
-```
-
-
-now we can plot the trees
-
-```{r}
-
-for(treeNumber in 1:length(treeFiles)){
-
-cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
-
-       plot.phylo(RhinoclemmysData$trees[[treeNumber]], 
-                  main=RhinoclemmysData$nameTrees[[treeNumber]])
-
-
-
-   }
-
-```
-
-We perform some basic calculations:
-
-```{r}
-
-# eval tree function
-
-RhinoclemmysData$evalPD <- lapply(RhinoclemmysData$trees,
-                                  FUN=evalTree,
-                                  distribution=RhinoclemmysData$dist,
-                                  root=TRUE)
-
-
-# sum of deltas
-RhinoclemmysData$sumDeltas <-   sapply(RhinoclemmysData$evalPD,
-                                    function (x) {sum(x$abDelta/x$deltaPD)})
-
-
-# max PD value
-
-RhinoclemmysData$maxPD <- colnames(RhinoclemmysData$matrixPD)[apply(
-                                      RhinoclemmysData$matrixPD,1,which.max)]
-
-
-
-
-RhinoclemmysData$matrixPDPercentage   
-  
-RhinoclemmysData$maxPD 
-
-
-```
-
-
-Dependending on the tree/clock, PD prefers whether area B or F, but we do not know if the values in the analyses are close enough to consider the difference in PD values an artifact or a real difference given the tree / clock used.
-
-
-
-
-
-```{r}
-
-
-
-# swap branch lengths, allswap
-
-
-RhinoclemmysData$swapBLalls <- lapply(RhinoclemmysData$trees,
-                                  FUN=swapBL,
-                                  distribution=RhinoclemmysData$dist,
-                                  root=TRUE)
-
-
-RhinoclemmysData$swapBLalls
-
-RhinoclemmysData$swapBLunif <- lapply(RhinoclemmysData$trees,
-                                  FUN=swapBL,
-                                  distribution=RhinoclemmysData$dist,
-                                  model = "uniform",
-                                  root=TRUE)
-
-
-RhinoclemmysData$swapBLunif
-
-
-```
-
-In this case, the tree selected changes the area selected, and we are confident in the results as in the three cases the branch swap does not affect the results.
-
-
-And plotted into the trees:
-
-
-```{r}
-
-options(warn=-1)
-
-for(treeNumber in 1:length(treeFiles)){
-
-cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
-
-
-theTitle <- paste("Initial area selected:",RhinoclemmysData$evalPD[[treeNumber]]$InitialArea[1])
-
-
-
-p0 <-    ggtree(RhinoclemmysData$trees[[treeNumber]], layout="rectangular", ladderize=TRUE,
-                ##color=c("red","blue","red","blue","black","black","black"),
-                color=c("black"),
-                 size=0.5 ) + 
-         theme(legend.position="right") + 
-         labs(title = theTitle)
-
-
-
-p <- p0 %<+% RhinoclemmysData$evalPD[[treeNumber]] + 
-             geom_tiplab(aes(color=areaDelta), size =3) +
-             scale_colour_brewer("Area change", palette="Dark2")
-
-
-print(p)
-
-
-}
-```
-
-As this is too messy, we will focus our attention in areas B and F 
-
-```{r}
-
-options(warn=-1)
-
-for(treeNumber in 1:length(treeFiles)){
-
-if(treeNumber == 1){tmpCol <- cbind(RhinoclemmysData$evalPD[[1]][,1],
-                                 RhinoclemmysData$evalPD[[treeNumber]]$areaDelta)
-                   }else{
-                      tmpCol <- cbind(tmpCol,RhinoclemmysData$evalPD[[treeNumber]]$areaDelta)
-                    }
-
-}
-
-
-rowNames <- tmpCol[,1]
-
-tmpCol <- tmpCol[,-1]
-
-colnames(tmpCol) <- RhinoclemmysData$nameTrees
-
-row.names(tmpCol) <- rowNames
-
-tmpCol
-
-```
-
-
-In all three cases _R._ _diademata_ changes the initial selection to the second "optional" area, what might suggests that for this species, its distribution (only in area B) or its branch length, could be leading the results.
-
-To test our hypothesis, we can delete the species or we could remove the species or change its branch length to zero, or change its distribution to null, and rerun the analysis.
-
-```{r}
-
-## already done using evalTree; here only _R_diademata_ will be tested.
-
-RhinoclemmysData$evalRdiademata <- lapply(RhinoclemmysData$trees,
-                                   FUN=evalTerminal,
-                                   distribution=RhinoclemmysData$distribution,
-                                   tipToEval = "R_diademata",
-                                   approach="lower",
-                                   root=TRUE)
-
-RhinoclemmysData$evalRdiademata
-
-
-## removing the distribution of the species
-
-RhinoclemmysData$distribution[,13] <- rep(0,14)
-
-RhinoclemmysData$newPD <- lapply(RhinoclemmysData$trees,
-                                  FUN=PDindex,
-                                  distribution=RhinoclemmysData$dist,
-                                  root=TRUE)
-
-
-RhinoclemmysData$newMatrixPD <- as.data.frame(
-                                  matrix(
-                                      unlist(RhinoclemmysData$newPD),
-                                      nrow= length(treeFiles),
-                                      byrow=TRUE))
-
-colnames(RhinoclemmysData$newMatrixPD) <- rownames(RhinoclemmysData$dist)
-
-RhinoclemmysData$newMaxPD <- colnames(RhinoclemmysData$newMatrixPD)[apply(
-                                      RhinoclemmysData$newMatrixPD,1,which.max)]
-
-
-RhinoclemmysData$newMaxPD
-
-
-
-
-```
-
-As expected, now all trees give the same result, they select the area F. While this effect could be assigned to the distribution alone -the species is a singleton-. most of the species (17 out of 22) are singletons, therefore, the most plausible explanation must include the branch length.
-
-```{r}
-
-for(treeNumber in 1:length(treeFiles)){
-
-##print(RhinoclemmysData$evalPD[[treeNumber]])
-
-print(RhinoclemmysData$nameTrees[[treeNumber]])
-
-
-
-finalResults <- RhinoclemmysData$evalPD[[treeNumber]]
-
-
-### ordering according to terminalBL
-
-
-finalResults <- finalResults[(order(finalResults$initialLength)),]
-
-finalResults$shortLabelTerminal  <- sprintf("t%02d",
-                                            1:length(RhinoclemmysData$trees[[treeNumber]]$tip.label))
-
-
-plotResults <- ggplot(data=finalResults, aes(x= shortLabelTerminal, y= initialLength,
-##plotResults <- ggplot(data=finalResults, aes(x= row.names(finalResults), y= initialLength,
-                      shape="Actual",
-                      colour=InitialArea)) +
-               geom_point(size= 7) +
-               geom_point(aes(x= shortLabelTerminal, y= lowerBranchLength,
-##               geom_point(aes(x= row.names(finalResults), y= lowerBranchLength,
-                              colour=lowerFinalArea,
-                              shape="Lower_limit"), size=7) +
-               labs(title = "Branch length change, lower limits.",
-                    colour = "Area selected",
-                    shape = "Terminal branch length value",
-                    y = "Terminal branch length",
-                    x = "Terminal")
-
-print(plotResults)
-
-plotResults <- ggplot(data=finalResults, aes(x= shortLabelTerminal, y= initialLength,
-                      shape="Actual",
-                      colour=InitialArea)) +
-               geom_point(size= 7) +
-               geom_point(aes(x= shortLabelTerminal, y= upperBranchLength,
-                              colour=upperFinalArea,
-                              shape="Upper_limit"), size=7) +
-               labs(title = "Branch length change, upper limits.",
-                    colour = "Area selected",
-                    shape = "Terminal branch length value",
-                    y = "Terminal branch length",
-                    x = "Terminal")
-
-print(plotResults)
-
-
-}
-
-```
-
-To test whether internal branches have more impact than terminal branches, we can use the function evalTerminalvsInternal.
-
-
-```{r}
-
-data(tree)
- data(distribution)
- ## calculate values
- 
- data1 <- evalTerminalvsInternal(tree,distribution,nTimes=10)
- plot1 <- lapply(data1,graficar)
-
-## plot the results 
- 
- library(gridExtra)
- 
- grid.arrange(
- plot1[[1]]+ggtitle(names(data1)[1]),
- plot1[[2]]+ggtitle(names(data1)[2]),
- plot1[[3]]+ggtitle(names(data1)[3]),
- plot1[[4]]+ggtitle(names(data1)[4]),
- nrow = 2)
-
-```
-
 
