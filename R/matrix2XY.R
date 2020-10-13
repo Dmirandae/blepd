@@ -17,66 +17,23 @@
 #'
 #'
 
-#~ matrix2XY1 <- function(distribution = distribution){
-
-#~ numberAreas <-  length(rownames(distribution))
-
-#~ ## numberAreas
-
-#~ tmpX <- function(numberArea){
-
-#~     areaName <- rownames(distribution)[numberArea]
-
-#~     tmpArea <- paste(areaName,colnames( distribution[,
-#~         which(distribution[numberArea,] == 1)]))
-        
-#~     tmpArea <- unlist(strsplit(tmpArea," "))
-    
-#~     return(tmpArea)    
-        
-#~     }
-
-#~ cuatro <- unlist(lapply((1:numberAreas),tmpX))
-
-#~ newDist <- matrix(cuatro, ncol=2, byrow=TRUE)
-
-#~ colnames(newDist) <- c("Area","Terminal")
-
-#~ newDist <-  as.data.frame(newDist)
-
-#~ return(newDist)
-
-#~ }
-
-
 matrix2XY <- function(distribution = distribution){
 
-species  <- colnames(distribution)
+numberAreas <-  length(row.names(distribution))
 
-numSpecies <- length(species)
 
-for(contador in 1:numSpecies){
+  for(area in 1:numberAreas){
+	  a1 <- names(which(distribution[area,] == 1))
+	  
+	  dfTemporal <- data.frame(Terminal=a1,Area=(replicate(length(a1),row.names(distribution)[area])))
+	  
+  if(area ==1){
+	dfFinal <- dfTemporal}else{
+	dfFinal <- rbind(dfFinal,dfTemporal)}
+}	
 
-    t1 <- paste(names(which(distribution[,contador] == 1)),species[contador],sep = " ")
 
-    t1 <- strsplit(t1," ")
-
-    t1<- unlist(t1)
-    
-    a1 <- matrix(t1, ncol=2, byrow=TRUE)
-    
-    if(contador == 1){salida <- a1} else{
-		
-		salida <- rbind(salida,a1)
-		}
-
-}
-
-colnames(salida) <- c("Area","Terminal")
-
-salida <-  as.data.frame(salida)
-
-return(salida)
+return(dfFinal)
 
 }
 

@@ -142,11 +142,14 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
 			   
-			if(approach == "upper"){
-			   promedio <- maxVal
-			   }else{
-				promedio <- 0.0
-				}   
+#~ 			if(approach == "upper"){
+#~ 			   promedio <- maxVal
+#~ 			   }else{
+#~ 				promedio <- 0.0
+#~ 				}   
+            
+			   promedio <- initialLength
+
             
             ans <- list (maxPD            =   maxPD , 
                          areas            =   rownames(distribution),
@@ -160,7 +163,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
                          index            =   index,
-                         delta            =   promedio
+                         finalLength      =   promedio ,
+                         delta            =   (promedio-initialLength)/initialLength*100
                          )
             
             cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
@@ -268,7 +272,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          root             =   root,
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
-                         index            =   index 
+                         index            =   index ,
+                         finalLength      =   promedio ,
+                         delta            =   (promedio-initialLength)/initialLength*100      
                          )
             
             class(ans) <- "blepd"                       
@@ -296,7 +302,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          root             =   root,
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
-                         index            =   index 
+                         finalLength      =   promedio ,
+                         delta            =   (promedio-initialLength)/initialLength*100                  
                          )
       
             

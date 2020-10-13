@@ -25,7 +25,11 @@ distribution <-          as.matrix(read.table(csvFile,
                                   sep=",")
                           )
 
-##qplot(distribution)
+
+distribution
+
+##qplot(distribution) +
+##              geom_point()
 
 
 
