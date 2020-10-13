@@ -1,0 +1,115 @@
+
+
+
+##  Function to evaluate a single terminal
+
+To test the effect of changing the branch length in a single terminal ("t1"), we will use the function **evalTerminal**. This function uses four parameters: tree, distribution, tipToEval (label of the tip), approach (two options: "lower"/"upper", to evaluate from 0 to the actual length or from the actual length to the sum of all branch lengths).
+
+The function reports a S3 object, printable with **print.blepd**.
+
+```{r}
+
+terminalT1 <- evalTerminal(tree = initialTree,
+             distribution = dist4taxa,
+             tipToEval = "t1",
+             approach = "lower" )
+
+print.blepd(terminalT1)
+
+terminalT1$delta
+
+```
+
+The lower limit reported when we change the branch length for terminal t1 is 0.99 [stored as *object**$delta**], therefore, this branch length will modify the area selected from A1A2 to A2, as the tie between the path between terminals t1/t3 (area A1) vs t2/t4 (area A2) will be solved in favour of t2/t4 when A1 is shorter.
+
+In the same way, if we chage t1 to 1.01 the will break in favour of the area A1.
+
+
+## Tree evaluation function
+
+### branch length
+
+The function to test all terminals at the same time is *evalTree*, with two parameters: the tree and the distribution. The function returns a data.frame object with 14 fields: labelTerminal, lowerBranchLength, InitialArea, lowerFinalArea, initialLength, upperBranchLength, upperFinalArea, changeLower, changeUpper, deltaUpper, deltaLower, deltaPD, areaDelta, and abDelta.
+
+
+```{r}
+
+finalResults <-   evalTree(tree = initialTree, distribution = dist4taxa)
+
+## todo: errors to correct evalTree
+
+finalResults
+
+```
+
+
+The extreme sensitivity of the PD results to the terminal branch length is seen in the column absolute length difference (=abDelta), as any length change -larger than 0-, will modify the area selected.
+
+We plot the results to see the effect in each terminal, as a table.
+
+```{r}
+
+plotResults <- ggplot(data=finalResults, aes(x= labelTerminal, y= initialLength,
+                      shape="Actual",
+                      colour=InitialArea)) +
+               geom_point(size= 7) +
+               geom_point(aes(x= labelTerminal, y= lowerBranchLength,
+                              colour=lowerFinalArea,
+                              shape="Lower_limit"), size=7) +
+               labs(title = "Branch length change, lower limits. Equal branches.",
+                    colour = "Area selected",
+                    shape = "Terminal branch length value",
+                    y = "Terminal branch length",
+                    x = "Terminal")
+
+print(plotResults)
+
+```
+
+or plotted as a simple table.
+
+```{r}
+
+countFreqChanges <- table(finalResults$areaDelta)
+
+
+countFreqChanges <- as.data.frame(countFreqChanges, ncol=1)
+
+
+colnames(countFreqChanges) <- c("Area change","Freq")
+
+
+row.names(countFreqChanges) <- NULL
+
+
+countFreqChanges
+
+
+```
+
+or plotted into the tree:
+
+```{r}
+
+
+theTitle <- paste("Initial area selected:",finalResults$InitialArea[1])
+
+p0 <-    ggtree(initialTree, layout="slanted", ladderize=TRUE,
+                color=c("red","blue","red","blue","black","black","black"),
+                 size=0.8 ) +
+         theme(legend.position="right") +
+         labs(title = theTitle)
+
+
+p <- p0 %<+% finalResults + geom_tiplab(aes(color=areaDelta), size =6) +
+          scale_colour_brewer("Area change", palette="Dark2")
+
+
+print(p)
+
+
+```
+
+
+For terminals t1/t3, a change from 1 to 0.99 in branch length -the lower limit (=L)- will change the initial area selected (A1A2) to A2; or a change from 1 to 1.01 in branch length -the upper limit(=U)-, will change the area to A1.
+

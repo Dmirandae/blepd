@@ -1,7 +1,7 @@
 #'
 #' @title matrix2XY
 #'
-#' @description Converts a distribution object in a XY datata.frame.
+#' @description Converts a distribution object in a XY data.frame.
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
 #' 
@@ -17,33 +17,66 @@
 #'
 #'
 
+#~ matrix2XY1 <- function(distribution = distribution){
+
+#~ numberAreas <-  length(rownames(distribution))
+
+#~ ## numberAreas
+
+#~ tmpX <- function(numberArea){
+
+#~     areaName <- rownames(distribution)[numberArea]
+
+#~     tmpArea <- paste(areaName,colnames( distribution[,
+#~         which(distribution[numberArea,] == 1)]))
+        
+#~     tmpArea <- unlist(strsplit(tmpArea," "))
+    
+#~     return(tmpArea)    
+        
+#~     }
+
+#~ cuatro <- unlist(lapply((1:numberAreas),tmpX))
+
+#~ newDist <- matrix(cuatro, ncol=2, byrow=TRUE)
+
+#~ colnames(newDist) <- c("Area","Terminal")
+
+#~ newDist <-  as.data.frame(newDist)
+
+#~ return(newDist)
+
+#~ }
+
+
 matrix2XY <- function(distribution = distribution){
 
-numberAreas <-  length(rownames(distribution))
+species  <- colnames(distribution)
 
-## numberAreas
+numSpecies <- length(species)
 
-tmpX <- function(numberArea){
+for(contador in 1:numSpecies){
 
-    areaName <- rownames(distribution)[numberArea]
+    t1 <- paste(names(which(distribution[,contador] == 1)),species[contador],sep = " ")
 
-    tmpArea <- paste(areaName,colnames( distribution[,
-        which(distribution[numberArea,] == 1)]))
-        
-    tmpArea <- unlist(strsplit(tmpArea," "))
+    t1 <- strsplit(t1," ")
+
+    t1<- unlist(t1)
     
-    return(tmpArea)    
-        
-    }
-
-cuatro <- unlist(lapply((1:numberAreas),tmpX))
-
-newDist <- matrix(cuatro, ncol=2, byrow=TRUE)
-
-colnames(newDist) <- c("Area","Terminal")
-
-newDist <-  as.data.frame(newDist)
-
-return(newDist)
+    a1 <- matrix(t1, ncol=2, byrow=TRUE)
+    
+    if(contador == 1){salida <- a1} else{
+		
+		salida <- rbind(salida,a1)
+		}
 
 }
+
+colnames(salida) <- c("Area","Terminal")
+
+salida <-  as.data.frame(salida)
+
+return(salida)
+
+}
+

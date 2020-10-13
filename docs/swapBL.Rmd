@@ -1,0 +1,35 @@
+
+
+## branch swap
+
+An initial approach, is to evaluate the effect in PD when internal and terminal branch lengths are swapped. In this case it is not the sensitivity to the branch length as a parameter, but the stability to the actual branch lengths.
+
+The function to perform the analysis is *swapBL*, that has four parameters: the tree, the distribution, the model to evaluate (valid models are "simpleswap", "allswap" -default value- and "uniform"), the number of times to swap (default value = 100), and branch to swap ("terminals" (default) or "internals").
+
+
+Uning the default parameters we get.
+
+```{r}
+
+swapBL(tree = initialTree,
+       distribution = dist4taxa)
+
+```
+
+As this is a tree where all branches are equal, there is no impact when the branch lengths are swapped.
+
+
+Or we could use the random uniform branch length model.
+
+
+```{r}
+
+swapBL(tree = initialTree,
+       distribution = dist4taxa,
+       model = "uniform")
+
+```
+
+This is a tree where all branches are equal, therefore min and max are equal. There is no impact when the branch lengths are swapped, and areas A1A2 are selected.
+
+

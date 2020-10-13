@@ -1,5 +1,3 @@
-
-
 # An empirical example: _Rhynoclemmys_ data.
 
 We read the data sets: distribution and trees.
@@ -7,16 +5,28 @@ We read the data sets: distribution and trees.
 
 ```{r}
 
+library(ape)
+library(blepd)
+library(ggplot2)
+library(ggtree)
+
+
 ## read distributional data
 
-setwd("../testData/")
+setwd("../data/")
 
-distribution <- as.matrix(read.table("Rhinoclemmys_Distribution",
+csvFile <- dir(pattern=".csv")
+
+
+distribution <-          as.matrix(read.table(csvFile,
                                   stringsAsFactors=FALSE,
                                   header=TRUE,
                                   row.names=1,
                                   sep=",")
                           )
+
+##qplot(distribution)
+
 
 
 ## trees
@@ -30,17 +40,75 @@ RhinoclemmysData <- list()
 
 RhinoclemmysData$distribution <- distribution
 
-RhinoclemmysData$trees  <- lapply(treeFiles,FUN=read.nexus)
+RhinoclemmysData$trees  <-    lapply(treeFiles,FUN=read.tree)
 
-RhinoclemmysData$trees  <-lapply(RhinoclemmysData$trees,
-                                   FUN=root,
-                                   outgroup=c("Go_polyphemus","Go_agassizii"),
-                                   resolve.root = TRUE)
+RhinoclemmysData$trees[[1]]$tip.label
 
+
+### reorder distribution to plot it
+
+distXY <- matrix2XY(distribution)
+
+#qplot(distXY)
+
+
+## order the distribution object
+
+ordenados <- match(RhinoclemmysData$trees[[1]]$tip.label,distXY$Terminal)
+
+
+distXY <- distXY[ordenados,]
+
+## terminals as factors to plot the same orden in tree and distribution
+
+distXY$Terminal <- factor(distXY$Terminal, levels = distXY$Terminal)
+
+
+##
+###
+## https://stackoverflow.com/questions/38131596/ggplot2-geom-bar-how-to-keep-order-of-data-frame
+###
+##
+
+
+
+## plotting
+
+## the tree
+
+plotTree <-  ggtree(RhinoclemmysData$trees[[1]], ladderize=TRUE,
+                    color="black", size=1, linetype="solid") +
+             geom_tiplab(size=6, color="black") +
+             theme_tree2() +
+             ggtitle(treeFiles[1])
+
+
+##
+print(plotTree)
+
+
+
+## the distribution
+
+plotDistrib <-ggplot(distXY,
+               aes(x= Area, y=Terminal), size =11) +
+              geom_point() +
+               labs(title = "Distributions",
+                    y = "",
+                    x = "Area")
+
+##
+print(plotDistrib)
+
+cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
+
+
+
+dev.off()
 
 ```
 
-These three trees correspond to different clock models, and we want to test whether the clock used will have any effect in the areas chosen.
+These two trees correspond to different data sources Molecular vs TotalEvidence data, and we want to test whether the data used will have any effect in the areas chosen.
 
 
 Fist we calculate the PD value for each tree, we save the values as a table and later we convert the table to a matrix:
@@ -50,8 +118,10 @@ Fist we calculate the PD value for each tree, we save the values as a table and 
 
 RhinoclemmysData$tablePD <- lapply(RhinoclemmysData$trees,
                                    FUN=PDindex,
-                                   distribution=RhinoclemmysData$dist,
+                                   distribution=RhinoclemmysData$distribution,
                                    root=TRUE)
+
+
 
 RhinoclemmysData$matrixPD <- as.data.frame(
                                   matrix(
@@ -62,7 +132,7 @@ RhinoclemmysData$matrixPD <- as.data.frame(
 
 RhinoclemmysData$tablePDPercentage <- lapply(RhinoclemmysData$trees,
                                              FUN=PDindex,
-                                             distribution=RhinoclemmysData$dist,
+                                             distribution=RhinoclemmysData$distribution,
                                              percentual=TRUE,
                                              root=TRUE)
 
@@ -82,15 +152,15 @@ now, it is time to name trees, terminals and areas:
 
 RhinoclemmysData$nameTrees <- rownames(RhinoclemmysData$matrixPD) <-
                               rownames(RhinoclemmysData$matrixPDPercentage) <-
-                                       gsub("Rhinoclemmys_","",
-                                           gsub("_data.nexus.con.tre","",
+                                           gsub("Rhinoclemmys_","",
+                                           gsub(".tre","",
                                                       treeFiles))
 
 RhinoclemmysData$nameAreas <- colnames(RhinoclemmysData$matrixPD) <-
                               colnames(RhinoclemmysData$matrixPDPercentage) <-
-                              rownames(RhinoclemmysData$dist)
+                              rownames(RhinoclemmysData$distribution)
 
-RhinoclemmysData$nameTerminals <- colnames(RhinoclemmysData$dist)
+RhinoclemmysData$nameTerminals <- colnames(RhinoclemmysData$distribution)
 
 ```
 
@@ -107,7 +177,6 @@ cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
                   main=RhinoclemmysData$nameTrees[[treeNumber]])
 
 
-
    }
 
 ```
@@ -115,6 +184,10 @@ cat(RhinoclemmysData$nameTrees[[treeNumber]],"\n")
 We perform some basic calculations:
 
 ```{r}
+
+
+### killroy is here
+### to do evaltree !!!!!!
 
 # eval tree function
 
