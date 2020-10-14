@@ -3,7 +3,7 @@
 #'
 #' @description This function tests whether the internal/terminal branch lengths impact the results.  
 #' 
-#' @return A list of four data.frame objects, branch swapping eval for: 1. All brach lengths set to valueAssign (default=1).3. Only internal braches set to valueAssign (default=1). 4. Only terminal braches set to valueAssign (default=1).
+#' @return A list of three data.frame objects, branch swapping eval for: 1. All brach lengths set to valueAssign (default=1). 2. Only internal braches set to valueAssign (default=1). 3. Only terminal braches set to valueAssign (default=1).
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object. 
 #' 

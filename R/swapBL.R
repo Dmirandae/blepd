@@ -39,6 +39,10 @@ swapBL <- function(tree = tree ,
                    index  = "PD" ,
                    branch = "terminals"
                    ){
+					   
+					  model   <- tolower(model)
+					  
+					  branch  <- tolower(branch) 
 
 ## potential errors
   
