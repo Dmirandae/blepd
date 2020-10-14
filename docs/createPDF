@@ -15,7 +15,10 @@ print(archivos)
 
 for(nombre in archivos){
 
-render(input=nombre, "all", clean=TRUE)
+render(input=nombre, "all", 
+       clean=TRUE ,
+       output_format="html_document"
+       )
 
 }
 

@@ -18,8 +18,8 @@ library(blepd)
 cat("\nLoading data\n\n")
 data(distribution)
 data(tree)
-##cat("\nTest EvalTree\n\n")
-##evalTree(tree, distribution)
+#cat("\nTest EvalTree\n\n")
+#evalTree(tree, distribution)
 cat("\nTest evalTerminalvsInternal\n\n")
 evalTerminalvsInternal(tree,
                        distribution,
