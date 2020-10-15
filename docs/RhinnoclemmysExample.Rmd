@@ -15,7 +15,7 @@ output:
 We read the data, distribution and tree.
 
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 options(warn=-1)
 suppressMessages(library(ggtree))
@@ -25,53 +25,69 @@ library(ggplot2)
 #~ library(ggtree)
 
 
+## Version
 
-## read distributional data
+print(packageVersion("blepd"))
+
+
+
+## Create an object to place the distribution and the tree
+
+
+RhinoclemmysData <- list()
+
+
+## Read data
+
+## distribution is a csv file areas x terminals, labeled
+
 
 setwd("../data/")
 
 csvFile <- dir(pattern=".csv")
 
-
-distribution <-          as.matrix(read.table(csvFile,
+RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
                                   stringsAsFactors=FALSE,
                                   header=TRUE,
                                   row.names=1,
                                   sep=",")
                           )
 
-##qplot(distribution)
+
+print(t(RhinoclemmysData$distribution))
 
 
 
-## read trees
+## tree(s) in nexus or newick format
 
 treeFiles <- dir(pattern=".tre")
 
 treeFiles
 
-## both things in a single object
-
-
-RhinoclemmysData <- list()
-
-RhinoclemmysData$distribution <- distribution
-
-distXY <- matrix2XY(distribution)
-
-
 
 RhinoclemmysData$tree  <-    read.tree(treeFiles)
+
+
+## name of tree(s)
 
 treeFiles <- gsub(".tre","",treeFiles)
 
 
-## plotting  the tree
 
+
+
+
+
+
+## Plotting
+
+
+#par(mfrow=c(2,1))
+
+
+## The tree
 
 ## using ggtree
-
-par(mfrow=c(1,2))
 
 
 plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
@@ -86,13 +102,17 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
 
 #~ Alternatively, we can plot the trees using  APE
 ##
-## plot.phylo(RhinoclemmysData$tree)
+##plot.phylo(RhinoclemmysData$tree)
 ##
 
 
 
 
 ## the distribution
+
+
+distXY <- matrix2XY(RhinoclemmysData$distribution)
+
 
 plotDistrib <-ggplot(distXY,
                aes(x= Area, y=Terminal), size =11) +
@@ -101,7 +121,8 @@ plotDistrib <-ggplot(distXY,
                     y = "",
                     x = "Area")
 
-##print(plotDistrib)
+##
+print(plotDistrib)
 
 ##
 cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
@@ -121,13 +142,13 @@ cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 ```
 
 
-The tree corresponds to a TotalEvidence analysis for the _Rhynoclemmys_ genus, and we want to test whether the branch lengths  will have any effect in the areas chosen.
+The tree corresponds to a Total Evidence analysis for the _Rhynoclemmys_ genus, and we want to test whether the branch lengths will have any effect in the areas chosen using a Pylgenetic Diversity (PD) analysis.
 
 
 
 
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 par(mfrow=c(2,1))
 
@@ -140,19 +161,19 @@ qplot(RhinoclemmysData$tree$edge.length,
 
 ```
 
-The branch length histogram shows there are two longer branches,  _R._ _aerolata_ and _R._ _rubida_ and these two are in area A, while area B is the richest.
+The branch length histogram shows there are two longer branches,  _R._ _aerolata_ and _R._ _rubida_ and these two are located in area A, while area B is the richest.
 
 
 
 
 Fist we calculate the PD value for the tree, we save the values as a table and later we convert the table to a matrix:
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 
 RhinoclemmysData$tablePD <- PDindex(RhinoclemmysData$tree,
-                                   distribution=RhinoclemmysData$distribution,
-                                   root=TRUE)
+                                    distribution=RhinoclemmysData$distribution,
+                                    root=TRUE)
 
 
 
@@ -170,49 +191,44 @@ RhinoclemmysData$matrixPD <- as.data.frame(
 Now, we test the efect of branch length swapping, terminal and internal branch lengths.
 
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 
  for( modelo in c("simpleswap","allswap","uniform") ){
 
         for( rama in c("terminals","internals") ){
 
-        val <- swapBL(RhinoclemmysData$tree,distribution,
-               model=modelo,
-               branch = rama
+            val <- swapBL(RhinoclemmysData$tree,
+                          RhinoclemmysData$distribution,
+                          model = modelo,
+                         branch = rama
                )
 
          cat("\nTree=",treeFiles,"\tModel=",modelo,"\tBranchs swapped=",rama,"\n")
 
-        t5 <- print.blepd(val)
-
+        print.blepd(val)
 
          cat("\n\n\n")
 
      }
 
-
   }
-
-
-
-
-
-
 
 ```
 
-For both trees, the terminal branch length is critical in the decision taken, if we swap all terminal branch lengths (model=_allswap_), or if we replace them with a uniform distribution (model=_uniform_), the area selected changes from A to B.
-
-As the terminal branch lengths are distributed unequally, we might suspect that the results depend heavily on the longest branches that inhabit the area A.
+Rhe terminal branch length is critical in the decision taken, if we swap all terminal branch lengths (model=_allswap_), or if we replace them with a uniform distribution (model=_uniform_), the area selected changes from A to B. As the terminal branch lengths are distributed unequally, we might suspect that the results depend heavily on the longest branches that inhabit the area A.
 
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 
 ## Testing the effect if we reduce the branch lenght form the actual value to 0.0 using evalTerminal {lower}
 
-testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,distribution,tipToEval = "all",approach = "lower")
+testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,
+                                    RhinoclemmysData$distribution,
+                                    tipToEval = "all",
+                                    approach = "lower")
+
 
 print.multiBlepd(testEvalTerminalALL)
 
@@ -220,14 +236,15 @@ print.multiBlepd(testEvalTerminalALL)
 ## Testing the effect if we increase the branch lenght form the actual value to the sum of all branch length  using evalTerminal {upper}
 
 
-testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,distribution,tipToEval = "all",approach = "upper")
+testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,
+                                    RhinoclemmysData$distribution,
+                                    tipToEval = "all",
+                                    approach = "upper")
 
 print.multiBlepd(testEvalTerminalALL)
 
 
 ```
-
-
 
 
 The area selected depends heavily in the branch length of _R._ _aerolata_ and _R._ _rubida_, if the branch length is just a little shorter, the area selected will change from area A to area B.
@@ -236,24 +253,36 @@ The area selected depends heavily in the branch length of _R._ _aerolata_ and _R
 To test whether internal branches have more impact than terminal branches, we can use the function evalTerminalvsInternal.
 
 
-```{r}
+```{r eval=TRUE, echo=FALSE}
 
 
 #~  ## calculate values
 
-data1 <- evalTerminalvsInternal(RhinoclemmysData$tree,distribution,nTimes=100,branch = "terminals")
-data2 <- evalTerminalvsInternal(RhinoclemmysData$tree,distribution,nTimes=100,branch = "internals")
+terminals  <- evalTerminalvsInternal(RhinoclemmysData$tree,
+                                RhinoclemmysData$distribution,
+                                nTimes=100,
+                                branch = "terminals")
 
+internals  <- evalTerminalvsInternal(RhinoclemmysData$tree,
+                                RhinoclemmysData$distribution,
+                                nTimes=100,
+                                branch = "internals")
 
 
 for( i in 1:3 ){
 
-    cat("name ",i,"\n")
-    print.blepd(data1[[i]])
-    print.blepd(data2[[i]])
+#    cat("name ",i,"\n")
+
+
+    cat("Evaluated:",terminals[[i]]$evaluated,"\tBranch swapped:",terminals[[i]]$branch,"\n")
+
+    print.blepd(terminals[[i]])
+
+    cat("Evaluated:",internals[[i]]$evaluated,"\tBranch swapped:",internals[[i]]$branch,"\n")
+
+    print.blepd(internals[[i]])
 
 }
-
 
 
 

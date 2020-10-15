@@ -55,8 +55,7 @@ evalTerminalvsInternal <- function( tree = tree,
   newTree <- tree
   newTree$edge.length[!terminals] <- valueAssign
   casosArboles[[3]] <- newTree
-  
-
+ 
 
   PDvals <- lapply(casosArboles,swapBL,
                    distribution = distribution , 
@@ -65,10 +64,15 @@ evalTerminalvsInternal <- function( tree = tree,
                    root   = root ,
                    branch = branch
                    )
-     
-
-  names(PDvals) <- c("All","Terminals","Internals")
+ 
+  PDvals[[1]]$evaluated <- "All equal"
+ 
+  PDvals[[2]]$evaluated <- "Terminals"
+ 
+  PDvals[[3]]$evaluated <- "Internals"
   
+
+
   class(PDvals) <- "multiBlepd"
 
   return(PDvals)

@@ -20,7 +20,9 @@ print.multiBlepd <- function(obj,tabular=TRUE) {
                if(tabular) cat("\nDelta (%)\tTerminal\tInitial\tSelected\tEvaluating",obj[[1]]$approach,"\n")	
 	           
 	           for( contador in 1:length(obj) ){
+				   
 				   cat(obj[[contador]]$delta,"\t",obj[[contador]]$tipToEval ,"\t")
+					   
                    print.blepd(obj[[contador]],tabular=tabular)
                    
                 }
@@ -193,19 +195,17 @@ lengthTerminals <- function (tree = tree){
 
 matrix2XY <- function(distribution = distribution){
 
-numberAreas <-  length(row.names(distribution))
+	numberAreas <-  length(row.names(distribution))
 
-
-  for(area in 1:numberAreas){
+	for(area in 1:numberAreas){
 	  a1 <- names(which(distribution[area,] == 1))
 	  
 	  dfTemporal <- data.frame(Terminal=a1,Area=(replicate(length(a1),row.names(distribution)[area])))
 	  
-  if(area ==1){
+	if(area ==1){
 	dfFinal <- dfTemporal}else{
 	dfFinal <- rbind(dfFinal,dfTemporal)}
-}	
-
+	}	
 
 return(dfFinal)
 

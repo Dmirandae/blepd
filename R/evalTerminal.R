@@ -30,8 +30,10 @@
 #'
 #'
 
-evalTerminal <- function(tree = tree , distribution = distribution , 
-                         tipToEval = "taxB" , approach = "lower" , 
+evalTerminal <- function(tree = tree , 
+                         distribution = distribution , 
+                         tipToEval = "taxB" , 
+                         approach = "lower" , 
                          root = FALSE ,
                          index = "PD",
                          maxMultiplier = 1.01 ){
@@ -164,7 +166,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          index            =   index,
                          finalLength      =   promedio ,
-                         delta            =   (promedio-initialLength)/initialLength*100
+                         delta            =   round((promedio-initialLength)/initialLength*100,4)
                          )
             
             cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
@@ -248,7 +250,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
          
         if (tolower(approach) == "lower"){
             
-            promedio <- promedio - 0.0001
+            promedio <- promedio - (promedio/100)
             
             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  promedio
             
@@ -261,7 +263,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             
             ans <- list (maxPD            =   maxPD , 
-                         delta            =   round(promedio,4) ,
                          areas            =   rownames(distribution),
                          terminals        =   colnames(distribution),
                          bestInitialArea  =   bestInitialArea, 
@@ -274,7 +275,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          index            =   index ,
                          finalLength      =   promedio ,
-                         delta            =   (promedio-initialLength)/initialLength*100      
+                         delta            =   round((promedio-initialLength)/initialLength*100,4)      
                          )
             
             class(ans) <- "blepd"                       
@@ -288,10 +289,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         if ((tolower(approach) == "upper")  &
         !all(bestInitialArea %in% bestModifiedArea)){
             
-            promedio <- promedio + 0.0001
+            promedio <- promedio + (promedio/100)
             
             ans <- list (maxPD            =   maxPD , 
-                         average          =   round(promedio,4) ,
                          areas            =   rownames(distribution),
                          terminals        =   colnames(distribution),
                          bestInitialArea  =   bestInitialArea, 
@@ -303,7 +303,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
                          finalLength      =   promedio ,
-                         delta            =   (promedio-initialLength)/initialLength*100                  
+                         delta            =   round((promedio-initialLength)/initialLength*100,4)                  
                          )
       
             
