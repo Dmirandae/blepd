@@ -13,7 +13,7 @@
 #' 
 #' @param approach is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0. 
 #' 
-#' @param maxMultiplier is the value to multiply the sum of the PD values. The upper limit to evaluate will be PD_sum * maxMultiplier. 
+#' @param maxMultiplier is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier. 
 #' 
 #' @param root is use.root in PD function. 
 #' 
@@ -81,10 +81,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 		 
 
         
-#~         print(numberTipToEval)
-#~         print(tree$tip.label[numberTipToEval])
-        
-        
         if (is.na(numberTipToEval)){
 			stop("Check names in tree / distribution. Mind the closing door")
 			}
@@ -96,22 +92,22 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
 ## initial stuff
 
-        initialPD <- PDindex( tree = tree, distribution = distribution, root = root, index = index )
+        initialPD <- PDindex( tree = tree, 
+                              distribution = distribution, 
+                              root = root, 
+                              index = index )
         
 #~         initialPD[is.na(initialPD)] <-   0.0
         
                 
         bestInitialArea <- c(.bestVal(distribution,initialPD))
         
-        
-        #print(bestInitialArea)
-                
+                       
         
         initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
        
-       #print(initialLength)
                
-## initial test of branch length equal to zero
+## initial test, branch length equal to zero
         
         newTree <- tree
     
@@ -119,7 +115,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			
             newTree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)] <-  0
             
-            maxPD <- 0 ##+ 1
+            maxPD <- 0 ##+ 0.001
             
 			}
 			
@@ -136,7 +132,10 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
             
                 
-        modifiedPD <- PDindex(tree = newTree, distribution = distribution, root = root, index = index )
+        modifiedPD <- PDindex( tree = newTree, 
+                               distribution = distribution, 
+                               root = root, 
+                               index = index )
           
         bestModifiedArea <-  c(.bestVal(distribution,modifiedPD))
         
@@ -144,11 +143,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
 			   
-#~ 			if(approach == "upper"){
-#~ 			   promedio <- maxVal
-#~ 			   }else{
-#~ 				promedio <- 0.0
-#~ 				}   
             
 			   promedio <- initialLength
 
@@ -197,11 +191,11 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
     if (tolower(approach) == "upper"){
     
-        ValorPrevio <- 9999999999
+        ValorPrevio    <-  9999999999
                 
-        initial  <- initialLength+0.00001
+        initial        <-  initialLength+0.00001
         
-        final <- maxVal
+        final          <-   maxVal
         }
 
 
