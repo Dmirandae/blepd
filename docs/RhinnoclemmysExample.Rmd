@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data."
 author: "Daniel R. Miranda-Esquivel"
-date: "2020 - 10 - 15"
+date: "2020 - 10 - 17"
 output:
   html_document:
     df_print: paged
@@ -12,10 +12,9 @@ bibliography: "/home/rafael/disco2/uis/proyectosDRME/indices/mainPaper/bib/blepd
 
 
 
-# An empirical example: _Rhynoclemmys_ data.
 
 We read the data, distribution and tree.
-bibliography:/home/rafael/disco2/uis/proyectosDRME/indices/mainPaper/bib/todo.bibtex
+
 
 
 ```{r eval=TRUE, echo=FALSE}
@@ -31,7 +30,7 @@ library(ggplot2)
 
 ## Version
 
-print(packageVersion("blepd"))
+cat("Analyses made  with blepd version:",unlist(packageVersion("blepd")))
 
 
 
@@ -58,7 +57,7 @@ RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
                           )
 
 
-print(t(RhinoclemmysData$distribution))
+##print(t(RhinoclemmysData$distribution))
 
 
 
@@ -66,7 +65,7 @@ print(t(RhinoclemmysData$distribution))
 
 treeFiles <- dir(pattern=".tre")
 
-treeFiles
+##treeFiles
 
 
 RhinoclemmysData$tree  <-    read.tree(treeFiles)
@@ -92,10 +91,9 @@ treeFiles <- gsub(".tre","",treeFiles)
 
 plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=FALSE,
                     color="black", size=0.51, linetype="solid") +
-                     geom_tiplab(size=4, color="black") +
-                     xlim(0,0.035) +
-##            theme_tree2() +
-            theme_tree2() +
+             geom_tiplab(size=4, color="black") +
+             xlim(0,0.035) +
+             theme_tree2() +
              ggtitle(treeFiles[1])
 
 
@@ -166,7 +164,7 @@ cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 
 # Using faceplot
 #~ p2 <- facet_plot(plotTree, panel="dot",
-#~                  data=distXY,
+#~                  data=distGraficar,
 #~                  geom=geom_point(),
 #~                  mapping=aes(x= distXY$Area,y=distXY$Terminal),
 #~                  size =11, color='red3')
@@ -178,33 +176,48 @@ cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 
 ```
 
-The tree corresponds to a Total Evidence analysis for the _Rhynoclemmys_ genus,
-the topology from [@alarcon2020a], and the distribution from [@le2008]
-and we want to test whether the branch lengths will have any effect in the areas chosen using a Pylgenetic Diversity (PD) analysis.
+We want to test whether the branch lengths will have any effect in the
+area(s) chosen for conservation using a Phylogenetic Diversity (PD)
+analysis.
 
+The topology corresponds to a Total Evidence analysis for the
+_Rhynoclemmys_ genus, from @alarcon2020a, and the distribution is
+taken and modified from @le2008.
 
 
 
 
 ```{r eval=TRUE, echo=FALSE}
 
-par(mfrow=c(2,1))
+#par(mfrow=c(2,1))
 
-qplot(RhinoclemmysData$tree$edge.length,
-      bins=10,
-      main=treeFiles,
-      xlab="Branch length")
+a  <- qplot(RhinoclemmysData$tree$edge.length,
+            bins=10,
+            main=treeFiles,
+            xlab="Branch length: internals and terminals")
 
+terminals <- RhinoclemmysData$tree$edge[,2] < 1+length(RhinoclemmysData$tree$tip.label)
+
+
+b  <- qplot(RhinoclemmysData$tree$edge.length[terminals],
+            bins=10,
+            main=treeFiles,
+            xlab="Branch length: terminals")
+
+cowplot::plot_grid(a, b, nrow=2)
 ###dev.off()
 
 ```
 
-The branch length histogram shows there are two longer branches,  _R._ _aerolata_ and _R._ _rubida_ and these two are located in area A, while area B is the richest.
+The branch length histogram and the tree plot, show there are two
+longer branches, _R._ _aerolata_ (Al) and _R._ _rubida_ (Pl), while Al
+and Cho-Ph are the richest.
 
 
 
 
-Fist we calculate the PD value for the tree, we save the values as a table and later we convert the table to a matrix:
+Fist we calculate the PD value for the tree, we save the values as a
+table and later we convert the table to a matrix.
 
 ```{r eval=TRUE, echo=FALSE}
 
@@ -222,7 +235,7 @@ RhinoclemmysData$matrixPD <- as.data.frame(
                                       byrow=TRUE))
 
 
-
+RhinoclemmysData$matrixPD
 
 ```
 
@@ -254,7 +267,12 @@ Now, we test the efect of branch length swapping, terminal and internal branch l
 
 ```
 
-Rhe terminal branch length is critical in the decision taken, if we swap all terminal branch lengths (model=_allswap_), or if we replace them with a uniform distribution (model=_uniform_), the area selected changes from A to B. As the terminal branch lengths are distributed unequally, we might suspect that the results depend heavily on the longest branches that inhabit the area A.
+The terminal branch length is critical in the decision taken, if we
+swap all terminal branch lengths (model=_allswap_), or if we replace
+them with a uniform distribution (model=_uniform_), the area selected
+changes from XXXX to YYY. As the terminal branch lengths are distributed
+unequally, we might suspect that the results depend heavily on the
+longest branches that inhabit the area A.
 
 
 ```{r eval=TRUE, echo=FALSE}
