@@ -19,6 +19,9 @@ We read the data, distribution and tree.
 
 ```{r eval=TRUE, echo=FALSE}
 
+## for reproductibility purposes
+
+set.seed(121)
 
 options(warn=-1)
 suppressMessages(library(ggtree))
@@ -210,9 +213,8 @@ cowplot::plot_grid(a, b, nrow=2)
 ```
 
 The branch length histogram and the tree plot, show there are two
-longer branches, _R._ _aerolata_ (Al) and _R._ _rubida_ (Pl), while Al
-and Cho-Ph are the richest.
-
+longer branches, _R._ _aerolata_ (inhabiting Al) and _R._ _rubida_ (Pl), while Al
+and Cho are the richest.
 
 
 
@@ -235,7 +237,10 @@ RhinoclemmysData$matrixPD <- as.data.frame(
                                       byrow=TRUE))
 
 
-RhinoclemmysData$matrixPD
+
+colnames(RhinoclemmysData$matrixPD) <- row.names(RhinoclemmysData$distribution)
+
+print(t(RhinoclemmysData$matrixPD))
 
 ```
 
@@ -270,10 +275,36 @@ Now, we test the efect of branch length swapping, terminal and internal branch l
 The terminal branch length is critical in the decision taken, if we
 swap all terminal branch lengths (model=_allswap_), or if we replace
 them with a uniform distribution (model=_uniform_), the area selected
-changes from XXXX to YYY. As the terminal branch lengths are distributed
+might change from Cho to Al. As the terminal branch lengths are distributed
 unequally, we might suspect that the results depend heavily on the
-longest branches that inhabit the area A.
+longest branches that inhabit the area.
 
+But first, let us see if the number of replicates has any effect.
+
+```{r eval=TRUE, echo=FALSE}
+
+for(repetir in 1:4){
+
+            val <- swapBL(RhinoclemmysData$tree,
+                          RhinoclemmysData$distribution,
+                          model = "allswap",
+                         branch = "terminals",
+                         nTimes = 10**repetir
+                         )
+
+print.blepd(val)
+
+}
+
+```
+
+Roughly speaking from 1000 -- 10000 the results are alike, and the 
+largest difference is in 10 --100. As a rule of thumb, we most use at 
+least 100 replicates, but 1000 will be better.
+
+
+
+now, let's see if the possible difference in results could be assigned to both of our longest branches.
 
 ```{r eval=TRUE, echo=FALSE}
 

@@ -20,8 +20,8 @@ for(nombre in archivos){
 
 render(input=nombre, "all", 
        clean=TRUE ,
-       output_format="html_document"
-       #output_format="pdf_document"
+       #output_format="html_document"
+       output_format="pdf_document"
        #output_format="latex_document"
        )
 

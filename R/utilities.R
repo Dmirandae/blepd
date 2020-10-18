@@ -5,13 +5,14 @@
 
 
 print.blepd <- function(obj,tabular=FALSE) {
-               if(!tabular) cat("\nBestInitial:")
+	           if(!tabular) cat("\nBestInitial:")
                cat(obj$bestInitialArea)
                if(!tabular){ cat("\n")}else{cat("\t")}
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
 					cat(obj$bestModifiedArea,"\n")
 					}else{
+					    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
 						print(obj$bestModifiedArea)
 						}
 }
