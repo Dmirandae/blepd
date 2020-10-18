@@ -1,0 +1,76 @@
+
+###dev.off()
+
+```
+
+The branch length histogram and the tree plot, show the internal length 
+branches are similar, nad different to terminals'; there are two longer 
+branches, _R._ _aerolata_ (inhabiting Al) and _R._ _rubida_ (Pl), while 
+Al and Cho are the richest areas.
+
+
+
+Fist we calculate the PD value for the tree, we save the values as a
+table and later we convert the table to a matrix.
+
+```{r eval=TRUE, echo=FALSE}
+
+
+RhinoclemmysData$tablePD <- PDindex(RhinoclemmysData$tree,
+                                    distribution=RhinoclemmysData$distribution,
+                                    root=TRUE)
+
+
+
+RhinoclemmysData$matrixPD <- as.data.frame(
+                                  matrix(
+                                      unlist(RhinoclemmysData$tablePD),
+                                      nrow= length(treeFiles),
+                                      byrow=TRUE))
+
+
+
+colnames(RhinoclemmysData$matrixPD) <- row.names(RhinoclemmysData$distribution)
+
+print(t(RhinoclemmysData$matrixPD))
+
+```
+
+Now, we test the efect of branch length swapping, terminal and internal branch lengths.
+
+
+```{r eval=TRUE, echo=FALSE}
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals") ){
+
+            val <- swapBL(RhinoclemmysData$tree,
+                          RhinoclemmysData$distribution,
+                          model = modelo,
+                         branch = rama
+               )
+
+         cat("\nTree=",treeFiles,"\tModel=",modelo,"\tBranchs swapped=",rama,"\n")
+
+        print.blepd(val)
+
+         cat("\n\n\n")
+
+     }
+
+  }
+
+```
+
+The terminal branch length is critical in the decision taken, if we
+swap all terminal branch lengths (model=_allswap_), or if we replace
+them with a uniform distribution (model=_uniform_), the area selected
+might change from Cho to Al. As the terminal branch lengths are distributed
+unequally, we might suspect that the results depend heavily on the
+longest branches that inhabit the area.
+
+But first, let us see if the number of replicates has any effect.
+
+```{r eval=TRUE, echo=FALSE}

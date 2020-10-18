@@ -165,7 +165,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
             
-            class(ans) <- "blepd" 
+            class(ans) <- c("multiBlepd","EvalTerminal") 
                                       
             return(ans)
             
@@ -272,7 +272,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          delta            =   round((promedio-initialLength)/initialLength*100,4)      
                          )
             
-            class(ans) <- "blepd"                       
+            class(ans) <- c("multiBlepd","EvalTerminal")                       
             
             return(ans)
             
@@ -301,7 +301,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          )
       
             
-            class(ans) <- "blepd"                       
+            class(ans) <- c("multiBlepd","EvalTerminal")                       
             
             return(ans)
             

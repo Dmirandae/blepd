@@ -1,0 +1,19 @@
+
+##dev.off()
+
+```
+
+We want to test whether the branch lengths will have any effect in the
+area(s) chosen for conservation using a Phylogenetic Diversity (PD)
+analysis.
+
+The topology corresponds to a Total Evidence analysis for the
+_Rhynoclemmys_ genus, from @alarcon2020a, and the distribution is
+taken and modified from @le2008.
+
+
+
+
+```{r eval=TRUE, echo=FALSE}
+
+#par(mfrow=c(2,1))

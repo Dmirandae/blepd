@@ -1,0 +1,14 @@
+```
+
+Roughly speaking from 1000 -- 10000 the results are alike, and the 
+largest difference is in 10 --100. As a rule of thumb, we most use at 
+least 100 replicates, but 1000 will be better.
+
+
+
+now, let's see if the possible difference in results could be assigned to both of our longest branches.
+
+```{r eval=TRUE, echo=FALSE}
+
+
+## Testing the effect if we reduce the branch lenght form the actual value to 0.0 using evalTerminal {lower}
