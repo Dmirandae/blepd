@@ -17,6 +17,40 @@ print.blepd <- function(obj,tabular=FALSE) {
 						}
 }
 
+
+
+write.blepd <- function(obj,tabular=FALSE, file="output.csv") {
+	           if(!tabular) cat("\nBestInitial:",file=file)
+               cat(obj$bestInitialArea,
+                   file = file,
+                   append =TRUE)
+               if(!tabular){ 
+				   cat("\n",
+				   file = file,
+                   append =TRUE)}
+                   else{
+					   cat("\t",
+					   file = file,
+					   append =TRUE)}
+                ##if(!tabular) cat("Selected:\t")
+                if(tabular){
+					cat(unlist(obj$bestModifiedArea),"\n",
+					    file = file,
+                        append =TRUE)
+					}else{
+					    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
+#~ 						print(obj$bestModifiedArea)
+#~ 						if (file !=""){
+							cat(unlist(obj$bestModifiedArea),
+							file = file,
+                            append =TRUE)
+#~                             }
+						}
+}
+
+
+
+
 print.multiBlepd <- function(obj,tabular=TRUE) {
                if(tabular) cat("\nDelta (%)\tTerminal\tInitial\tSelected\tEvaluating",obj[[1]]$approach,"\n")	
 	           

@@ -4,7 +4,9 @@
 \name{distribution}
 \alias{distribution}
 \title{Distribution of four taxa.}
-\format{A matrix object with two areas (rows) and four species (rows).}
+\format{
+A matrix object with two areas (rows) and four species (rows).
+}
 \usage{
 distribution
 }

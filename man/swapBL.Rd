@@ -4,30 +4,41 @@
 \alias{swapBL}
 \title{swapBL}
 \usage{
-swapBL(tree = tree, distribution = distribution, model = "allswap",
-  nTimes = 100, root = TRUE, index = "PD")
+swapBL(
+  tree = tree,
+  distribution = distribution,
+  model = "allswap",
+  nTimes = 100,
+  root = TRUE,
+  index = "PD",
+  branch = "terminals"
+)
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
 
-\item{model}{is the type of swap to be performed. Valid values are "simpleswap" -two terminal branch lengths are swapped- ,"allswap" -default, all terminal branch lengths are swapped-, and "uniform"-all terminal branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
+\item{model}{is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" -default, branch lengths are swapped, using the sample function-, and 3. "uniform" -branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
 
-\item{number}{of times to repeat the swap.}
+\item{nTimes}{number of times to repeat the swap.}
+
+\item{root}{is use.root in PD function.}
+
+\item{branch}{to swap "terminals" (default) or "internals".}
 }
 \value{
-Returns a data frame with the frequency of each area recovered.
+Returns a blepd object with the frequency of each area recovered.
 }
 \description{
-The function calculates the effect on PD of swapping two terminal branch lengths.
+The function calculates the effect on PD of swapping terminal branch lengths.
 }
 \examples{
 library(blepd)
 data(tree)
 data(distribution)
 swapBL(tree = tree , distribution = distribution , 
-       times = 100)
+       times = 100 , branch = "terminals")
 
 
 }

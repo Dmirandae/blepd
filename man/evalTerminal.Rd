@@ -4,24 +4,31 @@
 \alias{evalTerminal}
 \title{evalTerminal}
 \usage{
-evalTerminal(tree = tree, distribution = distribution, tipToEval = "taxB",
-  approach = "lower", root = FALSE, index = "PD", maxMultiplier = 1.01)
+evalTerminal(
+  tree = tree,
+  distribution = distribution,
+  tipToEval = "taxB",
+  approach = "lower",
+  root = FALSE,
+  index = "PD",
+  maxMultiplier = 1.01
+)
 }
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
 
-\item{tipToEval}{is the label of the terminal to evaluate.}
+\item{tipToEval}{is the label of the terminal to evaluate. If you use "all", it will evaluate all terminals and will generate a multiBlepd object (S3).}
 
-\item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal, or "lower": from the actual length to 0.}
+\item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.}
 
 \item{root}{is use.root in PD function.}
 
-\item{maxMultiplier}{is the value to multiply the sum of the PD values. This value will be the upper limit to evaluate.}
+\item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier.}
 }
 \value{
-Returns four fields, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper limit, or 0.0 for the lower limit, the best Initial Area, a dummy value of "*" to indicate there is no change in area and the actual (initial) branch length; or, when there is a change in area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
+Returns a S3 object [class blepd] with all the relevant information, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper/lower limit, the best Initial Area; when there is a change in the area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
 }
 \description{
 The function calculates whether a change in the terminal branch length generates a change in the area selected; and when applies, the terminal branch length value for that change.

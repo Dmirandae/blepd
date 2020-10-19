@@ -4,7 +4,9 @@
 \name{tree}
 \alias{tree}
 \title{A tree with four terminals.}
-\format{An APE object, class phylo. A tree dataset with four terminals.}
+\format{
+An APE object, class phylo. A tree dataset with four terminals.
+}
 \usage{
 tree
 }
