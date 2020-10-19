@@ -7,7 +7,7 @@ for(repetir in 1:3){
                          branch = "terminals",
                          nTimes = 10**repetir
                          )
-
-print.blepd(val)
+                         
+            print.blepd(val)
 
 }

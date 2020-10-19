@@ -27,11 +27,12 @@ write.blepd <- function(obj,tabular=FALSE, file="output.csv") {
                if(!tabular){ 
 				   cat("\n",
 				   file = file,
-                   append =TRUE)}
-                   else{
+                   append =TRUE)
+                   }else{
 					   cat("\t",
 					   file = file,
-					   append =TRUE)}
+					   append =TRUE)
+					   }
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
 					cat(unlist(obj$bestModifiedArea),"\n",
@@ -39,12 +40,9 @@ write.blepd <- function(obj,tabular=FALSE, file="output.csv") {
                         append =TRUE)
 					}else{
 					    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
-#~ 						print(obj$bestModifiedArea)
-#~ 						if (file !=""){
-							cat(unlist(obj$bestModifiedArea),
+							write.table(obj$bestModifiedArea,
 							file = file,
                             append =TRUE)
-#~                             }
 						}
 }
 

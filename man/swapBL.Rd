@@ -38,7 +38,7 @@ library(blepd)
 data(tree)
 data(distribution)
 swapBL(tree = tree , distribution = distribution , 
-       times = 100 , branch = "terminals")
+       nTimes = 100 , branch = "terminals")
 
 
 }
