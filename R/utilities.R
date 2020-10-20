@@ -210,7 +210,7 @@ lengthTerminals <- function (tree = tree){
 #'
 #' @title matrix2XY
 #'
-#' @description Converts a distribution object in a XY data.frame.
+#' @description Converts a distribution object into a XY data.frame.
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
 #' 
