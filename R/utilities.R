@@ -1,5 +1,5 @@
 
-## in house functions
+## In-house functions
 
 #### printing
 
@@ -121,22 +121,18 @@ PDindex <- function (tree = tree,
         
     if(index == "PD" ){
 
-    PDcalc <- pd(samp =distribution,tree = tree,include.root = root)$PD
-    
-         indexVal <- PDcalc
-        
+         indexVal <- pd(samp =distribution,tree = tree,include.root = root)$PD
+            
         }
 
    if(index == "PE" ){
        
-           PDtotal <- sum(tree$edge.length)
+           PDtotal      <-  sum(tree$edge.length)
            
-           PDcomplement <- pd(samp =!distribution,tree = tree,include.root = root)$PD
+           PDcomplement <-  pd(samp =!distribution,tree = tree,include.root = root)$PD
            
-           endemism <-  c(PDtotal - PDcomplement)
-           
-           indexVal <- endemism
-       
+           indexVal     <-  c(PDtotal - PDcomplement)
+                  
    }
 
 

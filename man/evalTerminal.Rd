@@ -28,7 +28,7 @@ evalTerminal(
 \item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier.}
 }
 \value{
-Returns a S3 object [class blepd] with all the relevant information, and depending on the results -whether there is no-change/change in area as we change the terminal branch length-, the function returns the maxPD difference for the upper/lower limit, the best Initial Area; when there is a change in the area selected, the function returns the branch length of the change, the best Initial Area, the area selected, and the actual (initial) branch length.
+Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
 }
 \description{
 The function calculates whether a change in the terminal branch length generates a change in the area selected; and when applies, the terminal branch length value for that change.
@@ -38,7 +38,8 @@ library(blepd)
 data(tree)
 data(distribution)
 evalTerminal(tree = tree , distribution = distribution , 
-tipToEval = "t1" ,  approach = "lower" , root = FALSE)
+             tipToEval = "t1" ,  approach = "lower" , 
+             root = TRUE)
 
 
 }

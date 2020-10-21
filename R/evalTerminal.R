@@ -23,7 +23,8 @@
 #' data(tree)
 #' data(distribution)
 #' evalTerminal(tree = tree , distribution = distribution , 
-#'               tipToEval = "t1" ,  approach = "lower" , root = TRUE)
+#'              tipToEval = "t1" ,  approach = "lower" , 
+#'              root = TRUE)
 #'
 #'
 #'@author Miranda-Esquivel Daniel R.
@@ -62,13 +63,13 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 
 			 numeroNombre <- which(nombres == nombre)
 			 
-			 resultadosTotales[[numeroNombre]] <- evalTerminal(tree = tree , 
-			 		                            distribution = distribution , 
-			 		                            tipToEval = nombre , 
-			 		                            approach = approach ,
-			 		                            root = root ,
-			 		                            index = index,
-			 		                            maxMultiplier = maxMultiplier )
+			 resultadosTotales[[numeroNombre]]  <-  evalTerminal(tree = tree , 
+		    	 		                            distribution = distribution , 
+			 		                                tipToEval = nombre , 
+			 		                                approach = approach ,
+			 		                                root = root ,
+			 		                                index = index ,
+			 		                                maxMultiplier = maxMultiplier )
 			}
 		
 		resultadosTotales[[numeroNombre]]$terminalEvaluated <- nombre 
@@ -101,8 +102,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
                 
         bestInitialArea <- c(.bestVal(distribution,initialPD))
-        
-                       
         
         initialLength <- round(tree$edge.length[which(.createTable(tree)[,2] %in% numberTipToEval)],4)
        
@@ -193,7 +192,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
     
         ValorPrevio    <-  9999999999
                 
-        initial        <-  initialLength+0.00001
+        initial        <-  initialLength+(initialLength/100)
         
         final          <-   maxVal
         }
@@ -269,7 +268,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          index            =   index ,
                          finalLength      =   promedio ,
-                         delta            =   round((promedio-initialLength)/initialLength*100,4)      
+                         delta            =   round((promedio-initialLength) / (initialLength*100) ,4)      
                          )
             
             class(ans) <- c("multiBlepd","EvalTerminal")                       
@@ -297,7 +296,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
                          finalLength      =   promedio ,
-                         delta            =   round((promedio-initialLength)/initialLength*100,4)                  
+                         delta            =   round((promedio-initialLength) / (initialLength*100),4)                  
                          )
       
             

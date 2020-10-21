@@ -19,7 +19,7 @@ swapBL(
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
 
-\item{model}{is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" -default, branch lengths are swapped, using the sample function-, and 3. "uniform" -branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
+\item{model}{is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" (default) - branch lengths are swapped, using the sample function-, and 3. "uniform" -branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
 
 \item{nTimes}{number of times to repeat the swap.}
 
@@ -38,7 +38,8 @@ library(blepd)
 data(tree)
 data(distribution)
 swapBL(tree = tree , distribution = distribution , 
-       nTimes = 100 , branch = "terminals")
+        model  = "allswap" , nTimes = 100 , 
+        branch = "terminals")
 
 
 }
