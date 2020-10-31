@@ -7,10 +7,10 @@
 matrix2XY(distribution = distribution)
 }
 \arguments{
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
+\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
 }
 \description{
-Converts a distribution object into a XY data.frame.
+Converts a distribution object into a XY data.frame, suitable to plot.
 }
 \examples{
 library(blepd)

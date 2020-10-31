@@ -7,7 +7,7 @@
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object. 
 #' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
+#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
 #' @param  root is boolean (default=TRUE). 
 #' @param valueAssign is a real value to place for internal and terminal branches (default=0).
 #' @param  nTimes is an integer, number of times to run the branch swapping function.

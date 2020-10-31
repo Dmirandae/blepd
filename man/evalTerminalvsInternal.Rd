@@ -17,7 +17,7 @@ evalTerminalvsInternal(
 \arguments{
 \item{tree}{is a single tree with T terminals, an APER phylo object.}
 
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).}
+\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
 
 \item{root}{is boolean (default=TRUE).}
 

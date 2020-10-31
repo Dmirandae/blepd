@@ -7,7 +7,7 @@
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object.
 #' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
+#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
 #' 
 #' @param tipToEval is the label of the terminal to evaluate. If you use "all", it will evaluate all terminals and will generate a multiBlepd object (S3).
 #' 

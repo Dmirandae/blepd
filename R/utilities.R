@@ -92,7 +92,8 @@ print.multiBlepd <- function(obj,tabular=TRUE) {
  return(allDataTable)
  }
 
-## utils check tree
+
+## utils check tree / distribution
 
 .checkInput <- function(distribution = distribution, tree = tree){
                         if ( (class(tree)!="phylo") || 
@@ -102,7 +103,7 @@ print.multiBlepd <- function(obj,tabular=TRUE) {
 												
 							return(2)
 							
-							stop("Check claass. tree and/or distribution. Mind the closing door")
+							stop("Check class. tree and/or distribution. Mind the closing door")
 							
 							}else{
 								return(1)
@@ -206,9 +207,9 @@ lengthTerminals <- function (tree = tree){
 #'
 #' @title matrix2XY
 #'
-#' @description Converts a distribution object into a XY data.frame.
+#' @description Converts a distribution object into a XY data.frame, suitable to plot.
 #' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (rows) in A areas (columns).
+#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
 #' 
 
 #' 
