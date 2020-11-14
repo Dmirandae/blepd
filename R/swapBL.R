@@ -15,9 +15,8 @@
 #' 
 #' @param branch to swap "terminals" (default) or "internals".
 #' 
-#' @param root is use.root in PD function.
+#' @param root is use.root in PD function (default = FALSE).
 #' 
-
 #' 
 #' @examples
 #' library(blepd)
@@ -32,22 +31,21 @@
 #'
 #'
 
-swapBL <- function(tree = tree , 
-                   distribution = distribution , 
-                   model  = "allswap" ,
-                   nTimes = 100 ,  
-                   root   = TRUE , 
-                   index  = "PD" ,
-                   branch = "terminals"
-                   ){
-					   
+swapBL <- function( tree = tree , 
+                    distribution = distribution , 
+                    model  = "allswap" ,
+                    nTimes = 100 ,  
+                    root   = TRUE , 
+                    index  = "PD" ,
+                    branch = "terminals"
+                    ){					   
 					  model   <- tolower(model)
 					  
 					  branch  <- tolower(branch) 
 
 ## potential errors
   
-        if(!all(colnames(distribution) %in% tree$tip.label)){
+        if( !all(colnames(distribution) %in% tree$tip.label) ){
 			stop("Check names in tree / distribution. Mind the closing door.")
 			}
         
@@ -59,12 +57,10 @@ swapBL <- function(tree = tree ,
 				stop("Check models/branch selection. Mind the closing door.")
 				}
 				
-		if(any(apply(distribution,2,sum)==1)){
+		if( any(apply(distribution,2,sum)==1) ){
 			root = TRUE
 			}		
         
-
-
 
 ## initial stuff from the initial tree
 
@@ -79,7 +75,7 @@ swapBL <- function(tree = tree ,
         terminals          <-   getTerminals(tree)
         
      
-			if (branch == "terminals") {
+			if ( branch == "terminals" ) {
 				nodos <- terminals
 				}else{
 				nodos <- !terminals

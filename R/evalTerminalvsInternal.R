@@ -1,16 +1,19 @@
 #'
 #' @title evalTerminalvsInternal
 #'
-#' @description This function tests whether the internal/terminal branch lengths impact the results.  
+#' @description This function tells the impact of a given internal/terminal branch length in the results.  
 #' 
 #' @return A list of three data.frame objects, branch swapping eval for: 1. All brach lengths set to valueAssign (default=1). 2. Only internal braches set to valueAssign (default=1). 3. Only terminal braches set to valueAssign (default=1).
 #'
 #' @param tree is a single tree with T terminals, an APER phylo object. 
 #' 
 #' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
-#' @param  root is boolean (default=TRUE). 
+#' 
+#' @param root is use.root in PD function (default=TRUE). 
+#' 
 #' @param valueAssign is a real value to place for internal and terminal branches (default=0).
-#' @param  nTimes is an integer, number of times to run the branch swapping function.
+#' 
+#' @param  nTimes is an integer, number of times to run the branch swapping function (default=100).
 #' 
 #' @examples
 #' library(blepd)
@@ -71,7 +74,6 @@ evalTerminalvsInternal <- function( tree = tree,
  
   PDvals[[3]]$evaluated <- "Internals"
   
-
 
   class(PDvals) <- "multiBlepd"
 

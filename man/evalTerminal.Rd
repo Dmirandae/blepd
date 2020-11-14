@@ -23,9 +23,9 @@ evalTerminal(
 
 \item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.}
 
-\item{root}{is use.root in PD function.}
+\item{root}{is use.root in PD function (default = FALSE).}
 
-\item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier.}
+\item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01).}
 }
 \value{
 Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.

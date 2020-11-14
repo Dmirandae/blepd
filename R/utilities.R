@@ -119,6 +119,9 @@ PDindex <- function (tree = tree,
                      root = FALSE, 
                      index= "PD", 
                      percentual = FALSE){
+						 
+	tree <- reorder(tree, order = "cladewise")
+					 
         
     if(index == "PD" ){
 
@@ -171,15 +174,15 @@ getTerminals <- function (tree = tree){
     
 
 
-lengthTerminals <- function (tree = tree){
+lengthTerminals  <- function ( tree = tree ){
 
-       terminals <- getTerminals ( tree )
+                  terminals          <-  getTerminals ( tree )
        
-       BLterminals <- NULL
+                  BLterminals        <-  NULL
        
-       BLterminals <- tree$edge.length[c(terminals)]
+                  BLterminals        <-  tree$edge.length[c(terminals)]
        
-       names(BLterminals) <- tree$tip.label
+                  names(BLterminals) <- tree$tip.label
 
   return(BLterminals)
 
@@ -219,7 +222,7 @@ lengthTerminals <- function (tree = tree){
 #' matrix2XY(distribution)
 #'
 #'
-#'@author Miranda-Esquivel Daniel R.
+#' @author Miranda-Esquivel Daniel R.
 #'
 #'
 
@@ -227,12 +230,12 @@ matrix2XY <- function(distribution = distribution){
 
 	numberAreas <-  length(row.names(distribution))
 
-	for(area in 1:numberAreas){
+	for( area in 1:numberAreas ){
 	  a1 <- names(which(distribution[area,] == 1))
 	  
 	  dfTemporal <- data.frame(Terminal=a1,Area=(replicate(length(a1),row.names(distribution)[area])))
 	  
-	if(area ==1){
+	if( area ==1 ){
 	dfFinal <- dfTemporal}else{
 	dfFinal <- rbind(dfFinal,dfTemporal)}
 	}	

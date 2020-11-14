@@ -23,7 +23,7 @@ swapBL(
 
 \item{nTimes}{number of times to repeat the swap.}
 
-\item{root}{is use.root in PD function.}
+\item{root}{is use.root in PD function (default = FALSE).}
 
 \item{branch}{to swap "terminals" (default) or "internals".}
 }

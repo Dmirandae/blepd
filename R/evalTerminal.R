@@ -13,9 +13,9 @@
 #' 
 #' @param approach is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0. 
 #' 
-#' @param maxMultiplier is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier. 
+#' @param maxMultiplier is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01). 
 #' 
-#' @param root is use.root in PD function. 
+#' @param root is use.root in PD function (default = FALSE). 
 #' 
 #' 
 #' @examples
@@ -171,12 +171,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             break("got it")
         }
                         
-        ## end of est branch of zero length or max       
+        ## end of estimate branch  zero or max. length         
     
         
         ## let's continue
         
-        ## create a divide and conquer loop 
+        ## divide and conquer loop 
         
     if (tolower(approach) == "lower"){
     
@@ -209,8 +209,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             bestModifiedArea <-  c(.bestVal(distribution,reCalculatedPD))
         
- 
-##if(debugDRME & fineDebug){cat((promedio != ValorPrevio),"|",ValorPrevio,"==",promedio,"|  init",bestInitialArea,"modif",bestModifiedArea,"||",initial,"---",final,"| val PD:",paste(reCalculatedPD,sep="__"),"\n")}
+
      
     if(round(promedio,6) != round(ValorPrevio,6)) { 
         

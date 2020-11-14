@@ -1,0 +1,31 @@
+# Collect arguments
+args <- commandArgs(TRUE)
+ 
+
+library(devtools)
+library(rmarkdown)
+
+
+##Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
+
+if(length(args) != 0) {
+  archivos <- args
+}else{archivos <- dir(pattern=".Rmd")}
+
+
+
+print(archivos)
+
+for(nombre in archivos){
+
+render(input=nombre, "all", 
+       clean=TRUE ,
+       #output_format="html_document"
+       output_format="pdf_document"
+       #output_format="latex_document"
+       )
+
+}
+
+
+q()

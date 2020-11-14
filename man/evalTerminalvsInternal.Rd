@@ -19,17 +19,17 @@ evalTerminalvsInternal(
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
 
-\item{root}{is boolean (default=TRUE).}
+\item{root}{is use.root in PD function (default=TRUE).}
 
 \item{valueAssign}{is a real value to place for internal and terminal branches (default=0).}
 
-\item{nTimes}{is an integer, number of times to run the branch swapping function.}
+\item{nTimes}{is an integer, number of times to run the branch swapping function (default=100).}
 }
 \value{
 A list of three data.frame objects, branch swapping eval for: 1. All brach lengths set to valueAssign (default=1). 2. Only internal braches set to valueAssign (default=1). 3. Only terminal braches set to valueAssign (default=1).
 }
 \description{
-This function tests whether the internal/terminal branch lengths impact the results.
+This function tells the impact of a given internal/terminal branch length in the results.
 }
 \examples{
 library(blepd)
