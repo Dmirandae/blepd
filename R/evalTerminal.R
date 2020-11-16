@@ -159,7 +159,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          index            =   index,
                          finalLength      =   promedio ,
-                         delta            =   round((promedio-initialLength)/initialLength*100,4)
+                         delta            =   round((( promedio - initialLength ) /
+                                                       initialLength ) * 100, 4)
                          )
             
             cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
@@ -267,7 +268,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          index            =   index ,
                          finalLength      =   promedio ,
-                         delta            =   round((promedio-initialLength) / (initialLength*100) ,4)      
+                         delta            =   round((( promedio-initialLength ) / 
+                                                       initialLength ) *100 ,4 )      
                          )
             
             class(ans) <- c("multiBlepd","EvalTerminal")                       
@@ -295,7 +297,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          tipToEval        =   tipToEval  , 
                          approach         =   approach  , 
                          finalLength      =   promedio ,
-                         delta            =   round((promedio-initialLength) / (initialLength*100),4)                  
+                         delta            =   round((( promedio-initialLength ) / 
+                                                       initialLength) *100,4)                  
                          )
       
             

@@ -1,12 +1,12 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data."
 author: "Daniel R. Miranda-Esquivel"
-date: "2020 - 11 - 02"
+date: "2020 - 11 - 16"
 output:
-  pdf_document:
-    latex_engine: xelatex
   html_document:
     df_print: paged
+  pdf_document:
+    latex_engine: xelatex
 bibliography: "/home/rafael/disco2/uis/proyectosDRME/indices/mainPaper/bib/blepd.bib"
 ---
 
@@ -45,7 +45,7 @@ RhinoclemmysData <- list()
 
 ## Read data
 
-## distribution is a csv file areas by terminals, labeled
+## distribution is a labeled csv file, areas by terminals 
 
 
 setwd("../data/")
@@ -53,7 +53,7 @@ setwd("../data/")
 csvFile <- dir(pattern=".csv")
 
 
-### the functions use a matrix onject for the distributions
+### the functions use a matrix object for the distributions
 
 RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
                                   stringsAsFactors=TRUE,
@@ -238,11 +238,10 @@ cowplot::plot_grid(a, b, c, nrow=3)
 
 ```
 
-The branch length histogram and the tree plot, show the internal length 
-branches are similar, nad different to terminals'; there are two longer 
+The branch length histograms and the tree plot, show the internal length 
+branches are similar, and different to terminals'; there are two longer 
 branches, _R._ _aerolata_ (inhabiting Al) and _R._ _rubida_ (Pl), while 
 Al and Cho are the richest areas.
-
 
 
 Fist we calculate the PD value for the tree, we save the values as a
@@ -274,7 +273,11 @@ print(t(sort(RhinoclemmysData$matrixPD,decreasing = TRUE)))
 
 ```
 
-Now, we test the efect of branch length swapping, terminal and internal branch lengths.
+
+The  highest PD is for area Cho, followed by Al, the two richest areas.
+
+
+Now, we test the efect of branch length on these values, swapping terminal and internal branch lengths.
 
 
 ```{r eval=TRUE, echo=TRUE}
@@ -300,27 +303,28 @@ Now, we test the efect of branch length swapping, terminal and internal branch l
 
   }
 
-```
 
+
+```
 
 The terminal branch length is critical in the decision taken, if we
 swap all terminal branch lengths (model=_allswap_), or if we replace
 them with a uniform distribution (model=_uniform_), the area selected
 might change from Cho to Al. As the terminal branch lengths are distributed
-unequally, we might suspect that the results depend heavily on the
-longest branches that inhabit the area.
+unequally, we might suspect that the results could depend  on the
+longest branches that inhabit the area Al.
 
 But first, let us see if the number of replicates has any effect.
 
 ```{r eval=TRUE, echo=TRUE}
 
-for(repetir in 1:3){
+for(repetir in 1:4){
 
-            val <- swapBL(RhinoclemmysData$tree,
-                          RhinoclemmysData$distribution,
-                          model = "allswap",
-                         branch = "terminals",
-                         nTimes = 10**repetir
+            val <- swapBL( RhinoclemmysData$tree,
+                           RhinoclemmysData$distribution,
+                           model = "allswap",
+                           branch = "terminals",
+                           nTimes = 10**repetir
                          )
                          
             print.blepd(val)
@@ -328,13 +332,13 @@ for(repetir in 1:3){
 }
 ```
 
-Roughly speaking from 1000 -- 10000 the results are alike, and the
-largest difference is in 10 --100. As a rule of thumb, we most use at
+Roughly speaking from 1000 on the results are alike, and the
+largest difference is in 10 -- 100. As a rule of thumb, we must use at
 least 100 replicates, but 1000 will be better.
 
 
 
-now, let's see if the possible difference in results could be assigned to both of our longest branches.
+now, let us see if the possible difference in results could be assigned to both of our longest branches.
 
 ```{r eval=TRUE, echo=TRUE}
 ## Testing the effect if we reduce the branch lenght form the actual
@@ -363,48 +367,7 @@ print.multiBlepd(testEvalTerminalALL)
 ```
 
 
-The area selected depends heavily in the branch length of _R._ _aerolata_ and _R._ _rubida_, if the branch length is just a little shorter, the area selected will change from area A to area B.
+The area selected depends heavily in the branch length of _R._ _nasuta_. If the terminal branch length is just a little shorter (-0.0047%), the area selected will change from Cho to Al. But, if the terminal branch length for _R._ _diademata_ and _R._ _punctuluaria_ are 0.18 or 0.12 % larger, the area selected will change from Cho to Nsa or An-As.
 
-
-To test whether internal branches have more impact than terminal branches, we can use the function evalTerminalvsInternal.
-
-
-```{r eval=TRUE, echo=TRUE}
-
-
-#~  ## calculate values
-
-terminals  <- evalTerminalvsInternal(RhinoclemmysData$tree,
-                                RhinoclemmysData$distribution,
-                                nTimes=100,
-                                branch = "terminals")
-
-internals  <- evalTerminalvsInternal(RhinoclemmysData$tree,
-                                RhinoclemmysData$distribution,
-                                nTimes=100,
-                                branch = "internals")
-
-
-for( i in 1:3 ){
-
-#    cat("name ",i,"\n")
-
-
-    cat("Evaluated:",terminals[[i]]$evaluated,"\tBranch swapped:",terminals[[i]]$branch,"\n")
-
-    print.blepd(terminals[[i]])
-
-    cat("Evaluated:",internals[[i]]$evaluated,"\tBranch swapped:",internals[[i]]$branch,"\n")
-
-    print.blepd(internals[[i]])
-
-}
-
-
-
-
-
-
-```
 
 # Literature cited

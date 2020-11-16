@@ -1,7 +1,7 @@
 #'
 #' @title evalTerminalvsInternal
 #'
-#' @description This function tells the impact of a given internal/terminal branch length in the results.  
+#' @description This function tells the impact of a given internal/terminal branch length in the results, when a fixed value is assigned to terminal or internal branch lengths.  
 #' 
 #' @return A list of three data.frame objects, branch swapping eval for: 1. All brach lengths set to valueAssign (default=1). 2. Only internal braches set to valueAssign (default=1). 3. Only terminal braches set to valueAssign (default=1).
 #'
