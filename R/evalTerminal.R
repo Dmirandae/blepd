@@ -16,6 +16,8 @@
 #' @param maxMultiplier is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01). 
 #' 
 #' @param root is use.root in PD function (default = FALSE). 
+#'
+#' @param verbose is the length of the speach (default = FALSE). 
 #' 
 #' 
 #' @examples
@@ -37,7 +39,8 @@ evalTerminal <- function(tree = tree ,
                          approach = "lower" , 
                          root = FALSE ,
                          index = "PD",
-                         maxMultiplier = 1.01 ){
+                         maxMultiplier = 1.01,
+                         verbose = FALSE  ){
 
 if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
@@ -163,13 +166,16 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                                                        initialLength ) * 100 , 4 )
                          )
             
-            cat("\nTerminal: ",tipToEval,", has NO effect on branch length == 0 or Max",sep="")
+            if (verbose){
+				cat("\nTerminal: ",tipToEval,
+				     ", has NO effect on branch length (0 or Max)",sep="")
+				 }
             
             class(ans) <- c("multiBlepd","EvalTerminal") 
                                       
             return(ans)
             
-            break("got it")
+            ## break("got it")
         }
                         
         ## end of estimate branch  zero or max. length         
@@ -277,7 +283,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             return(ans)
             
             
-            break("got it")
+            ## break("got it")
         }
         
         if ((tolower(approach) == "upper")  &
@@ -306,7 +312,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             return(ans)
             
-            break("got it")
+            ## break("got it")
             
         }else{
 			initial <- promedio

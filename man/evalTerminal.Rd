@@ -11,7 +11,8 @@ evalTerminal(
   approach = "lower",
   root = FALSE,
   index = "PD",
-  maxMultiplier = 1.01
+  maxMultiplier = 1.01,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ evalTerminal(
 \item{root}{is use.root in PD function (default = FALSE).}
 
 \item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01).}
+
+\item{verbose}{is the length of the speach (default = FALSE).}
 }
 \value{
 Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
