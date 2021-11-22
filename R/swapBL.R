@@ -13,7 +13,7 @@
 #' 
 #' @param nTimes number of times to repeat the swap.
 #' 
-#' @param branch to swap "terminals" (default) or "internals".
+#' @param branches to swap "terminals" (default), "internals", or "all".
 #' 
 #' @param root is use.root in PD function (default = FALSE).
 #' 
@@ -75,12 +75,11 @@ swapBL <- function( tree = tree ,
         terminals          <-   getTerminals(tree)
         
      
-			if ( branch == "terminals" ) {
-				nodos <- terminals
-				}else{
-				nodos <- !terminals
-				}
-
+			if ( branch == "terminals" ) {nodos <- terminals}
+			if ( branch == "internals" ) {nodos <- !terminals}
+			if ( branch == "all" )       {nodos <- terminals[1:length(terminals)] <- TRUE}
+			
+## usar tambien todas
         
 ## modified tree
 
