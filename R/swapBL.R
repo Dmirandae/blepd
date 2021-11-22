@@ -50,7 +50,7 @@ swapBL <- function( tree = tree ,
 			}
         
         if ( (model %in%  c("simpleswap","allswap","uniform")) &
-             (branch %in% c("terminals","internals"))
+             (branch %in% c("terminals","internals","all"))
            ){
 			cat("model to test",model,"reps",nTimes,"\n")
 			}else{
@@ -77,7 +77,8 @@ swapBL <- function( tree = tree ,
      
 			if ( branch == "terminals" ) {nodos <- terminals}
 			if ( branch == "internals" ) {nodos <- !terminals}
-			if ( branch == "all" )       {nodos <- terminals[1:length(terminals)] <- TRUE}
+			if ( branch == "all" )       {nodos <- terminals 
+				                          nodos[1:length(terminals)] <- TRUE}
 			
 ## usar tambien todas
         
