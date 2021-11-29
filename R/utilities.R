@@ -206,6 +206,28 @@ lengthTerminals  <- function ( tree = tree ){
 .swtch <- function(x,i,j) {x[c(i,j)] <- x[c(j,i)]; x} 
 
 
+###
+##
+###
+##
+###
+
+.getCommand <- function(x){tolower(substr(x, start = 1, stop = 2))}
+
+.findLength <- function(arbol,valor){
+
+target <- arbol$edge.length > valor
+
+long <- length(arbol$tip.label)
+
+listado <- arbol$edge[target,2]
+
+listado <- listado[listado <= long]
+
+return(arbol$tip.label[listado])
+
+}
+
 
 #'
 #' @title matrix2XY
