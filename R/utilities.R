@@ -212,9 +212,9 @@ lengthTerminals  <- function ( tree = tree ){
 ##
 ###
 
-.getCommand <- function(x){tolower(substr(x, start = 1, stop = 2))}
+getCommand <- function(x){tolower(substr(x, start = 1, stop = 2))}
 
-.findLength <- function(arbol,valor){
+findTerminalgivenLength <- function(arbol,valor){
 
 target <- arbol$edge.length > valor
 

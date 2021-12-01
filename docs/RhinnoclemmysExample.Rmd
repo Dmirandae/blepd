@@ -1,13 +1,11 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data."
 author: "Daniel R. Miranda-Esquivel"
-date: "2020 - 11 - 16"
+date: "2021 - 12 - 01"
 output:
   html_document:
     df_print: paged
-  pdf_document:
-    latex_engine: xelatex
-bibliography: "/home/rafael/disco2/uis/proyectosDRME/indices/mainPaper/bib/blepd.bib"
+bibliography: "/home/rafael/disco2/proyectosDRME/indices/paperBlepd/bib/blepd.bib"
 ---
 
 
@@ -231,18 +229,23 @@ c  <- qplot(RhinoclemmysData$tree$edge.length[!terminals],
             xlim(c(0.001,0.025)) +
             ylim(c(0,5))
 
-
 #~ 
 
 cowplot::plot_grid(a, b, c, nrow=3)
 
 ###dev.off()
 
+
+cat("Terminals, with BL larger than 0.02 = ",findTerminalgivenLength(RhinoclemmysData$tree,0.02))
+
+
+
+
 ```
 
 The branch length histograms and the tree plot, show the internal 
 length branches are similar, and different to terminals'; there are two 
-longer branches, _R._ _aerolata_ (inhabiting Al) and _R._ _rubida_ 
+longer branches (larger than 0.02), _R._ _nasuta_ (inhabiting Cho) and _R._ _rubida_ 
 (Pl), while the areas Al and Cho are the richest.
 
 
@@ -289,7 +292,7 @@ terminal and internal branch lengths, using the three available models.
 
  for( modelo in c("simpleswap","allswap","uniform") ){
 
-        for( rama in c("terminals","internals") ){
+        for( rama in c("terminals","internals","all") ){
 
             val <- swapBL(RhinoclemmysData$tree,
                           RhinoclemmysData$distribution,
@@ -298,7 +301,7 @@ terminal and internal branch lengths, using the three available models.
                )
 
          cat("\n\t Tree=",treeFiles,"\n\t Model=",modelo,
-             "\n\t Branchs swapped=",rama,"\n")
+             "\n\t Branches swapped=",rama,"\n")
 
         print.blepd(val)
 
@@ -318,7 +321,7 @@ them with a uniform distribution (model=_uniform_), the area selected
 might change from Cho to Al. 
 
 As the terminal branch lengths are distributed unequally, we might 
-suspect that the results could depend on the longest branches that 
+suspect that the results could depend on the longest branch(es) that 
 inhabit the areas Cho/Al.
 
 But first, let us see if the number of replicates has any effect.
