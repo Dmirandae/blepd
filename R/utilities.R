@@ -7,12 +7,12 @@
 print.blepd <- function(obj,tabular=FALSE) {
 	           if(!tabular) cat("\nBestInitial:")
                cat(obj$bestInitialArea)
-               if(!tabular){ cat("\n")}else{cat("\t")}
+               if(!tabular){ cat("\n") }else{ cat("\t") }
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
 					cat(obj$bestModifiedArea,"\n")
 					}else{
-					    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
+					    obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
 						print(obj$bestModifiedArea)
 						}
 }
@@ -96,8 +96,8 @@ print.multiBlepd <- function(obj,tabular=TRUE) {
 ## utils check tree / distribution
 
 .checkInput <- function(distribution = distribution, tree = tree){
-                        if ( (class(tree)!="phylo") || 
-                             (class(distribution)!="matrix") ||
+                        if ( (class(tree)!= "phylo")           || 
+                             (class(distribution) != "matrix") ||
                              (!all(colnames(distribution) == tree$tip.label))
                             ){
 												
