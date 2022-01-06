@@ -33,14 +33,15 @@
 #'
 #'
 
-evalTerminal <- function(tree = tree , 
-                         distribution = distribution , 
-                         tipToEval = "taxB" , 
-                         approach = "lower" , 
-                         root = FALSE ,
-                         index = "PD",
+evalTerminal <- function(tree          = tree , 
+                         distribution  = distribution , 
+                         tipToEval     = "taxB" , 
+                         approach      = "lower" , 
+                         root          = FALSE ,
+                         index         = "PD",
                          maxMultiplier = 1.01,
-                         verbose = FALSE  ){
+                         redondeo      = 2,
+                         verbose       = FALSE  ){
 
 if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
@@ -163,7 +164,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          index            =   index,
                          finalLength      =   promedio ,
                          delta            =   round((( promedio - initialLength ) /
-                                                       initialLength ) * 100 , 4 )
+                                                       initialLength ) * 100 , redondeo )
                          )
             
             if (verbose){
@@ -275,7 +276,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          index            =   index ,
                          finalLength      =   promedio ,
                          delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , 4 )      
+                                                       initialLength ) * 100 , redondeo )      
                          )
             
             class(ans) <- c("multiBlepd","EvalTerminal")                       
@@ -304,7 +305,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          approach         =   approach  , 
                          finalLength      =   promedio ,
                          delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , 4 )                  
+                                                       initialLength ) * 100 , redondeo )                  
                          )
       
             
