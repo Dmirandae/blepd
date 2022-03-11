@@ -10,40 +10,44 @@ print.blepd <- function(obj,tabular=FALSE) {
                if(!tabular){ cat("\n") }else{ cat("\t") }
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
-					cat(obj$bestModifiedArea,"\n")
-					}else{
-					    obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
-						print(obj$bestModifiedArea)
+			    cat(obj$bestModifiedArea,"\n")
+			}else{
+		            obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
+			    print(obj$bestModifiedArea)
 						}
 }
 
 
+##! 2022 03 11
+##! file left to "" to text whether is plausible to use write as a
+##! generic function to stdout and file
 
-write.blepd <- function(obj,tabular=FALSE, file="output.csv") {
+write.blepd <- function(obj,tabular=FALSE, file="") {
 	           if(!tabular) cat("\nBestInitial:",file=file)
                cat(obj$bestInitialArea,
                    file = file,
                    append =TRUE)
                if(!tabular){ 
-				   cat("\n",
-				   file = file,
-                   append =TRUE)
+			cat("\n",
+			file = file,
+                        append =TRUE)
                    }else{
-					   cat("\t",
-					   file = file,
-					   append =TRUE)
-					   }
+		        cat("\t",
+			file = file,
+			append =TRUE)
+                   }
+                   
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
-					cat(unlist(obj$bestModifiedArea),"\n",
-					    file = file,
-                        append =TRUE)
-					}else{
-					    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
-							write.table(obj$bestModifiedArea,
-							file = file,
-                            append =TRUE)
-						}
+			    cat(unlist(obj$bestModifiedArea),"\n",
+			        file = file,
+                                append =TRUE)
+			   }else{
+			    obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
+			    write.table(obj$bestModifiedArea,
+					file = file,
+                                        append =TRUE)
+				}
 }
 
 
@@ -111,7 +115,11 @@ print.multiBlepd <- function(obj,tabular=TRUE) {
 				}
 
 
-
+###
+##
+# PD / PE
+##
+###
 
 
 PDindex <- function (tree = tree, 
@@ -144,11 +152,11 @@ PDindex <- function (tree = tree,
 		
 		indexVal <- round((indexVal/sum(indexVal)*100),2)
 		
-		}else{
+		}
 			
          return(indexVal)
 	 
-	 }
+	 
 
   #c <- cophenetic(tree)
   #AvTD <- taxondive(comm = distribution ,

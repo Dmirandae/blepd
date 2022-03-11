@@ -1,23 +1,30 @@
 ---
-title: "An empirical example: _Rhynoclemmys_ data."
+title: "An empirical example: _Rhynoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2021 - 12 - 01"
+date: "2022/03/11"
 output:
+  pdf_document:
+    latex_engine: xelatex
   html_document:
     df_print: paged
 bibliography: "/home/rafael/disco2/proyectosDRME/indices/paperBlepd/bib/blepd.bib"
 ---
 
 
+We want to test whether the branch lengths have any effect in the 
+area(s) chosen for conservation, based on a Phylogenetic Diversity 
+(PD) analysis for the _Rhynoclemmys_ genus. The topology corresponds to 
+a Total Evidence analysis from @alarcon2020a, and the distribution is modified 
+from @le2008.
 
 
-We read the distribution and the tree.
+
+# We read the distribution and the tree
 
 
+```{r eval=TRUE, echo=TRUE}
 
-```{r eval=TRUE, echo=FALSE}
-
-## for reproductibility purposes
+## For reproductibility purposes
 
 set.seed(121)
 
@@ -46,9 +53,16 @@ RhinoclemmysData <- list()
 ## distribution is a labeled csv file, areas by terminals 
 
 
-setwd("../data/")
+#setwd("./csv/")
 
-csvFile <- dir(pattern=".csv")
+##
+
+getwd()
+
+
+csvFile <- list.files(pattern="csv")
+
+##csvFile
 
 
 ### the functions use a matrix object for the distributions
@@ -61,13 +75,15 @@ RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
                                   )
 
 
-#~ print(t(RhinoclemmysData$distribution))
+print(t(RhinoclemmysData$distribution))
 
 
 
 ## tree(s) in nexus or newick format
 
-treeFiles <- dir(pattern=".tre")
+##setwd("../tree/")
+
+treeFiles <- list.files(pattern=".tre")
 
 ##treeFiles
 
@@ -132,7 +148,7 @@ realOrder <- match(terminals,RhinoclemmysData$tree$tip.label)
 
 equivalencias <- data.frame(terminals,realOrder)
 
-dXY2 <-     distXY
+dXY2 <-  distXY
 
 for(cambiar in terminals){
 
@@ -159,9 +175,9 @@ plotDistrib <- ggplot(distGraficar,
                     y = "",
                     x = "Area") +
                theme(axis.line=element_blank(),
-					# axis.text.y=element_blank(), 
+		    			# axis.text.y=element_blank(), 
 					 axis.ticks=element_blank(), 
-					# axis.title.y=element_blank(), 
+			    		# axis.title.y=element_blank(), 
 					 legend.position="none", 
 					 panel.background=element_blank(), 
 					 panel.border=element_blank(), 
@@ -188,17 +204,9 @@ cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
 
 ```
 
-We want to test whether the branch lengths will have any effect in the 
-area(s) chosen for conservation, based on a a Phylogenetic Diversity 
-(PD) analysis for the _Rhynoclemmys_ genus. The topology corresponds to 
-a Total Evidence analysis from @alarcon2020a, and the distribution is 
-taken and modified from @le2008.
+# Now we plot the branch lengths
 
-
-
-```{r eval=TRUE, echo=FALSE}
-
-#par(mfrow=c(2,1))
+```{r eval=TRUE, echo=TRUE}
 
 
 #par(mfrow=c(2,1))
@@ -211,7 +219,7 @@ a  <- qplot(RhinoclemmysData$tree$edge.length,
             ylim(c(0,5))
 
 
-terminals <- RhinoclemmysData$tree$edge[,2] < 1+length(RhinoclemmysData$tree$tip.label)
+terminals <- RhinoclemmysData$tree$edge[,2] < 1 + length(RhinoclemmysData$tree$tip.label)
 
 
 b  <- qplot(RhinoclemmysData$tree$edge.length[terminals],
@@ -229,36 +237,39 @@ c  <- qplot(RhinoclemmysData$tree$edge.length[!terminals],
             xlim(c(0.001,0.025)) +
             ylim(c(0,5))
 
-#~ 
+## 
 
 cowplot::plot_grid(a, b, c, nrow=3)
 
+##
+#
+#cat("Terminals, with BL larger than 0.02 = ",findTerminalgivenLength(RhinoclemmysData$tree,0.02))
+#
+##
+
+
 ###dev.off()
-
-
-cat("Terminals, with BL larger than 0.02 = ",findTerminalgivenLength(RhinoclemmysData$tree,0.02))
-
-
-
 
 ```
 
-The branch length histograms and the tree plot, show the internal 
-length branches are similar, and different to terminals'; there are two 
-longer branches (larger than 0.02), _R._ _nasuta_ (inhabiting Cho) and _R._ _rubida_ 
-(Pl), while the areas Al and Cho are the richest.
+The branch length histograms and the tree plot show that the internal length 
+branches are similar among each other, and different to terminals'; there are 
+two longer branches (larger than 0.02), _R._ _nasuta_ (inhabiting Cho) and 
+_R._ _rubida_ (Pl), while the areas Al and Cho are the richest.
 
 
-Fist we calculate the PD value for the tree, we save the values as a
-table and later we convert the table to a matrix.
+# PD values
+
+First, we calculate the PD value for the areas, given this tree.
 
 
-```{r eval=TRUE, echo=FALSE}
+```{r eval=TRUE, echo=TRUE}
 
 
 RhinoclemmysData$tablePD <- PDindex(RhinoclemmysData$tree,
                                     distribution=RhinoclemmysData$distribution,
-                                    root=TRUE)
+                                    root=TRUE,
+                                    percentual = TRUE)
 
 
 
@@ -283,11 +294,13 @@ The  highest PD is for area Cho, followed by Al, the two richest areas,
 and the difference in PD value is not given by the richness but the 
 species inhabiting each area.
 
-Now, we test the effect of the branch length on the PD values, swapping 
-terminal and internal branch lengths, using the three available models.
+#Effect of branch lengths in the PD
+
+We test the effect of the branch length on the PD values by swapping 
+terminal and/or internal branch lengths, using the three available models.
 
 
-```{r eval=TRUE, echo=FALSE}
+```{r eval=TRUE, echo=TRUE}
 
 
  for( modelo in c("simpleswap","allswap","uniform") ){
@@ -300,12 +313,12 @@ terminal and internal branch lengths, using the three available models.
                          branch = rama
                )
 
-         cat("\n\t Tree=",treeFiles,"\n\t Model=",modelo,
-             "\n\t Branches swapped=",rama,"\n")
+         cat( "\n\t Tree=",treeFiles,"\n\t Model=",modelo,
+             "\n\t Branchs swapped=",rama,"\n" )
 
         print.blepd(val)
 
-         cat("\n\n\n")
+         cat( "\n\n\n" )
 
      }
 
@@ -316,25 +329,25 @@ terminal and internal branch lengths, using the three available models.
 ```
 
 The terminal branch length is critical in the decision taken, if we 
-swap all terminal branch lengths (model=_allswap_), or if we replace 
-them with a uniform distribution (model=_uniform_), the area selected 
+swap all terminal branch lengths (model= "allswap"), or if we replace 
+them with a uniform distribution (model= "uniform"), the area selected 
 might change from Cho to Al. 
 
 As the terminal branch lengths are distributed unequally, we might 
-suspect that the results could depend on the longest branch(es) that 
+suspect that the results could depend on the longest branches that 
 inhabit the areas Cho/Al.
 
-But first, let us see if the number of replicates has any effect.
+But first, we test if the number of replicates has any effect.
 
-```{r eval=TRUE, echo=FALSE}
+```{r eval=TRUE, echo=TRUE}
 
-for(repetir in 1:4){
+for(repetir in 1:5){
 
             val <- swapBL( RhinoclemmysData$tree,
                            RhinoclemmysData$distribution,
                            model = "allswap",
                            branch = "terminals",
-                           nTimes = 2**repetir
+                           nTimes = 10**repetir
                          )
                          
             print.blepd(val)
@@ -342,46 +355,45 @@ for(repetir in 1:4){
 }
 ```
 
-Roughly speaking from 1000 on the results are alike, and the largest 
+Roughly speaking, from 1000 on the results are alike, and the largest 
 difference is using 10 or 100 replicates. As a rule of thumb, we must 
 use at least 100 replicates, but 1000 will be better.
 
+Now, let us see if the possible difference in results could be assigned 
+to the longest branches.
+
+```{r eval=TRUE, echo=TRUE}
+## Testing the effect if we change the branch length from the actual
+## value to 0.0. We use evalTerminal(approach = "lower")
+
+testEvalTerminalALL <- evalTerminal( RhinoclemmysData$tree,
+                                     RhinoclemmysData$distribution,
+                                     tipToEval = "all",
+                                     approach = "lower" )
 
 
-now, let us see if the possible difference in results could be assigned 
-to both of our longest branches.
-
-```{r eval=TRUE, echo=FALSE}
-## Testing the effect if we reduce the branch lenght form the actual
-## value to 0.0 using evalTerminal {lower}
-
-testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,
-                                    RhinoclemmysData$distribution,
-                                    tipToEval = "all",
-                                    approach = "lower")
+print.multiBlepd( testEvalTerminalALL )
 
 
-print.multiBlepd(testEvalTerminalALL)
+## Testing the effect if we change the branch length from the actual
+## value to the sum of all branch lengths. We use evalTerminal(approach = "upper")
 
 
-## Testing the effect if we increase the branch lenght form the actual
-## value to the sum of all branch length using evalTerminal {upper}
+testEvalTerminalALL <- evalTerminal( RhinoclemmysData$tree,
+                                     RhinoclemmysData$distribution,
+                                     tipToEval = "all",
+                                     approach = "upper" )
 
-
-testEvalTerminalALL <- evalTerminal(RhinoclemmysData$tree,
-                                    RhinoclemmysData$distribution,
-                                    tipToEval = "all",
-                                    approach = "upper")
-
-print.multiBlepd(testEvalTerminalALL)
+print.multiBlepd( testEvalTerminalALL )
 
 ```
 
 
 The area selected depends on the branch length. If the terminal branch 
-length of _R._ _nasuta_ is -47.18% shorter, or if the terminal branch 
+length of _R._ _nasuta_ is -47.18\% shorter, or if the terminal branch 
 length is 84.95% larger for _R._ _areolata_, the area selected will 
-change from Cho to Al.
+change from Cho to Al, and if the terminal branch length of _R._ _rubida_ 
+is 61.32\% larger, the area selected will change from Cho to Pl.
 
 
 # Literature cited
