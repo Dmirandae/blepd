@@ -280,3 +280,27 @@ matrix2XY <- function(distribution = distribution){
 return(dfFinal)
 
 }
+
+
+
+findTerminalBranch <- function(arbol,terminal){
+
+	numberTerminal  <-  which(arbol$tip.label == terminal)
+
+	numberBranch    <-  which(arbol$edge[,2] == numberTerminal)
+
+
+  return(numberBranch)
+}
+
+
+
+changeBLTerminal <- function(arbol,terminal,value){
+
+	numBranch <- findTerminalBranch(arbol,terminal)
+
+	arbol$edge.length[numBranch] <- value
+
+
+  return(arbol)
+}
