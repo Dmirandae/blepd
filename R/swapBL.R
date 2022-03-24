@@ -145,7 +145,7 @@ swapBL <- function( tree = tree ,
           resultados$index             <-   index
           resultados$branch            <-   branch
         
-        class(resultados) <- "Blepd"
+        class(resultados) <- "blepd"
 
   return(resultados)
 
