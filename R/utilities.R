@@ -5,8 +5,8 @@
 
 
 print.blepd <- function(obj,tabular=FALSE) {
-	           if(!tabular) cat("\nBestInitial:")
-               cat(obj$bestInitialArea)
+	           if(!tabular) cat("\nBestInitial:",obj$bestInitialArea,"\n\tPD",
+	           c(row.names(obj$distribution)),"\n\t   ",obj$initialPD)
                if(!tabular){ cat("\n") }else{ cat("\t") }
                 ##if(!tabular) cat("Selected:\t")
                 if(tabular){
