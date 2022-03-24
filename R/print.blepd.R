@@ -15,7 +15,7 @@ print.blepd <- function(obj,tabular=FALSE, compact=FALSE) {
 						tabTemp0[1,numAreas+2] <- paste0(as.character(unlist(obj$bestModifiedArea[,2])),collapse=" / ")
 
 
-						colnames(tabTemp0) <- c(row.names(distribution),"Swap-areas","Swap-values")
+						colnames(tabTemp0) <- c(row.names(obj$distribution),"Swap-areas","Swap-values")
 
 						row.names(tabTemp0) <- ""
 

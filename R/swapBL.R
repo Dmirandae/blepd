@@ -38,7 +38,8 @@ swapBL <- function( tree = tree ,
                     root   = TRUE , 
                     index  = "PD" ,
                     branch = "terminals", 
-                    percentual = FALSE
+                    percentual = FALSE,
+                    verbose = TRUE
                     ){					   
 					
 					  model   <- tolower(model)
@@ -54,7 +55,7 @@ swapBL <- function( tree = tree ,
         if ( (model %in%  c("simpleswap","allswap","uniform")) &
              (branch %in% c("terminals","internals","all"))
            ){
-			cat("model to test",model,"reps",nTimes,"\n")
+			if( verbose ){cat("model to test",model,"reps",nTimes,"\n")}
 			}else{
 				stop("Check models/branch selection. Mind the closing door.")
 				}
