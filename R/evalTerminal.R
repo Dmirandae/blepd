@@ -309,7 +309,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          )
       
             
-            class(ans) <- c("multiBlepd","EvalTerminal")                       
+            class(ans) <- c("MultiBlepd","EvalTerminal")                       
             
             return(ans)
             

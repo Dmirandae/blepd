@@ -37,8 +37,10 @@ swapBL <- function( tree = tree ,
                     nTimes = 100 ,  
                     root   = TRUE , 
                     index  = "PD" ,
-                    branch = "terminals"
+                    branch = "terminals", 
+                    percentual = FALSE
                     ){					   
+					
 					  model   <- tolower(model)
 					  
 					  branch  <- tolower(branch) 
@@ -79,9 +81,8 @@ swapBL <- function( tree = tree ,
 			if ( branch == "internals" ) {nodos <- !terminals}
 			if ( branch == "all" )       {nodos <- terminals 
 				                          nodos[1:length(terminals)] <- TRUE}
+
 			
-## usar tambien todas
-        
 ## modified tree
 
     for(repeticiones in 1:nTimes){
@@ -144,7 +145,7 @@ swapBL <- function( tree = tree ,
           resultados$index             <-   index
           resultados$branch            <-   branch
         
-        class(resultados) <- "blepd"
+        class(resultados) <- "Blepd"
 
   return(resultados)
 

@@ -4,7 +4,26 @@
 #### printing
 
 
-print.blepd <- function(obj,tabular=FALSE) {
+print.Blepd <- function(obj,tabular=FALSE, compact=FALSE) {
+				if(compact){
+					    numAreas <- dim(t1$distribution)[1]
+
+						tabTemp0 <- data.frame(matrix(NA,1,(numAreas+2)))
+		
+						tabTemp0[1, c(1:numAreas)] <- t1$initialPD
+
+						tabTemp0[1, numAreas+1] <- paste0(as.character(unlist(t1$bestModifiedArea[,1])),collapse=" / ")
+
+						tabTemp0[1,numAreas+2] <- paste0(as.character(unlist(t1$bestModifiedArea[,2])),collapse=" / ")
+
+
+						colnames(tabTemp0) <- c(row.names(distribution),"Swap-areas","Swap-values")
+
+						row.names(tabTemp0) <- ""
+
+						return(tabTemp0)
+					}
+	
 	           if(!tabular) cat("\nBestInitial:",obj$bestInitialArea,"\n\tPD",
 	           c(row.names(obj$distribution)),"\n\t   ",obj$initialPD)
                if(!tabular){ cat("\n") }else{ cat("\t") }
@@ -21,7 +40,7 @@ print.blepd <- function(obj,tabular=FALSE) {
 ##! file left to "" to text whether is plausible to use write as a
 ##! generic function to stdout and file
 
-write.blepd <- function(obj,tabular=FALSE, file="") {
+write.Blepd <- function(obj,tabular=FALSE, file="") {
 	           if(!tabular) cat("\nBestInitial:",file=file)
                cat(obj$bestInitialArea,
                    file = file,
@@ -52,7 +71,7 @@ write.blepd <- function(obj,tabular=FALSE, file="") {
 
 
 
-print.multiBlepd <- function(obj,tabular=TRUE) {
+print.MultiBlepd <- function(obj,tabular=TRUE) {
                if(tabular) cat("\nDelta (%)\tTerminal\tInitial\tSelected\tEvaluating",obj[[1]]$approach,"\n")	
 	           
 	           for( contador in 1:length(obj) ){
