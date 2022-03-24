@@ -9,10 +9,9 @@ print.blepd <- function(obj,tabular=FALSE) {
 	           c(row.names(obj$distribution)),"\n\t   ",obj$initialPD)
                if(!tabular){ cat("\n") }else{ cat("\t") }
                 ##if(!tabular) cat("Selected:\t")
-                if(tabular){
-			    cat(obj$bestModifiedArea,"\n")
-			}else{
-		            obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
+                  if(tabular){
+			      cat(obj$bestModifiedArea,"\n")
+			      }else{obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
 			    print(obj$bestModifiedArea)
 						}
 }
