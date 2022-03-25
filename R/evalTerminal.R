@@ -17,7 +17,7 @@
 #' 
 #' @param root is use.root in PD function (default = FALSE). 
 #'
-#' @param verbose is the length of the speach (default = FALSE). 
+#' @param verbose is the length of the speech (default = FALSE). 
 #' 
 #' 
 #' @examples
@@ -150,7 +150,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			   promedio <- initialLength
 
             
-            ans <- list (maxPD            =   maxPD , 
+            ans <- list (maxPD            =   maxPD, 
                          areas            =   rownames(distribution),
                          terminals        =   colnames(distribution),
                          bestInitialArea  =   bestInitialArea, 
@@ -159,10 +159,10 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          initialPD        =   initialPD,
                          initialLength    =   initialLength,
                          root             =   root,
-                         tipToEval        =   tipToEval  , 
-                         approach         =   approach  , 
+                         tipToEval        =   tipToEval, 
+                         approach         =   approach, 
                          index            =   index,
-                         finalLength      =   promedio ,
+                         finalLength      =   promedio,
                          delta            =   round((( promedio - initialLength ) /
                                                        initialLength ) * 100 , redondeo )
                          )
@@ -271,10 +271,10 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          initialPD        =   initialPD,
                          initialLength    =   initialLength,
                          root             =   root,
-                         tipToEval        =   tipToEval  , 
-                         approach         =   approach  , 
-                         index            =   index ,
-                         finalLength      =   promedio ,
+                         tipToEval        =   tipToEval, 
+                         approach         =   approach, 
+                         index            =   index,
+                         finalLength      =   promedio,
                          delta            =   round((( promedio - initialLength ) / 
                                                        initialLength ) * 100 , redondeo )      
                          )
@@ -301,9 +301,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          initialPD        =   initialPD,
                          initialLength    =   initialLength,
                          root             =   root,
-                         tipToEval        =   tipToEval  , 
-                         approach         =   approach  , 
-                         finalLength      =   promedio ,
+                         tipToEval        =   tipToEval, 
+                         approach         =   approach, 
+                         finalLength      =   promedio,
                          delta            =   round((( promedio - initialLength ) / 
                                                        initialLength ) * 100 , redondeo )                  
                          )
