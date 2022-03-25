@@ -21,16 +21,30 @@ print.blepd <- function(obj,tabular=FALSE, compact=FALSE) {
 
 						return(tabTemp0)
 					}
-	
-	           if(!tabular) cat("\nBestInitial:",obj$bestInitialArea,"\n\tPD",
-	           c(row.names(obj$distribution)),"\n\t   ",obj$initialPD)
-               if(!tabular){ cat("\n") }else{ cat("\t") }
+
+
+               if(!tabular) cat("\nBestInitial:")
+               cat(obj$bestInitialArea)
+               if(!tabular){ cat("\n")}else{cat("\t")}
                 ##if(!tabular) cat("Selected:\t")
-                  if(tabular){
-			      cat(obj$bestModifiedArea,"\n")
-			      }else{obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
-			    print(obj$bestModifiedArea)
-						}
+                if(tabular){
+                    cat(obj$bestModifiedArea,"\n")
+                    }else{
+                        obj$bestModifiedArea$Percent <- obj$bestModifiedArea$Freq / obj$nTimes * 100
+                        print(obj$bestModifiedArea)
+                        }
+
+## re check	
+#~ 	           if(!tabular) cat("\nBestInitial:",obj$bestInitialArea,"\n\tPD",
+#~ 	           c(row.names(obj$distribution)),"\n\t   ",obj$initialPD)
+#~                if(!tabular){ cat("\n") }else{ cat("\t") }
+#~                 ##if(!tabular) cat("Selected:\t")
+#~                   if(tabular){
+#~ 			      cat(obj$bestModifiedArea,"\n")
+#~ 			      }else{obj$bestModifiedArea$Percent <- round(obj$bestModifiedArea$Freq / obj$nTimes * 100,2)
+#~ 			    print(obj$bestModifiedArea)
+#~ 						}
+
 }
 
 
