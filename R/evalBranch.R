@@ -420,7 +420,13 @@ if(is.null(numberOrden)){return("XXXXX")}
 	lista <- getDescendants(tree,numberNode) 
 
 	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
+	
+	if (numberNode > length(tree$tip.label)){
+		 pegar <- paste0("[|node number:",numberNode,"|",collapse=" ")
+	 } else{
+		 pegar <- "["
+		 }
 
-  return(paste0("[",paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",collapse=" "))
+  return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",collapse=" "))
 
 }

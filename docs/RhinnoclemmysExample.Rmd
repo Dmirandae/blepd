@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2022/03/11"
+date: "2022/04/02"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -328,6 +328,7 @@ terminal and/or internal branch lengths, using the three available models.
 
 ```
 
+
 The terminal branch length is critical in the decision taken, if we 
 swap all terminal branch lengths (model= "allswap"), or if we replace 
 them with a uniform distribution (model= "uniform"), the area selected 
@@ -341,7 +342,7 @@ But first, we test if the number of replicates has any effect.
 
 ```{r eval=TRUE, echo=TRUE}
 
-for(repetir in 1:5){
+for(repetir in 1:4){
 
             val <- swapBL( RhinoclemmysData$tree,
                            RhinoclemmysData$distribution,
@@ -359,41 +360,38 @@ Roughly speaking, from 1000 on the results are alike, and the largest
 difference is using 10 or 100 replicates. As a rule of thumb, we must 
 use at least 100 replicates, but 1000 will be better.
 
-Now, let us see if the possible difference in results could be assigned 
-to the longest branches.
+Now, let us see if the difference in results could be assigned to the longest 
+branches (or not).
 
-```{r eval=TRUE, echo=TRUE}
-## Testing the effect if we change the branch length from the actual
-## value to 0.0. We use evalTerminal(approach = "lower")
+```{r testEvalBranch, eval=TRUE, echo=TRUE}
 
-testEvalTerminalALL <- evalTerminal( RhinoclemmysData$tree,
-                                     RhinoclemmysData$distribution,
-                                     tipToEval = "all",
-                                     approach = "lower" )
+## we could use a single command (*evalBranch*)
 
+AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
+                           distribution=RhinoclemmysData$distribution,
+                           branchToEval="terminals", 
+                           approach="all")
 
-print.multiBlepd( testEvalTerminalALL )
-
-
-## Testing the effect if we change the branch length from the actual
-## value to the sum of all branch lengths. We use evalTerminal(approach = "upper")
+print.evalBranchAll(AllTerminals)
 
 
-testEvalTerminalALL <- evalTerminal( RhinoclemmysData$tree,
-                                     RhinoclemmysData$distribution,
-                                     tipToEval = "all",
-                                     approach = "upper" )
+AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
+                           distribution=RhinoclemmysData$distribution,
+                           branchToEval="internals", 
+                           approach="all")
 
-print.multiBlepd( testEvalTerminalALL )
+print.evalBranchAll(AllInternals)
+
 
 ```
 
 
-The area selected depends on the branch length. If the terminal branch 
-length of _R._ _nasuta_ is -47.18\% shorter, or if the terminal branch 
-length is 84.95% larger for _R._ _areolata_, the area selected will 
-change from Cho to Al, and if the terminal branch length of _R._ _rubida_ 
-is 61.32\% larger, the area selected will change from Cho to Pl.
+
+The area selected depends on the branch length. While the internal terminals had 
+almost no impact, if the terminal branch length of _R._ _nasuta_ is -47.18\% 
+shorter, or if the terminal branch length is 84.95% larger for _R._ _areolata_, 
+the area selected will change from Cho to Al, and if the terminal branch length 
+of _R._ _rubida_ is 61.32\% larger, the area selected will change from Cho to Pl.
 
 
 # Literature cited
