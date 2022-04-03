@@ -417,12 +417,12 @@ if(is.null(numberOrden)){return("XXXXX")}
 		
 	numberNode <- tree$edge[numberOrden,2]
 	
-	lista <- getDescendants(tree,numberNode) 
+	lista <- phytools::getDescendants(tree,numberNode) 
 
 	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
 	
 	if (numberNode > length(tree$tip.label)){
-		 pegar <- paste0("[|node number:",numberNode,"|",collapse=" ")
+		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")
 	 } else{
 		 pegar <- "["
 		 }
