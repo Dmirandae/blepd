@@ -16,6 +16,8 @@ if(compact){ branch <- strsplit(object[[x]]$branchToEval,split=":")[[1]][2]
 	}else{
 	branch <- unlist(object[[x]]$branchToEval)}
 	
+	if(is.na(branch)){branch <- unlist(object[[x]]$branchToEval)}
+	
 cat(branch,
 unlist(object[[x]]$bestInitialArea),
 unlist(object[[x]]$bestModifiedArea),
@@ -33,13 +35,15 @@ cat("\n\n")
 
 
 }
-return()
+#~ return(" ")
 }
 
 prepareOutput <- function(x,object){
 if(compact){ branch <- strsplit(object$upper[[x]]$branchToEval,split=":")[[1]][2]
 	}else{
 	branch <- unlist(object$upper[[x]]$branchToEval)}
+	
+	if(is.na(branch)){branch <- unlist(object$upper[[x]]$branchToEval)}
 	
 cat(branch,
 unlist(object$upper[[x]]$bestInitialArea),
@@ -58,7 +62,7 @@ cat(inT,"initArea","Mod-upper","Delta%","Mod-lower","Delta%\n",sep="\t")
 cat(unlist(sapply(Entries,prepareOutput,object=object0)))
 cat("\n\n")
 
-return()
+#~ return(" ")
 }
 
 
