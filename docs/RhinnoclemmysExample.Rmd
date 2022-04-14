@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2022/04/02"
+date: "2022 / 04 / 14"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -342,7 +342,7 @@ But first, we test if the number of replicates has any effect.
 
 ```{r eval=TRUE, echo=TRUE}
 
-for(repetir in 1:4){
+for(repetir in 1:2){
 
             val <- swapBL( RhinoclemmysData$tree,
                            RhinoclemmysData$distribution,
