@@ -6,11 +6,6 @@ if(!any(class(object0) %in% c("EvalBranch","EvalBranch0","EvalBranch1"))){return
 
 
 
-if(any(class(object0) == "EvalBranch1")){
-	
-	if(any(class(object0[[1]]) == "EvalBranch")){
- 
-
 prepareOutput <- function(x,object){
 if(compact){ branch <- strsplit(object[[x]]$branchToEval,split=":")[[1]][2]
 	}else{
@@ -24,6 +19,14 @@ unlist(object[[x]]$bestModifiedArea),
 unlist(object[[x]]$delta),"\n",sep="\t")
 }
 
+
+#~ if(any(names(object0) %in% c("lower","upper"))){
+
+if(any(class(object0) == "EvalBranch1")){
+	
+	if(any(class(object0[[1]]) == "EvalBranch")){
+ 
+
 	
 	Entries <- 1:length(object0)
 
@@ -33,12 +36,12 @@ cat("\nApproach:",unlist(object0[[1]]$approach),inT,"initArea","Modified","Delta
 cat(unlist(sapply(Entries,prepareOutput,object=object0)))
 cat("\n\n")
 
-
 }
+
 #~ return(" ")
 }
 
-prepareOutput <- function(x,object){
+prepareOutput2 <- function(x,object){
 if(compact){ branch <- strsplit(object$upper[[x]]$branchToEval,split=":")[[1]][2]
 	}else{
 	branch <- unlist(object$upper[[x]]$branchToEval)}
@@ -58,13 +61,11 @@ unlist(object$lower[[x]]$delta),"\n",sep="\t")
 if(compact){inT <- "\nBranchNumber"}else{inT <- "\nTerminalsInBranch"}
 
 
-cat(inT,"initArea","Mod-upper","Delta%","Mod-lower","Delta%\n",sep="\t")
-cat(unlist(sapply(Entries,prepareOutput,object=object0)))
-cat("\n\n")
+	if(any(names(object0) %in% c("lower","upper"))){
+		cat(inT,"initArea","Mod-upper","Delta%","Mod-lower","Delta%\n",sep="\t")
+		cat(unlist(sapply(Entries,prepareOutput2,object=object0)))
+		cat("\n\n")
+	}
 
 #~ return(" ")
 }
-
-
-
-
