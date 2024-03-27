@@ -12,38 +12,55 @@ evalTerminal(
   root = FALSE,
   index = "PD",
   maxMultiplier = 1.01,
+  redondeo = 2,
   verbose = FALSE
 )
 }
 \arguments{
-\item{tree}{is a single tree with T terminals, an APER phylo object.}
+\item{tree}{A phylogenetic tree object (e.g., from the `ape` package).}
 
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
+\item{distribution}{A labeled matrix object representing the distribution of}
 
-\item{tipToEval}{is the label of the terminal to evaluate. If you use "all", it will evaluate all terminals and will generate a multiBlepd object (S3).}
+\item{root}{A logical value indicating whether to use the root edge in the swapping #' process (default: TRUE).}
 
-\item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.}
+\item{verbose}{A logical value indicating whether to print progress information  during the execution (default: TRUE).}
 
-\item{root}{is use.root in PD function (default = FALSE).}
+\item{model}{The type of edge swapping to perform:
+* "simpleswap": Swaps the lengths of two randomly selected edges.
+* "allswap": Swaps the lengths of all possible edge pairs (computationally 
+* "uniform": Randomly assigns new edge lengths from a uniform distribution}
 
-\item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01).}
-
-\item{verbose}{is the length of the speach (default = FALSE).}
+\item{nTimes}{The number of repetitions to perform for the chosen swapping model.}
 }
 \value{
-Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
+A list containing the following elements:
+  * initialPD: The initial value of the chosen index (e.g., PD) calculated for the original tree.
+  * bestInitialArea: The area with the highest value in the initial PD calculation.
+  * bestModifiedArea: A data frame summarizing the results of each repetition, including the modified PD, selected area, and delta (percentage change) compared to the initial area.
+  * tree: The original tree object.
+  * distribution: The original distribution matrix.
+  * model: The model used for edge swapping.
+  * nTimes: The number of repetitions performed.
+  * root: The logical value indicating whether the root edge was included in swapping.
+  * index: The index used for evaluation (e.g., "PD").
 }
 \description{
-The function calculates whether a change in the terminal branch length generates a change in the area selected; and when applies, the terminal branch length value for that change.
+This function swaps the lengths of two edges in a phylogenetic tree and evaluates the resulting change in the selected area based on a specific index (e.g., PD). It performs multiple repetitions (nTimes) to assess the potential impact of edge length swapping on the chosen index.
 }
 \examples{
-library(blepd)
+library(blepd)  # Assuming blepd provides PDindex function
 data(tree)
 data(distribution)
-evalTerminal(tree = tree , distribution = distribution , 
-             tipToEval = "t1" ,  approach = "lower" , 
-             root = TRUE)
 
+# Run swapBL with different models
+result1 <- swapBL(tree, distribution, model = "simpleswap", nTimes = 10)
+result2 <- swapBL(tree, distribution, model = "allswap", nTimes = 10)
+result3 <- swapBL(tree, distribution, model = "uniform", nTimes = 10)
+
+# Print information from the results
+print(result1)
+print(result2)
+print(result3)
 
 }
 \author{

@@ -1,35 +1,47 @@
-#'
 #' @title swapBL
-#'
-#' @description The function calculates the effect on PD of swapping terminal branch lengths.  
-#' 
-#' @return Returns a blepd object with the frequency of each area recovered.
-#'
-#' @param tree is a single tree with T terminals, an APER phylo object.
-#' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
-#' 
-#' @param model is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" (default) -branch lengths are swapped, using the sample function-, 3. "uniform" -branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.
-#' 
-#' @param nTimes number of times to repeat the swap.
-#' 
-#' @param branches to swap "terminals" (default), "internals", or "all".
-#' 
-#' @param root is use.root in PD function (default = FALSE).
-#' 
-#' 
+
+#' @description 
+#' The function calculates the effect on PD of swapping terminal or internal branch lengths.
+
+#' @return
+#' Returns a `blepd` object containing:
+#'   * `initialPD`: The PD value of the initial tree.
+#'   * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
+#'   * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
+#'   * `tree`: The original tree object.
+#'   * `distribution`: The distribution matrix used for PD calculations.
+#'   * `model`: The type of swap performed ("simpleswap", "allswap", or "uniform").
+#'   * `nTimes`: The number of times the swap was repeated.
+#'   * `root`: Whether the root was used in PD calculations.
+#'   * `index`: The PD index used (currently always "PD").
+#'   * `branch`: The type of branches swapped ("terminals", "internals", or "all").
+
+#' @param tree A single phylogenetic tree with terminal labels, an `ape` phylo object.
+
+#' @param distribution A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).
+
+#' @param model The type of swap to be performed. Valid values are:
+#   * "simpleswap" - Two terminal branch lengths are swapped.
+#   * "allswap" (default) - Branch lengths are swapped within the specified branch type, using the `sample` function.
+#   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
+
+#' @param nTimes The number of times to repeat the swap.
+
+#' @param branch The type of branches to swap: "terminals" (default), "internals", or "all".
+
+#' @param root Whether to use the root node in PD calculations (default = FALSE).
+
+#' @param verbose Logical indicating whether to print messages during execution (default = TRUE).
+
 #' @examples
 #' library(blepd)
 #' data(tree)
 #' data(distribution)
-#' swapBL(tree = tree , distribution = distribution , 
-#'         model  = "allswap" , nTimes = 100 , 
-#'         branch = "terminals")
-#'
-#'
-#'@author Miranda-Esquivel Daniel R.
-#'
-#'
+#' swapBL(tree = tree, distribution = distribution, model = "allswap", nTimes = 100, branch = "terminals")
+
+#' @author Miranda-Esquivel Daniel R.
+
+
 
 swapBL <- function( tree = tree , 
                     distribution = distribution , 

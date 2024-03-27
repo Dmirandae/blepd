@@ -1,16 +1,15 @@
 ---
-title: "blepd README"
+title: "blepd: Branch Length Evaluation in Phylogenetic Diversity Analysis"  
 author: "D.R. Miranda Esquivel"
-date: "2022 / 04 / 04"
+date: "2024, March 27" 
 ---
 
-These functions evaluate 
+These functions evaluate:
 
-1. Whether a change in a/some branch length(s) generate(s) a change in the area(s) selected using PD; 
-and when applies, the terminal branch length value for that change.
+1. Whether a change in one or more branch lengths generates a change in the area(s) selected using PD; and when applicable, the terminal branch length value for that change.
+2. The behavior of PD when terminal or internal branch lengths are swapped using a null model.
 
-2. The behavior of PD when the terminal / internal branch lengths are swapped _via_ a null model.
+A worked example (using _Rhinnoclemmys_) can be found at [https://github.com/Dmirandae/blepd/blob/primary/docs/RhinnoclemmysExample.pdf].
 
-A worked example (_Rhinnoclemmys_) could be found at[https://github.com/Dmirandae/blepd/blob/primary/docs/RhinnoclemmysExample.pdf]
+The algorithm's description can be found at [https://github.com/Dmirandae/blepd/blob/master/docs/blepdAlgorithm.Rmd].
 
-The algorithm's description could be found at [https://github.com/Dmirandae/blepd/blob/master/docs/blepdAlgorithm.Rmd].

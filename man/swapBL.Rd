@@ -11,37 +11,47 @@ swapBL(
   nTimes = 100,
   root = TRUE,
   index = "PD",
-  branch = "terminals"
+  branch = "terminals",
+  percentual = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{tree}{is a single tree with T terminals, an APER phylo object.}
+\item{tree}{A single phylogenetic tree with terminal labels, an `ape` phylo object.}
 
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
+\item{distribution}{A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).}
 
-\item{model}{is the type of swap to be performed. Valid values are: 1. "simpleswap" -two terminal branch lengths are swapped-. 2. "allswap" (default) - branch lengths are swapped, using the sample function-, and 3. "uniform" -branch lengths are replaced by uniform distributed values; min and max values are extracted from the actual lengths-.}
+\item{model}{The type of swap to be performed. Valid values are:}
 
-\item{nTimes}{number of times to repeat the swap.}
+\item{nTimes}{The number of times to repeat the swap.}
 
-\item{root}{is use.root in PD function (default = FALSE).}
+\item{root}{Whether to use the root node in PD calculations (default = FALSE).}
 
-\item{branch}{to swap "terminals" (default) or "internals".}
+\item{branch}{The type of branches to swap: "terminals" (default), "internals", or "all".}
+
+\item{verbose}{Logical indicating whether to print messages during execution (default = TRUE).}
 }
 \value{
-Returns a blepd object with the frequency of each area recovered.
+Returns a `blepd` object containing:
+  * `initialPD`: The PD value of the initial tree.
+  * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
+  * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
+  * `tree`: The original tree object.
+  * `distribution`: The distribution matrix used for PD calculations.
+  * `model`: The type of swap performed ("simpleswap", "allswap", or "uniform").
+  * `nTimes`: The number of times the swap was repeated.
+  * `root`: Whether the root was used in PD calculations.
+  * `index`: The PD index used (currently always "PD").
+  * `branch`: The type of branches swapped ("terminals", "internals", or "all").
 }
 \description{
-The function calculates the effect on PD of swapping terminal branch lengths.
+The function calculates the effect on PD of swapping terminal or internal branch lengths.
 }
 \examples{
 library(blepd)
 data(tree)
 data(distribution)
-swapBL(tree = tree , distribution = distribution , 
-        model  = "allswap" , nTimes = 100 , 
-        branch = "terminals")
-
-
+swapBL(tree = tree, distribution = distribution, model = "allswap", nTimes = 100, branch = "terminals")
 }
 \author{
 Miranda-Esquivel Daniel R.

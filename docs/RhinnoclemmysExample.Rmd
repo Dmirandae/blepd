@@ -1,21 +1,16 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2022 / 04 / 14"
+date: "2024 / 03 / 27"
 output:
   pdf_document:
     latex_engine: xelatex
   html_document:
     df_print: paged
-bibliography: "/home/rafael/disco2/proyectosDRME/indices/paperBlepd/bib/blepd.bib"
+bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
-
-We want to test whether the branch lengths have any effect in the 
-area(s) chosen for conservation, based on a Phylogenetic Diversity 
-(PD) analysis for the _Rhynoclemmys_ genus. The topology corresponds to 
-a Total Evidence analysis from @alarcon2020a, and the distribution is modified 
-from @le2008.
+I am investigating whether branch lengths in the phylogenetic tree have any effect on the area(s) chosen for conservation. To do this, I will conduct a Phylogenetic Diversity (PD) analysis for the _Rhynoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
 
 
 
@@ -34,8 +29,15 @@ suppressMessages(library(ggtree))
 #~ library(ape)
 suppressMessages(library(blepd))
 library(ggplot2)
-#~ library(ggtree)
+#~ 
+library(ggtree) 
 
+## Just in case, to install ggtree 
+## https://bioconductor.org/packages/release/bioc/html/ggtree.html
+####
+#  if (!require("BiocManager", quietly = TRUE))
+#      install.packages("BiocManager")
+#  BiocManager::install("ggtree")
 
 ## Version
 
@@ -55,9 +57,7 @@ RhinoclemmysData <- list()
 
 #setwd("./csv/")
 
-##
-
-getwd()
+## getwd()
 
 
 csvFile <- list.files(pattern="csv")
@@ -120,12 +120,14 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
 
 
 
-##print(plotTree)
+##
+print(plotTree)
 
 
 #~ Alternatively, we can plot the trees using APE
 ##
-## plot.phylo(RhinoclemmysData$tree)
+## 
+plot.phylo(RhinoclemmysData$tree)
 ##
 ####nodelabels()
 ####tiplabels()
@@ -136,68 +138,65 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
 ## object 
 
 
-distXY <- matrix2XY(RhinoclemmysData$distribution)
+## distXY <- matrix2XY(RhinoclemmysData$distribution)
 
 
 ## We could reorder the data.frame following the names on the trees
 
+## terminals <- colnames(RhinoclemmysData$distribution)
 
-terminals <- colnames(RhinoclemmysData$distribution)
+## realOrder <- match(terminals,RhinoclemmysData$tree$tip.label)
 
-realOrder <- match(terminals,RhinoclemmysData$tree$tip.label)
+## equivalencias <- data.frame(terminals,realOrder)
 
-equivalencias <- data.frame(terminals,realOrder)
+## dXY2 <-  distXY
 
-dXY2 <-  distXY
+## for(cambiar in terminals){
+##    dXY2$Terminal[distXY$Terminal == cambiar]     <-
+##    equivalencias$realOrder[equivalencias$terminals==cambiar]
+##}
 
-for(cambiar in terminals){
-
-    dXY2$Terminal[distXY$Terminal == cambiar]     <-
-    equivalencias$realOrder[equivalencias$terminals==cambiar]
-
-}
-
-
-
-distGraficar <- distXY
+## distGraficar <- distXY
 
 #~ distGraficar <- dXY2
 
 
 ## plot using ggplot
 
-plotDistrib <- ggplot(distGraficar,
-                      aes(x= Area, y=Terminal), size =30) +
-               geom_point(shape=19, fill="white", 
-                          color="darkgrey", 
-                          size=4) +
-               labs(title = "Distribution",
-                    y = "",
-                    x = "Area") +
-               theme(axis.line=element_blank(),
-		    			# axis.text.y=element_blank(), 
-					 axis.ticks=element_blank(), 
-			    		# axis.title.y=element_blank(), 
-					 legend.position="none", 
-					 panel.background=element_blank(), 
-					 panel.border=element_blank(), 
-					 panel.grid.major=element_blank(), 
-					 panel.grid.minor=element_blank(), 
-					 plot.background=element_blank()
-					 ) 
-
+# plotDistrib <- ggplot(distGraficar,
+#                       aes(x= Area, y=Terminal), size =30) +
+#                geom_point(shape=19, fill="white", 
+#                           color="darkgrey", 
+#                           size=4) +
+#                labs(title = "Distribution",
+#                     y = "",
+#                     x = "Area") +
+#                theme(axis.line=element_blank(),
+# 		    			# axis.text.y=element_blank(), 
+# 					 axis.ticks=element_blank(), 
+# 			    		# axis.title.y=element_blank(), 
+# 					 legend.position="none", 
+# 					 panel.background=element_blank(), 
+# 					 panel.border=element_blank(), 
+# 					 panel.grid.major=element_blank(), 
+# 					 panel.grid.minor=element_blank(), 
+# 					 plot.background=element_blank()
+# 					 ) 
+# 
 
 
 
 #~ 
 
-cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
+## cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
 
-#~ plot(plotTree)
+#~ 
+plot(plotTree)
 
 #~ plot(plotDistrib)
 
-#~ print(t(RhinoclemmysData$distribution))
+#~ 
+print(t(RhinoclemmysData$distribution))
 
 
 ##dev.off()
@@ -211,7 +210,7 @@ cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
 
 #par(mfrow=c(2,1))
 
-a  <- qplot(RhinoclemmysData$tree$edge.length,
+a  <- plot(RhinoclemmysData$tree$edge.length,
             bins=12,
             main=treeFiles,
             xlab="Branch length: internals and terminals") +
@@ -222,7 +221,7 @@ a  <- qplot(RhinoclemmysData$tree$edge.length,
 terminals <- RhinoclemmysData$tree$edge[,2] < 1 + length(RhinoclemmysData$tree$tip.label)
 
 
-b  <- qplot(RhinoclemmysData$tree$edge.length[terminals],
+b  <- plot(RhinoclemmysData$tree$edge.length[terminals],
             bins=12,
             #main=treeFiles,
             xlab="Branch length: terminals")  +
@@ -230,7 +229,7 @@ b  <- qplot(RhinoclemmysData$tree$edge.length[terminals],
             ylim(c(0,5))
 
 
-c  <- qplot(RhinoclemmysData$tree$edge.length[!terminals],
+c  <- plot(RhinoclemmysData$tree$edge.length[!terminals],
             bins=12,
             #main=treeFiles,
             xlab="Branch length: internals")  +
@@ -260,14 +259,14 @@ _R._ _rubida_ (Pl), while the areas Al and Cho are the richest.
 
 # PD values
 
-First, we calculate the PD value for the areas, given this tree.
+First, I calculate the PD value for the areas, given this tree.
 
 
 ```{r eval=TRUE, echo=TRUE}
 
 
 RhinoclemmysData$tablePD <- PDindex(RhinoclemmysData$tree,
-                                    distribution=RhinoclemmysData$distribution,
+                              distribution=RhinoclemmysData$distribution,
                                     root=TRUE,
                                     percentual = TRUE)
 
@@ -285,7 +284,17 @@ colnames(RhinoclemmysData$matrixPD) <- row.names(RhinoclemmysData$distribution)
 
 row.names(RhinoclemmysData$matrixPD) <- "PD value"
 
-print(t(sort(RhinoclemmysData$matrixPD,decreasing = TRUE)))
+ new <- (t(RhinoclemmysData$matrixPD))
+
+ ## officially I am an Idiot
+ 
+values <-  new[order(new[,1])]
+names  <-  rownames(new)[order(new[,1])]
+
+print(as.data.frame(paste(names,values)))
+
+ 
+## cat("Max value is:",max(t(RhinoclemmysData$matrixPD)),"Area:",colnames(RhinoclemmysData$matrixPD)[which.max(t(RhinoclemmysData$matrixPD))])
 
 ```
 
@@ -316,7 +325,7 @@ terminal and/or internal branch lengths, using the three available models.
          cat( "\n\t Tree=",treeFiles,"\n\t Model=",modelo,
              "\n\t Branchs swapped=",rama,"\n" )
 
-        print.blepd(val)
+        printBlepd(val)
 
          cat( "\n\n\n" )
 
@@ -351,7 +360,7 @@ for(repetir in 1:2){
                            nTimes = 10**repetir
                          )
                          
-            print.blepd(val)
+            printBlepd(val)
 
 }
 ```

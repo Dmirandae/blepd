@@ -1,12 +1,15 @@
 
 #### printing
 
+# Export the function for use in other R scripts
 
-print.blepd <- function(obj,tabular=FALSE, compact=FALSE) {
+# Export the function as an S3 method
+
+printBlepd <- function(obj,tabular=FALSE, compact=FALSE) {
 				if(compact){
 					    numAreas <- dim(obj$distribution)[1]
 
-						tabTemp0 <- data.frame(matrix(NA,1,(numAreas+2)))
+						tabTemp0 <- data.frame(matrix(NA,1,( numAreas + 2 )))
 		
 						tabTemp0[1, c(1:numAreas)] <- obj$initialPD
 
@@ -42,7 +45,8 @@ print.blepd <- function(obj,tabular=FALSE, compact=FALSE) {
 ##! file left to "" to text whether is plausible to use write as a
 ##! generic function to stdout and file
 
-write.blepd <- function(obj,tabular=FALSE, file="") {
+# Export the function as an S3 method
+writeBlepd <- function(obj,tabular=FALSE, file="") {
 	           if(!tabular) cat("\nBestInitial:",file=file)
                cat(obj$bestInitialArea,
                    file = file,
@@ -69,5 +73,4 @@ write.blepd <- function(obj,tabular=FALSE, file="") {
                                         append =TRUE)
 				}
 }
-
 
