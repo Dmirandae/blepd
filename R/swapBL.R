@@ -20,10 +20,7 @@
 
 #' @param distribution A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).
 
-#' @param model The type of swap to be performed. Valid values are:
-#   * "simpleswap" - Two terminal branch lengths are swapped.
-#   * "allswap" (default) - Branch lengths are swapped within the specified branch type, using the `sample` function.
-#   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
+#' @param model The type of swap to be performed. Valid values are:   * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
 
 #' @param nTimes The number of times to repeat the swap.
 

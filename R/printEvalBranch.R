@@ -64,7 +64,7 @@ print.evalBranchAll <- function(object0, compact = TRUE) {
       inT <- if (compact) "\nBranchNumber" else "\nTerminalsInBranch"
 
       cat("\nApproach:", unlist(object0[[1]]$approach), inT, "initArea", "Modified", "Delta%\n", sep = "\t")
-      cat(unlist(sapply(Entries, prepareOutput, object = object0)), "\n\n")
+      cat(unlist(sapply(Entries, prepareOutput, object = object0)), "\n\n",  sep = "\t")
     }
   }
 
@@ -94,7 +94,7 @@ print.evalBranchAll <- function(object0, compact = TRUE) {
     inT <- if (compact) "\nBranchNumber" else "\nTerminalsInBranch"
 
     cat(inT, "initArea", "Mod-upper", "Delta%", "Mod-lower", "Delta%\n", sep = "\t")
-    cat(unlist(sapply(Entries, prepareOutput2, object = object0)), "\n\n")
+    cat(unlist(sapply(Entries, prepareOutput2, object = object0)), "\n\n", sep = "\t")
   }
 }
 

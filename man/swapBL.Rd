@@ -21,7 +21,7 @@ swapBL(
 
 \item{distribution}{A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).}
 
-\item{model}{The type of swap to be performed. Valid values are:}
+\item{model}{The type of swap to be performed. Valid values are:   * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.}
 
 \item{nTimes}{The number of times to repeat the swap.}
 
