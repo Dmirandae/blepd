@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhynoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 03 / 27"
+date: "2024 / 03 / 29"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -25,14 +25,14 @@ set.seed(121)
 
 
 options(warn=-1)
+library(ggplot2)
 suppressMessages(library(ggtree))
 #~ library(ape)
 suppressMessages(library(blepd))
-library(ggplot2)
-#~ 
-library(ggtree) 
 
-## Just in case, to install ggtree 
+#~ library(ggtree) 
+
+## Just in case, to install ggtree: 
 ## https://bioconductor.org/packages/release/bioc/html/ggtree.html
 ####
 #  if (!require("BiocManager", quietly = TRUE))
@@ -207,36 +207,45 @@ print(t(RhinoclemmysData$distribution))
 
 ```{r eval=TRUE, echo=TRUE}
 
+library(ggplot2)
 
-#par(mfrow=c(2,1))
+##par(mfrow=c(2,1))
 
-a  <- plot(RhinoclemmysData$tree$edge.length,
-            bins=12,
-            main=treeFiles,
-            xlab="Branch length: internals and terminals") +
-            xlim(c(0.001,0.025)) +
-            ylim(c(0,5))
+datos <- RhinoclemmysData$tree$edge.length
+data <- as.data.frame(datos)
+
+a <- ggplot2::ggplot(data, aes(x=datos)) +
+     geom_histogram(bins = 12) +
+     labs(title = treeFiles, x = "Branch length: internals and terminals", y = "Frequency") +
+     xlim(c(0.001, 0.025)) +
+     ylim(c(0, 5))
+  
 
 
 terminals <- RhinoclemmysData$tree$edge[,2] < 1 + length(RhinoclemmysData$tree$tip.label)
 
+datos <- RhinoclemmysData$tree$edge.length[terminals]
+data <- as.data.frame(datos)
 
-b  <- plot(RhinoclemmysData$tree$edge.length[terminals],
-            bins=12,
-            #main=treeFiles,
-            xlab="Branch length: terminals")  +
-            xlim(c(0.001,0.025)) +
-            ylim(c(0,5))
+b <- ggplot(data, aes(x=datos)) +
+  geom_histogram(bins = 12) +
+  labs(x = "Branch length: terminals", y = "Frequency") +
+  xlim(c(0.001, 0.025)) +
+  ylim(c(0, 5))
 
 
-c  <- plot(RhinoclemmysData$tree$edge.length[!terminals],
-            bins=12,
-            #main=treeFiles,
-            xlab="Branch length: internals")  +
-            xlim(c(0.001,0.025)) +
-            ylim(c(0,5))
+  
+datos <- RhinoclemmysData$tree$edge.length[!terminals]
+data <- as.data.frame(datos)
 
-## 
+c <- ggplot(data, aes(x=datos)) +
+  geom_histogram(bins = 12) +
+  labs(x = "Branch length: internals", y = "Frequency") +
+  xlim(c(0.001, 0.025)) +
+  ylim(c(0, 5))
+
+
+  ## 
 
 cowplot::plot_grid(a, b, c, nrow=3)
 
