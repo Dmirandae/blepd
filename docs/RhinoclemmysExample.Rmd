@@ -1,7 +1,7 @@
 ---
-title: "An empirical example: _Rhynoclemmys_ data"
+title: "An empirical example: _Rhinoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 03 / 29"
+date: "2024 / 05 / 02"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -10,7 +10,7 @@ output:
 bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
-I am investigating whether branch lengths in the phylogenetic tree have any effect on the area(s) chosen for conservation. To do this, I will conduct a Phylogenetic Diversity (PD) analysis for the _Rhynoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
+To evaluate the effect of branch length on the area(s) chosen for conservation.  I conducted a Phylogenetic Diversity (PD) analysis for the _Rhinoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
 
 
 
@@ -32,7 +32,7 @@ suppressMessages(library(blepd))
 
 #~ library(ggtree) 
 
-## Just in case, to install ggtree: 
+## Just in case, install ggtree. 
 ## https://bioconductor.org/packages/release/bioc/html/ggtree.html
 ####
 #  if (!require("BiocManager", quietly = TRUE))
@@ -44,26 +44,21 @@ suppressMessages(library(blepd))
 cat("Analyses made with blepd version:",unlist(packageVersion("blepd")))
 
 
-
 ## Create an object to place the distribution and the tree
 
 RhinoclemmysData <- list()
-
 
 ## Read data
 
 ## distribution is a labeled csv file, areas by terminals 
 
-
 #setwd("./csv/")
 
 ## getwd()
 
-
 csvFile <- list.files(pattern="csv")
 
-##csvFile
-
+## csvFile
 
 ### the functions use a matrix object for the distributions
 
@@ -78,7 +73,6 @@ RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
 print(t(RhinoclemmysData$distribution))
 
 
-
 ## tree(s) in nexus or newick format
 
 ##setwd("../tree/")
@@ -86,7 +80,6 @@ print(t(RhinoclemmysData$distribution))
 treeFiles <- list.files(pattern=".tre")
 
 ##treeFiles
-
 
 RhinoclemmysData$tree  <-    read.tree(treeFiles)
 
@@ -97,13 +90,9 @@ treeFiles <- gsub(".tre","",treeFiles)
 
 
 
-
-
 ## Plotting
 
-
 #par(mfrow=c(2,1))
-
 
 ## The tree
 
@@ -118,8 +107,6 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
              theme_tree2() +
              ggtitle(treeFiles[1])
 
-
-
 ##
 print(plotTree)
 
@@ -129,14 +116,13 @@ print(plotTree)
 ## 
 plot.phylo(RhinoclemmysData$tree)
 ##
+
 ####nodelabels()
 ####tiplabels()
 
 
-
 ## to plot the distribution, we must transform it into a data.frame 
 ## object 
-
 
 ## distXY <- matrix2XY(RhinoclemmysData$distribution)
 
@@ -160,7 +146,6 @@ plot.phylo(RhinoclemmysData$tree)
 
 #~ distGraficar <- dXY2
 
-
 ## plot using ggplot
 
 # plotDistrib <- ggplot(distGraficar,
@@ -182,20 +167,13 @@ plot.phylo(RhinoclemmysData$tree)
 # 					 panel.grid.minor=element_blank(), 
 # 					 plot.background=element_blank()
 # 					 ) 
-# 
-
-
-
-#~ 
-
+#  
 ## cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
-
-#~ 
+ 
 plot(plotTree)
 
 #~ plot(plotDistrib)
-
-#~ 
+ 
 print(t(RhinoclemmysData$distribution))
 
 
@@ -220,8 +198,6 @@ a <- ggplot2::ggplot(data, aes(x=datos)) +
      xlim(c(0.001, 0.025)) +
      ylim(c(0, 5))
   
-
-
 terminals <- RhinoclemmysData$tree$edge[,2] < 1 + length(RhinoclemmysData$tree$tip.label)
 
 datos <- RhinoclemmysData$tree$edge.length[terminals]
@@ -251,7 +227,8 @@ cowplot::plot_grid(a, b, c, nrow=3)
 
 ##
 #
-#cat("Terminals, with BL larger than 0.02 = ",findTerminalgivenLength(RhinoclemmysData$tree,0.02))
+#  cat("Terminals, with BL larger than 0.02 = ",
+# findTerminalgivenLength(RhinoclemmysData$tree,0.02))
 #
 ##
 
@@ -263,7 +240,7 @@ cowplot::plot_grid(a, b, c, nrow=3)
 The branch length histograms and the tree plot show that the internal length 
 branches are similar among each other, and different to terminals'; there are 
 two longer branches (larger than 0.02), _R._ _nasuta_ (inhabiting Cho) and 
-_R._ _rubida_ (Pl), while the areas Al and Cho are the richest.
+_R._ _rubida_ (Pl), whereas Al and Cho are the richest.
 
 
 # PD values
@@ -273,20 +250,16 @@ First, I calculate the PD value for the areas, given this tree.
 
 ```{r eval=TRUE, echo=TRUE}
 
-
 RhinoclemmysData$tablePD <- PDindex(RhinoclemmysData$tree,
                               distribution=RhinoclemmysData$distribution,
                                     root=TRUE,
                                     percentual = TRUE)
-
-
 
 RhinoclemmysData$matrixPD <- as.data.frame(
                                   matrix(
                                       unlist(RhinoclemmysData$tablePD),
                                       nrow= length(treeFiles),
                                       byrow=TRUE))
-
 
 
 colnames(RhinoclemmysData$matrixPD) <- row.names(RhinoclemmysData$distribution)
@@ -303,19 +276,20 @@ names  <-  rownames(new)[order(new[,1])]
 print(as.data.frame(paste(names,values)))
 
  
-## cat("Max value is:",max(t(RhinoclemmysData$matrixPD)),"Area:",colnames(RhinoclemmysData$matrixPD)[which.max(t(RhinoclemmysData$matrixPD))])
+## cat("Max value is:",max(t(RhinoclemmysData$matrixPD)),"Area:",
+## colnames(RhinoclemmysData$matrixPD)[which.max(t(RhinoclemmysData$matrixPD))])
 
 ```
 
 
 The  highest PD is for area Cho, followed by Al, the two richest areas, 
 and the difference in PD value is not given by the richness but the 
-species inhabiting each area.
+species in each region.
 
 #Effect of branch lengths in the PD
 
 We test the effect of the branch length on the PD values by swapping 
-terminal and/or internal branch lengths, using the three available models.
+terminal and/or internal branch lengths using the three available models.
 
 
 ```{r eval=TRUE, echo=TRUE}
@@ -342,21 +316,19 @@ terminal and/or internal branch lengths, using the three available models.
 
   }
 
-
-
 ```
 
 
 The terminal branch length is critical in the decision taken, if we 
 swap all terminal branch lengths (model= "allswap"), or if we replace 
 them with a uniform distribution (model= "uniform"), the area selected 
-might change from Cho to Al. 
+change from Cho to Al. 
 
 As the terminal branch lengths are distributed unequally, we might 
 suspect that the results could depend on the longest branches that 
-inhabit the areas Cho/Al.
+inhabit Cho/Al areas.
 
-But first, we test if the number of replicates has any effect.
+First, we tested whether the number of replicates had any effect.
 
 ```{r eval=TRUE, echo=TRUE}
 
@@ -375,15 +347,15 @@ for(repetir in 1:2){
 ```
 
 Roughly speaking, from 1000 on the results are alike, and the largest 
-difference is using 10 or 100 replicates. As a rule of thumb, we must 
-use at least 100 replicates, but 1000 will be better.
+The difference was the use of 10 or 100 replicates. As a rule of thumb, we must 
+use at least 100 replicates, but 1000 replicates would be better.
 
 Now, let us see if the difference in results could be assigned to the longest 
 branches (or not).
 
 ```{r testEvalBranch, eval=TRUE, echo=TRUE}
 
-## we could use a single command (*evalBranch*)
+## we can use a single command (*evalBranch*)
 
 AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
@@ -391,7 +363,6 @@ AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            approach="all")
 
 print.evalBranchAll(AllTerminals)
-
 
 AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
@@ -403,13 +374,11 @@ print.evalBranchAll(AllInternals)
 
 ```
 
-
-
-The area selected depends on the branch length. While the internal terminals had 
+The selected area depended on the branch length. While the internal terminals had 
 almost no impact, if the terminal branch length of _R._ _nasuta_ is -47.18\% 
 shorter, or if the terminal branch length is 84.95% larger for _R._ _areolata_, 
 the area selected will change from Cho to Al, and if the terminal branch length 
-of _R._ _rubida_ is 61.32\% larger, the area selected will change from Cho to Pl.
+of _R._ _rubida_ is 61.32\% larger, and the area selected changes from Cho to Pl.
 
 
 # Literature cited
