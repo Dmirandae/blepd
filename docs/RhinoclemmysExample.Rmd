@@ -30,6 +30,8 @@ suppressMessages(library(ggtree))
 #~ library(ape)
 suppressMessages(library(blepd))
 
+suppressMessages(library(phytools))
+
 #~ library(ggtree) 
 
 ## Just in case, install ggtree. 
@@ -371,7 +373,6 @@ AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
 
 print.evalBranchAll(AllInternals)
 
-
 ```
 
 The selected area depended on the branch length. While the internal terminals had 
@@ -379,6 +380,41 @@ almost no impact, if the terminal branch length of _R._ _nasuta_ is -47.18\%
 shorter, or if the terminal branch length is 84.95% larger for _R._ _areolata_, 
 the area selected will change from Cho to Al, and if the terminal branch length 
 of _R._ _rubida_ is 61.32\% larger, and the area selected changes from Cho to Pl.
+
+
+If the tree is ultrametric, the pair of sister pairs will behave alike, and the 
+difference will be given by the distribution.
+
+
+```{r testEvalBranchUltra, eval=TRUE, echo=TRUE}
+
+## now let's see the impact of ultra-metricity
+
+AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
+                           distribution=RhinoclemmysData$distribution,
+                           branchToEval="terminals", 
+                           approach="all")
+
+cat("Ultrametric tree\n")
+
+print.evalBranchAll(AllTerminalsU)
+
+
+print.evalBranchAll(AllTerminals)
+                    
+AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
+                           distribution=RhinoclemmysData$distribution,
+                           branchToEval="internals", 
+                           approach="all")
+
+print.evalBranchAll(AllInternalsU)
+
+print.evalBranchAll(AllInternals)
+
+
+
+```
+
 
 
 # Literature cited
