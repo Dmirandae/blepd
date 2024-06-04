@@ -4,7 +4,7 @@
 #' The function calculates the effect on PD of swapping terminal or internal branch lengths.
 
 #' @return
-#' Returns a `blepd` object containing:
+#' Returns a `blepd1` object containing:
 #'   * `initialPD`: The PD value of the initial tree.
 #'   * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
 #'   * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
@@ -155,7 +155,7 @@ swapBL <- function( tree = tree ,
           resultados$index             <-   index
           resultados$branch            <-   branch
         
-        class(resultados) <- "blepd"
+        class(resultados) <- "blepd1"
 
   return(resultados)
 

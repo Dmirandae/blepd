@@ -21,7 +21,7 @@ evalBranch(
 
 \item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
 
-\item{branchToEval}{is the number/name of the branch to evaluate, "terminals" or "internals" evaluate only those named, while "all", evaluates all terminals/internals and will generate a multiBlepd object (S3).}
+\item{branchToEval}{is the number/name of the branch to evaluate, "terminals" or "internals" evaluate only those named, while "all", evaluates all terminals/internals.}
 
 \item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.0, or "all" (default = "upper").}
 
@@ -35,7 +35,7 @@ evalBranch(
 Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
 }
 \description{
-The function calculates whether a change in the terminal branch length generates a change in the area selected; and when applies, the terminal branch length value for that change.
+The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change.
 }
 \examples{
 library(blepd)
