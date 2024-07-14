@@ -1,7 +1,7 @@
 ---
 title: "blepd: Branch Length Evaluation in Phylogenetic Diversity Analysis"  
 author: "D.R. Miranda Esquivel"
-date: "2024, june 03" 
+date: "2024, July 12th" 
 ---
 
 These functions evaluate:

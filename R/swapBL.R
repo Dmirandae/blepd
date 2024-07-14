@@ -48,7 +48,8 @@ swapBL <- function( tree = tree ,
                     index  = "PD" ,
                     branch = "terminals", 
                     percentual = FALSE,
-                    verbose = TRUE
+                    verbose = TRUE,
+                    compact = TRUE
                     ){					   
 					
 					  model   <- tolower(model)
@@ -147,13 +148,16 @@ swapBL <- function( tree = tree ,
           resultados$initialPD         <-   initialPD
           resultados$bestInitialArea   <-   bestInitialArea
           resultados$bestModifiedArea  <-   finaldf
-          resultados$tree              <-   tree 
-          resultados$distribution      <-   distribution  
           resultados$model             <-   model 
           resultados$nTimes            <-   nTimes 
-          resultados$root              <-   root
-          resultados$index             <-   index
           resultados$branch            <-   branch
+          
+          if (!compact){
+            resultados$tree              <-   tree 
+            resultados$root              <-   root
+            resultados$distribution      <-   distribution  
+            resultados$index             <-   index
+	      }
         
         class(resultados) <- "blepd1"
 

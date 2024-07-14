@@ -15,7 +15,7 @@
 #'
 #' @export
 printswapBL <- function(swapBL.output) {
-  # Check if the input is a valid 'blepd' analysis output (list with class "blepd")
+#~   # Check if the input is a valid 'blepd' analysis output (list with class "blepd")
   if (!is.list(swapBL.output) || !attr(swapBL.output, "class") %in% "blepd1") {
     stop("Input must be a list of class 'blepd1 (object created with swapBL)")
   }

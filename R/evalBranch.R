@@ -41,7 +41,8 @@ evalBranch   <- function(tree          = tree ,
                          index         = "PD",
                          maxMultiplier = 1.01,
                          redondeo      = 2,
-                         verbose       = FALSE  ){
+                         verbose       = FALSE,
+                         compact       = TRUE   ){
 
 
 
@@ -210,7 +211,6 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          initialLength    =   initialLength,
                          root             =   root,
                          branchToEval     =   getTerminalLabels(tree,branchToEval), 
-#~                          branchToEval     =   branchToEval, 
                          approach         =   approach, 
                          index            =   index,
                          finalLength      =   promedio,
@@ -314,28 +314,38 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             bestModifiedArea <-  c(bestValue(distribution,reCalculatedPD))
             
             
-            ans <- list (maxPD            =   maxPD , 
-                         areas            =   rownames(distribution),
-                         terminals        =   colnames(distribution),
-                         bestInitialArea  =   bestInitialArea, 
-                         bestModifiedArea =   bestModifiedArea,
-                         modifiedPD       =   modifiedPD,
-                         initialPD        =   initialPD,
-                         initialLength    =   initialLength,
-                         root             =   root,
-                         branchToEval     =   getTerminalLabels(tree,branchToEval), 
-#~                          branchToEval     =   branchToEval, 
-                         approach         =   approach, 
-                         index            =   index,
-                         finalLength      =   promedio,
-                         delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo )      
-                         )
+            ans <- list ()
             
-            class(ans) <- c("multiBlepd","EvalBranch")                       
+                         ans$maxPD            =   maxPD 
+                         ans$bestInitialArea  =   bestInitialArea
+                         ans$initialPD        =   initialPD
+                         ans$bestModifiedArea =   bestModifiedArea
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$approach         =   approach 
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         ans$delta            =   round((( promedio - initialLength ) / 
+                                                       initialLength ) * 100 , redondeo ) 
+                         
+                         
+                         if (!compact){
+                         ans$areas            =   rownames(distribution)
+                         ans$terminals        =   colnames(distribution)
+                         ans$root             =   root
+                         ans$index            =   index
+                        }
+                         
             
-            if(!is.null(ans))return(ans)
+                         
             
+#~             class(ans) <- c("multiBlepd","EvalBranch")                       
+            
+            if(!is.null(ans)){
+				return(as.data.frame(ans))
+				}
             
             ## break("got it")
         }
@@ -345,28 +355,36 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             promedio <- promedio + (promedio/100)
             
-            ans <- list (maxPD            =   maxPD , 
-                         areas            =   rownames(distribution),
-                         terminals        =   colnames(distribution),
-                         bestInitialArea  =   bestInitialArea, 
-                         bestModifiedArea =   bestModifiedArea,
-                         modifiedPD       =   modifiedPD,
-                         initialPD        =   initialPD,
-                         initialLength    =   initialLength,
-                         root             =   root,
-                         branchToEval     =   getTerminalLabels(tree,branchToEval), 
-#~                          branchToEval     =   branchToEval, 
-                         approach         =   approach,
-                         index            =   index, 
-                         finalLength      =   promedio,
-                         delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo )                  
-                         )
+                        ans <- list ()
+            
+                         ans$maxPD            =   maxPD 
+                         ans$bestInitialArea  =   bestInitialArea
+                         ans$initialPD        =   initialPD
+                         ans$bestModifiedArea =   bestModifiedArea
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$approach         =   approach 
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         ans$delta            =   round((( promedio - initialLength ) / 
+                                                       initialLength ) * 100 , redondeo ) 
+                         
+                         
+                         if (!compact){
+                         ans$areas            =   rownames(distribution)
+                         ans$terminals        =   colnames(distribution)
+                         ans$root             =   root
+                         ans$index            =   index
+                        }
       
             
-            class(ans) <- c("multiBlepd","EvalBranch")                       
+#~             class(ans) <- c("multiBlepd","EvalBranch")                       
             
-            if(!is.null(ans))return(ans)
+            if(!is.null(ans)){
+				return(as.data.frame(ans))
+				}
             
             ## break("got it")
             
@@ -386,7 +404,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
 ### for utilities
 
-## in utils chexh name 
+## in utils check name 
 
 bestValue <- function(distribution = distribution, initialVal){ 
 

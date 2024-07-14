@@ -59,7 +59,8 @@ evalTerminal <- function(tree          = tree ,
                          index         = "PD",
                          maxMultiplier = 1.01,
                          redondeo      = 2,
-                         verbose       = FALSE  ){
+                         verbose       = FALSE,
+                         compact       = TRUE  ){
 
 if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
@@ -310,20 +311,20 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             promedio <- promedio + (promedio/100)
             
-            ans <- list (maxPD            =   maxPD , 
-                         areas            =   rownames(distribution),
-                         terminals        =   colnames(distribution),
-                         bestInitialArea  =   bestInitialArea, 
-                         bestModifiedArea =   bestModifiedArea,
-                         modifiedPD       =   modifiedPD,
-                         initialPD        =   initialPD,
-                         initialLength    =   initialLength,
-                         root             =   root,
-                         tipToEval        =   tipToEval, 
+            ans <- list (tipToEval        =   tipToEval, 
                          approach         =   approach, 
+                         initialPD        =   initialPD,
+                         maxPD            =   maxPD, 
+                         modifiedPD       =   modifiedPD,
+                         initialLength    =   initialLength,
                          finalLength      =   promedio,
                          delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo )                  
+                                                       initialLength ) * 100 , redondeo ),                  
+                         bestInitialArea  =   bestInitialArea, 
+                         bestModifiedArea =   bestModifiedArea,                         
+                         areas            =   rownames(distribution),
+                         terminals        =   colnames(distribution),
+                         root             =   root
                          )
       
             
