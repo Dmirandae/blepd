@@ -82,7 +82,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 		                                maxMultiplier = maxMultiplier )			 
 			 }
 
-		class(resultadosParciales) <- c("multiBlepd","EvalBranch0")		 
+#~ 		class(resultadosParciales) <- c("multiBlepd","EvalBranch0")		 
 		
 		return(resultadosParciales)	
 	 } 
@@ -126,7 +126,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 		                                maxMultiplier = maxMultiplier )
 			}
 					 
-		class(resultadosTotales) <- c("multiBlepd","EvalBranch1")		 
+#~ 		class(resultadosTotales) <- c("multiBlepd","EvalBranch1")		 
 		
 		
 		return(resultadosTotales)		 
@@ -199,33 +199,40 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			   
             
 			   promedio <- initialLength
-			   
+			                 
+                         
+                        ans <- list ()
             
-            ans <- list (maxPD            =   maxPD, 
-                         areas            =   rownames(distribution),
-                         terminals        =   colnames(distribution),
-                         bestInitialArea  =   bestInitialArea, 
-                         bestModifiedArea =   bestModifiedArea,
-                         modifiedPD       =   modifiedPD,
-                         initialPD        =   initialPD,
-                         initialLength    =   initialLength,
-                         root             =   root,
-                         branchToEval     =   getTerminalLabels(tree,branchToEval), 
-                         approach         =   approach, 
-                         index            =   index,
-                         finalLength      =   promedio,
-                         delta            =   round((( promedio - initialLength ) /
-                                                       initialLength ) * 100 , redondeo )
-                         )
+                         ans$maxPD            =   maxPD 
+                         ans$bestInitialArea  =   bestInitialArea
+                         ans$initialPD        =   initialPD
+                         ans$bestModifiedArea =   bestModifiedArea
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$approach         =   approach 
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         ans$delta            =   round((( promedio - initialLength ) / 
+                                                       initialLength ) * 100 , redondeo ) 
+                         
+                         
+                         if (!compact){
+                         ans$areas            =   rownames(distribution)
+                         ans$terminals        =   colnames(distribution)
+                         ans$root             =   root
+                         ans$index            =   index
+                                     
             
             if (verbose){
 				cat("\nTerminal: ",branchToEval,
 				     ", has NO effect on branch length (0 or Max)",sep="")
 				 }
             
-            class(ans) <- c("multiBlepd","EvalBranch") 
+#~             class(ans) <- c("multiBlepd","EvalBranch") 
                                       
-            if(!is.null(ans))return(ans)
+            if(!is.null(ans))return(as.data.frame(ans))
             
             
             ## break("got it")
@@ -416,7 +423,7 @@ bestValue <- function(distribution = distribution, initialVal){
    resp <- paste(tmpBest,collapse="")
    }
    
-   return(resp)
+   return(as.data.frame(resp))
 }
 
 
