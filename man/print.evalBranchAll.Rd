@@ -4,7 +4,7 @@
 \alias{print.evalBranchAll}
 \title{print.evalBranchAll}
 \usage{
-\method{print}{evalBranchAll}(object0, compact = TRUE)
+\method{print}{evalBranchAll}(object0)
 }
 \arguments{
 \item{object0}{An `EvalBranch` object or a list containing `EvalBranch` objects.}

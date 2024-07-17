@@ -13,7 +13,8 @@ swapBL(
   index = "PD",
   branch = "terminals",
   percentual = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  compact = TRUE
 )
 }
 \arguments{
@@ -21,7 +22,7 @@ swapBL(
 
 \item{distribution}{A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).}
 
-\item{model}{The type of swap to be performed. Valid values are:   * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.}
+\item{model}{The type of swap to be performed. Valid values are: * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.}
 
 \item{nTimes}{The number of times to repeat the swap.}
 
@@ -32,7 +33,7 @@ swapBL(
 \item{verbose}{Logical indicating whether to print messages during execution (default = TRUE).}
 }
 \value{
-Returns a `blepd` object containing:
+Returns an object containing:
   * `initialPD`: The PD value of the initial tree.
   * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
   * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
@@ -45,7 +46,7 @@ Returns a `blepd` object containing:
   * `branch`: The type of branches swapped ("terminals", "internals", or "all").
 }
 \description{
-The function calculates the effect on PD of swapping terminal or internal branch lengths.
+The function calculates the effect on PD of swapping terminal and/or internal branch lengths.
 }
 \examples{
 library(blepd)

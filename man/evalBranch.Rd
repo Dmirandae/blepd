@@ -13,7 +13,8 @@ evalBranch(
   index = "PD",
   maxMultiplier = 1.01,
   redondeo = 2,
-  verbose = FALSE
+  verbose = FALSE,
+  compact = TRUE
 )
 }
 \arguments{
