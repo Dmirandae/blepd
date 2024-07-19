@@ -42,9 +42,8 @@ evalBranch   <- function(tree          = tree ,
                          maxMultiplier = 1.01,
                          redondeo      = 2,
                          verbose       = FALSE,
-                         compact       = TRUE   ){
-
-
+                         compact       = TRUE,
+                         printNames = FALSE){
 
 ## potential errors
 
@@ -203,7 +202,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          
                         ans <- list () ## rev
             
-                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$branchToEval     =   getTerminalLabels(tree,
+                                                                    branchToEval,
+                                                                    printNames = FALSE)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
@@ -329,7 +330,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
         ans <- list () ## rev
             
-                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$branchToEval     =   getTerminalLabels(tree,
+                                                                    branchToEval,
+                                                                    printNames = FALSE)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
@@ -375,7 +378,9 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
              ans <- list () ##rev
             
-                         ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         ans$branchToEval     =   getTerminalLabels(tree,
+                                                                    branchToEval,
+                                                                    printNames = FALSE)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
