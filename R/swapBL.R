@@ -1,10 +1,10 @@
 #' @title swapBL
 
 #' @description 
-#' The function calculates the effect on PD of swapping terminal or internal branch lengths.
+#' The function calculates the effect on PD of swapping terminal and/or internal branch lengths.
 
 #' @return
-#' Returns a `blepd1` object containing:
+#' Returns an object containing:
 #'   * `initialPD`: The PD value of the initial tree.
 #'   * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
 #'   * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
@@ -20,7 +20,7 @@
 
 #' @param distribution A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).
 
-#' @param model The type of swap to be performed. Valid values are:   * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
+#' @param model The type of swap to be performed. Valid values are: * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
 
 #' @param nTimes The number of times to repeat the swap.
 

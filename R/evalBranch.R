@@ -201,28 +201,34 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			   promedio <- initialLength
 			                 
                          
-                        ans <- list ()
+                        ans <- list () ## rev
             
-                         ans$maxPD            =   maxPD 
-                         ans$bestInitialArea  =   bestInitialArea
-                         ans$initialPD        =   initialPD
-                         ans$bestModifiedArea =   bestModifiedArea
-                         ans$modifiedPD       =   modifiedPD
-                         
                          ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         
+                         ans$bestInitialArea  =   bestInitialArea
+                         
+                         ans$bestModifiedArea =   bestModifiedArea
+                         
                          ans$approach         =   approach 
                          
-                         ans$initialLength    =   initialLength
-                         ans$finalLength      =   promedio
                          ans$delta            =   round((( promedio - initialLength ) / 
                                                        initialLength ) * 100 , redondeo ) 
                          
                          
                          if (!compact){
+						 ans$maxPD            =   maxPD 
+                         ans$initialPD        =   initialPD
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         
+							 
                          ans$areas            =   rownames(distribution)
                          ans$terminals        =   colnames(distribution)
                          ans$root             =   root
                          ans$index            =   index
+					 }
                                      
             
             if (verbose){
@@ -321,29 +327,34 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             bestModifiedArea <-  c(bestValue(distribution,reCalculatedPD))
             
             
-            ans <- list ()
+        ans <- list () ## rev
             
-                         ans$maxPD            =   maxPD 
-                         ans$bestInitialArea  =   bestInitialArea
-                         ans$initialPD        =   initialPD
-                         ans$bestModifiedArea =   bestModifiedArea
-                         ans$modifiedPD       =   modifiedPD
-                         
                          ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         
+                         ans$bestInitialArea  =   bestInitialArea
+                         
+                         ans$bestModifiedArea =   bestModifiedArea
+                         
                          ans$approach         =   approach 
                          
-                         ans$initialLength    =   initialLength
-                         ans$finalLength      =   promedio
                          ans$delta            =   round((( promedio - initialLength ) / 
                                                        initialLength ) * 100 , redondeo ) 
                          
                          
                          if (!compact){
+						 ans$maxPD            =   maxPD 
+                         ans$initialPD        =   initialPD
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         
+							 
                          ans$areas            =   rownames(distribution)
                          ans$terminals        =   colnames(distribution)
                          ans$root             =   root
                          ans$index            =   index
-                        }
+					 }
                          
             
                          
@@ -362,29 +373,34 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
             promedio <- promedio + (promedio/100)
             
-                        ans <- list ()
+             ans <- list () ##rev
             
-                         ans$maxPD            =   maxPD 
-                         ans$bestInitialArea  =   bestInitialArea
-                         ans$initialPD        =   initialPD
-                         ans$bestModifiedArea =   bestModifiedArea
-                         ans$modifiedPD       =   modifiedPD
-                         
                          ans$branchToEval     =   getTerminalLabels(tree,branchToEval)
+                         
+                         ans$bestInitialArea  =   bestInitialArea
+                         
+                         ans$bestModifiedArea =   bestModifiedArea
+                         
                          ans$approach         =   approach 
                          
-                         ans$initialLength    =   initialLength
-                         ans$finalLength      =   promedio
                          ans$delta            =   round((( promedio - initialLength ) / 
                                                        initialLength ) * 100 , redondeo ) 
                          
                          
                          if (!compact){
+						 ans$maxPD            =   maxPD 
+                         ans$initialPD        =   initialPD
+                         ans$modifiedPD       =   modifiedPD
+                         
+                         ans$initialLength    =   initialLength
+                         ans$finalLength      =   promedio
+                         
+							 
                          ans$areas            =   rownames(distribution)
                          ans$terminals        =   colnames(distribution)
                          ans$root             =   root
                          ans$index            =   index
-                        }
+					 }
       
             
 #~             class(ans) <- c("multiBlepd","EvalBranch")                       
@@ -432,9 +448,9 @@ bestValue <- function(distribution = distribution, initialVal){
 
 
 
-getTerminalLabels <- function( tree, numberOrden ){
+getTerminalLabels <- function( tree, numberOrden, printNames = FALSE ){
 
-library(phytools)
+#~ library(phytools)
 		
 if(is.na(numberOrden)){return("XXXXX")}
 
@@ -442,6 +458,7 @@ if(is.null(numberOrden)){return("XXXXX")}
 		
 	numberNode <- tree$edge[numberOrden,2]
 	
+	if (printNames){
 	lista <- phytools::getDescendants(tree,numberNode) 
 
 	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
@@ -452,6 +469,16 @@ if(is.null(numberOrden)){return("XXXXX")}
 		 pegar <- "["
 		 }
 
-  return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",collapse=" "))
+  return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",
+               collapse=" "))
+     }else{
+		 
+		 numberNode
+		 
+		 return(numberNode)
+		 
+		 }
+## Revisar para nombres largos
+
 
 }
