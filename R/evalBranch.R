@@ -43,7 +43,7 @@ evalBranch   <- function(tree          = tree ,
                          redondeo      = 2,
                          verbose       = FALSE,
                          compact       = TRUE,
-                         printNames = FALSE){
+                         printNames    = FALSE){
 
 ## potential errors
 
@@ -204,7 +204,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
                          ans$branchToEval     =   getTerminalLabels(tree,
                                                                     branchToEval,
-                                                                    printNames = FALSE)
+                                                                    printNames)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
@@ -332,7 +332,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
                          ans$branchToEval     =   getTerminalLabels(tree,
                                                                     branchToEval,
-                                                                    printNames = FALSE)
+                                                                    printNames)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
@@ -380,7 +380,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
                          ans$branchToEval     =   getTerminalLabels(tree,
                                                                     branchToEval,
-                                                                    printNames = FALSE)
+                                                                    printNames)
                          
                          ans$bestInitialArea  =   bestInitialArea
                          
@@ -453,7 +453,7 @@ bestValue <- function(distribution = distribution, initialVal){
 
 
 
-getTerminalLabels <- function( tree, numberOrden, printNames = FALSE ){
+getTerminalLabels <- function(tree, numberOrden, printNames){
 
 #~ library(phytools)
 		

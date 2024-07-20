@@ -45,6 +45,10 @@ printEvalBranch <- function(objectToPrint, compact = TRUE) {
 
   colnames(salida) <- c("node","initialArea","FinalArea","Aproach","%Delta")
 
+  salida <- salida[!is.na(as.numeric(salida$"%Delta")),]
+
+
+
   if(compact){
 	  
 	  salida <- salida[as.numeric(salida$"%Delta") !=  0,]
