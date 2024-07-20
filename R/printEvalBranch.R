@@ -1,4 +1,4 @@
-#' @title print.evalBranchAll
+#' @title printevalBranch
 #' 
 #' @description
 #' Prints information from an `EvalBranch` object or a list containing 
@@ -33,70 +33,25 @@
 
 
 
-print.evalBranchAll <- function(object0, compact = TRUE) {
+printEvalBranch <- function(objectToPrint, compact = TRUE) {
 
-  # Check object class
-  if (!any(class(object0) %in% c("EvalBranch", "EvalBranch0", "EvalBranch1"))) {
-    return(print("Wrong class, object must be EvalBranch"))
-  }
+#~   # Check object class
+#~   if (!any(class(object0) %in% c("EvalBranch", "EvalBranch0", "EvalBranch1"))) {
+#~     return(print("Wrong class, object must be EvalBranch"))
+#~   }
+ 
 
+  salida <- as.data.frame(matrix(unlist(objectToPrint), ncol=5, byrow = T))
 
+  colnames(salida) <- c("node","initialArea","FinalArea","Aproach","%Delta")
 
-  # Helper function to prepare output based on compactness
-  prepareOutput <- function(x, object) {
-    branch <- if (compact) {
-      strsplit(object[[x]]$branchToEval, split = ":")[[1]][2]
-    } else {
-      unlist(object[[x]]$branchToEval)
-    }
-    cat(branch,
-         unlist(object[[x]]$bestInitialArea),
-         unlist(object[[x]]$bestModifiedArea),
-         unlist(object[[x]]$delta), "\n", sep = "\t")
+  if(compact){
+	  
+	  salida <- salida[as.numeric(salida$"%Delta") !=  0,]
+	  
+	  }
+
+  return(salida)
+
 }
-
-
-
- # Print information for single EvalBranch object
-  if (any(class(object0) == "EvalBranch1")) {
-    if (any(class(object0[[1]]) == "EvalBranch")) {
-      Entries <- 1:length(object0)
-      inT <- if (compact) "\nBranchNumber" else "\nTerminalsInBranch"
-
-      cat("\nApproach:", unlist(object0[[1]]$approach), inT, "initArea", "Modified", "Delta%\n", sep = "\t")
-      cat(unlist(sapply(Entries, prepareOutput, object = object0)), "\n\n",  sep = "\t")
-    }
-  }
-
-
-
-  # Helper function to prepare output for list of EvalBranch objects with upper/lower branches
-  prepareOutput2 <- function(x, object) {
-    branch <- if (compact) {
-      strsplit(object$upper[[x]]$branchToEval, split = ":")[[1]][2]
-    } else {
-      unlist(object$upper[[x]]$branchToEval)
-    }
-    cat(branch,
-         unlist(object$upper[[x]]$bestInitialArea),
-         unlist(object$upper[[x]]$bestModifiedArea),
-         unlist(object$upper[[x]]$delta),
-         unlist(object$lower[[x]]$bestModifiedArea),
-         unlist(object$lower[[x]]$delta), "\n", sep = "\t")
-  }
-
-	
-
-
-  # Print information for list of EvalBranch objects with upper/lower branches
-  if (any(names(object0) %in% c("lower", "upper"))) {
-    Entries <- 1:length(object0$lower)
-    inT <- if (compact) "\nBranchNumber" else "\nTerminalsInBranch"
-
-    cat(inT, "initArea", "Mod-upper", "Delta%", "Mod-lower", "Delta%\n", sep = "\t")
-    cat(unlist(sapply(Entries, prepareOutput2, object = object0)), "\n\n", sep = "\t")
-  }
-}
-
-
 

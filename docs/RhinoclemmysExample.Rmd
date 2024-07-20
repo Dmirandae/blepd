@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhinoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 05 / 02"
+date: "2024 / 07 / 20"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -10,11 +10,11 @@ output:
 bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
-To evaluate the effect of branch length on the area(s) chosen for conservation.  I conducted a Phylogenetic Diversity (PD) analysis for the _Rhinoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
+To evaluate the effect of branch length on the area(s) chosen for conservation, I conduct a Phylogenetic Diversity (PD) analysis for the _Rhinoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
 
 
 
-# We read the distribution and the tree
+# Read the data: the distribution, and the tree
 
 
 ```{r eval=TRUE, echo=TRUE}
@@ -33,9 +33,11 @@ suppressMessages(library(blepd))
 suppressMessages(library(phytools))
 
 #~ library(ggtree) 
-
-## Just in case, install ggtree. 
-## https://bioconductor.org/packages/release/bioc/html/ggtree.html
+##
+## Just in case, if you want to install ggtree. 
+##
+### https://bioconductor.org/packages/release/bioc/html/ggtree.html
+##
 ####
 #  if (!require("BiocManager", quietly = TRUE))
 #      install.packages("BiocManager")
@@ -109,14 +111,19 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
              theme_tree2() +
              ggtitle(treeFiles[1])
 
+
 ##
+
 print(plotTree)
 
 
 #~ Alternatively, we can plot the trees using APE
+
 ##
 ## 
+
 plot.phylo(RhinoclemmysData$tree)
+
 ##
 
 ####nodelabels()
@@ -364,14 +371,14 @@ AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            branchToEval="terminals", 
                            approach="all")
 
-print.evalBranchAll(AllTerminals)
+printEvalBranch(AllTerminals)
 
 AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
                            approach="all")
 
-print.evalBranchAll(AllInternals)
+printEvalBranch(AllInternals)
 
 ```
 
@@ -397,19 +404,19 @@ AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
 
 cat("Ultrametric tree\n")
 
-print.evalBranchAll(AllTerminalsU)
+printEvalBranch(AllTerminalsU)
 
 
-print.evalBranchAll(AllTerminals)
+printEvalBranch(AllTerminals)
                     
 AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
                            approach="all")
 
-print.evalBranchAll(AllInternalsU)
+printEvalBranch(AllInternalsU)
 
-print.evalBranchAll(AllInternals)
+printEvalBranch(AllInternals)
 
 
 
