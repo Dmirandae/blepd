@@ -453,9 +453,9 @@ bestValue <- function(distribution = distribution, initialVal){
 
 
 
-getTerminalLabels <- function(tree, numberOrden, printNames){
+getTerminalLabels <- function(tree, numberOrden, printNames=TRUE){
 
-#~ library(phytools)
+library(phytools)
 		
 if(is.na(numberOrden)){return("XXXXX")}
 
@@ -463,26 +463,23 @@ if(is.null(numberOrden)){return("XXXXX")}
 		
 	numberNode <- tree$edge[numberOrden,2]
 	
-	if (printNames){
+#~ 	if (printNames){
 	lista <- phytools::getDescendants(tree,numberNode) 
 
 	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
 	
 	if (numberNode > length(tree$tip.label)){
 		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")
-	 } else{
+	 }else{
 		 pegar <- "["
 		 }
 
-  return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",
-               collapse=" "))
-     }else{
+        return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]|",numberNode, collapse=" "))
+#~      }else{
 		 
-		 numberNode
+#~ 		 return(numberNode)
 		 
-		 return(numberNode)
-		 
-		 }
+#~ 		 }
 ## Revisar para nombres largos
 
 

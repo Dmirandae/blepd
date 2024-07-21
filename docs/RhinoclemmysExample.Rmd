@@ -369,14 +369,16 @@ branches (or not).
 AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
-                           approach="all")
+                           approach="all",
+                           printNames=TRUE)
 
 printEvalBranch(AllTerminals)
 
 AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
-                           approach="all")
+                           approach="all",
+                           printNames=TRUE)
 
 printEvalBranch(AllInternals)
 
@@ -400,7 +402,8 @@ difference will be given by the distribution.
 AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
-                           approach="all")
+                           approach="all",
+                           printNames=TRUE)
 
 cat("Ultrametric tree\n")
 
@@ -412,7 +415,8 @@ printEvalBranch(AllTerminals)
 AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
-                           approach="all")
+                           approach="all",
+                           printNames=TRUE)
 
 printEvalBranch(AllInternalsU)
 
