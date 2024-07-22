@@ -39,7 +39,7 @@ evalBranch   <- function(tree          = tree ,
                          approach      = "lower" , 
                          root          = FALSE ,
                          index         = "PD",
-                         maxMultiplier = 1.01,
+                         maxMultiplier = 1.001,
                          redondeo      = 2,
                          verbose       = FALSE,
                          compact       = TRUE,
@@ -144,7 +144,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                               root = root, 
                               index = index )
                               
-        initialLength <- round(tree$edge.length[branchToEval],4)
+        initialLength <- round(tree$edge.length[branchToEval],redondeo)
        
         
 #~         initialPD[is.na(initialPD)] <-   0.0
@@ -152,7 +152,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                 
         bestInitialArea <- c(bestValue(distribution,initialPD))
         
-        initialLength <- round(tree$edge.length[branchToEval],4)
+        initialLength <- round(tree$edge.length[branchToEval],redondeo)
        
         initialTreeLength <- tree$edge.length
         
@@ -176,7 +176,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                 
         if (tolower(approach) %in% c("upper") ){
 			
-			maxVal <- maxMultiplier * round(totalTreeLength,6)
+			maxVal <- maxMultiplier * round(totalTreeLength,redondeo)
 			
 			newTree$edge.length[branchToEval] <-  maxVal
                         
@@ -266,7 +266,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
     
         ValorPrevio    <-  9999999999
                 
-        initial        <-  initialLength+(initialLength/100)
+        initial        <-  initialLength+(initialLength/1000)
         
         final          <-   maxVal
         }
@@ -285,7 +285,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
 
      
-    if(round(promedio,6) != round(ValorPrevio,6)) { 
+    if(round(promedio,redondeo) != round(ValorPrevio,redondeo)) { 
         
         ValorPrevio <- promedio
         
