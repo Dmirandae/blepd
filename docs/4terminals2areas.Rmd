@@ -194,7 +194,7 @@ AllTerminals <- evalBranch(tree=initialTree,
                           branchToEval="internals", 
                            approach="all")
 
-printEvalBranch(AllTerminals)
+printEvalBranch(AllTerminals, compact=FALSE)
 
 
 AllInternals <- evalBranch(tree=initialTree,
