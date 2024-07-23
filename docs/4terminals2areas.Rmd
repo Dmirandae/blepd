@@ -1,17 +1,18 @@
 ---
+title: "An empirical example: Four terminals and two areas"
+author: "Daniel R. Miranda-Esquivel"
+date: "2024 / 07 / 22"
 output:
-  pdf_document: default
-
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
-"2024 - 07 -20"
-
+```{r eval=TRUE, echo=TRUE}
 # Four taxa and two areas
 
-
-Now, we load the data included in the package: tree and distribution.
-
-```{r}
 
 ## Libraries
 
@@ -59,9 +60,9 @@ distXY
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
                     color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=6, color="black") +
+             geom_tiplab(size=5, color="black") +
              theme_tree2() +
-             ggtitle("Four terminals, equal branch length")
+             ggtitle("Four terminals, all branches are == 1")
 
 
 ##
@@ -74,7 +75,7 @@ print(plotTree)
 
 plotDistrib <- ggplot(data=distXY,
                       aes(x= Area, y= Terminal , size =150))    +
-               geom_point()                                     +
+               geom_point()       +
                theme_bw()                                       +
                theme( axis.text.y = element_blank(),
                       panel.grid.major = element_blank(),  # Remove major gridlines
@@ -93,21 +94,18 @@ print(plotDistrib)
 
 cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 
-```
 
-We check whether names in both objects: initialTree and dist4taxa, are the same.
 
-```{r}
+#We check whether names in both objects: initialTree and dist4taxa, are the same.
+
 
 ##all(colnames(dist4taxa) == initialTree$tip.label)
 
 all(colnames(dist4taxa) %in% initialTree$tip.label)
 
-```
 
-We report the branch length, and calculate the PD values.
+#We report the branch length, and calculate the PD values.
 
-```{r}
 
 initialTree$edge.length
 
@@ -115,16 +113,16 @@ initialPD <- PDindex(tree=initialTree, distribution = dist4taxa)
 
 initialPD
 
-```
-
-As expected there is a tie between both areas.
 
 
-Now, we can see the impact of the posible null model(s), we will use the three
-available models to swap: "simpleswap","allswap","uniform", and we will swap the
-three classes of branches: "terminals","internals","all".
+#As expected there is a tie between both areas.
 
-```{r eval=TRUE, echo=TRUE}
+
+#Now, we can see the impact of swapping the branch lengths; we will use the three
+#available models to swap: "simpleswap","allswap","uniform", and we will swap the
+#three classes of branches: "terminals","internals","all".
+
+
 
 ?swapBL
 
@@ -151,19 +149,13 @@ three classes of branches: "terminals","internals","all".
 
 
 
-```
-
-As expected, as all braches are EQUAL nothing happens
 
 
-Now, let us see if the results could be assigned to the longest branches (or
-not).
-
-```{r testEvalBranch02, eval=TRUE, echo=TRUE}
+#As expected, as all braches are EQUAL nothing happens
 
 
-## this is?
-## source("/home/rafael/disco2/proyectosDRME/indices/blepd/docs/print00.r")
+#Now, let us see if the results could be assigned to the longest branches (or not).
+
 
 
 ## we could use a single command (*evalBranch*)
@@ -176,37 +168,473 @@ AllTerminals <- evalBranch(tree=initialTree,
                           branchToEval="terminals", 
                            approach="all")
 
+
+## let's see the structure of the output
+
 str(AllTerminals)
 
-
-#### so far so good
-
-## this part below is strange
-
-##############################################################
+## Now we can print a far more friendly output
 
 
+printEvalBranch(AllTerminals, compact=FALSE)
 
-printEvalBranch(AllTerminals)
+## Now the internals
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
                           branchToEval="internals", 
                            approach="all")
 
+
 printEvalBranch(AllTerminals, compact=FALSE)
 
 
-AllInternals <- evalBranch(tree=initialTree,
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
                           branchToEval="all", 
                            approach="all")
 
-printEvalBranch(AllInternals)
 
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
+
+
+initialTree <- tree
+
+initialTree$edge.length[1] <- 5
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 5")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
+
+
+initialTree <- tree
+
+initialTree$edge.length[1] <- 10
+
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 10")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
+
+
+
+initialTree <- tree
+
+initialTree$edge.length[1] <- 0.1
+
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 0.1")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch in brach 2
+
+
+#now with a longer branch
+
+
+initialTree <- tree
+
+initialTree$edge.length[2] <- 5
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 5")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
+
+
+initialTree <- tree
+
+initialTree$edge.length[2] <- 10
+
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 10")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
+
+
+
+initialTree <- tree
+
+initialTree$edge.length[2] <- 0.1
+
+
+plotTree <-  ggtree(initialTree, ladderize=TRUE,
+                    color="black", size=0.5, linetype="dotted") +
+             geom_tiplab(size=5, color="black") +
+             theme_tree2() +
+             ggtitle("Four terminals branch 1 == 0.1")
+
+
+##
+print(plotTree)
+
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(tree=initialTree,
+                          distribution = dist4taxa,
+                          model = modelo,
+                         branch = rama
+                         )
+
+         cat( "\n\t Model=\t\t",modelo,
+             "\n\t Branchs swapped=\t",rama,"\n" )
+
+        printBlepd(val)
+
+         cat( "\n\n\n" )
+
+     }
+
+  }
+
+
+
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="terminals", 
+                           approach="all")
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+## Now the internals
+
+AllTerminals <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="internals", 
+                           approach="all")
+
+
+printEvalBranch(AllTerminals, compact=FALSE)
+
+
+## Now all branches
+
+Allall <- evalBranch(tree=initialTree,
+                          distribution = dist4taxa,
+                          branchToEval="all", 
+                           approach="all")
+
+
+printEvalBranch(Allall, compact=FALSE)
+
+
+#now with a longer branch
 
 ```
-
-This is the same
-
-

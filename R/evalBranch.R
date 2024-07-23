@@ -25,7 +25,7 @@
 #' data(tree)
 #' data(distribution)
 #' evalBranch(tree = tree , distribution = distribution , 
-#'            branchToEval = "all" ,  approach = "lower" , 
+#'            branchToEval = "internals" ,  approach = "lower" , 
 #'            root = TRUE)
 #'
 #'
@@ -39,8 +39,8 @@ evalBranch   <- function(tree          = tree ,
                          approach      = "lower" , 
                          root          = FALSE ,
                          index         = "PD",
-                         maxMultiplier = 1.001,
-                         redondeo      = 2,
+                         maxMultiplier = 1.01,
+                         redondeo      = 3,
                          verbose       = FALSE,
                          compact       = TRUE,
                          printNames    = FALSE){
@@ -92,14 +92,17 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
      if (class(branchToEval) == "character"){
 		 
      if (length(branchToEval) == 1){
-
-		 if(branchToEval == "all"){branchToUse <- 1:length(tree$edge.length)}
+		 	 
+		 terminalB <- which(getTerminals(tree=tree))
 		 
-		 if(branchToEval == "terminals"){branchToUse <- which(getTerminals(tree=tree)) }
+		 internalB <- which(!getTerminals(tree=tree))
 		 
-		 if(branchToEval == "internals"){branchToUse <- which(!getTerminals(tree=tree)) }
+		 if(tolower(branchToEval) == "all"){ branchToUse <- sort(c(internalB,terminalB)) }
 		 
-#~ 		 if(all(branchToEval  %in% c("internals","all","terminals"))){
+		 if(tolower(branchToEval) == "terminals"){ branchToUse <- terminalB }
+		 
+		 if(tolower(branchToEval) == "internals"){ branchToUse <- internalB }
+		 		 
 		 
 		 }
 			 if(all(branchToEval %in% tree$tip.label)){
@@ -109,12 +112,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 branchToUse <- as.numeric(sapply(branchToEval, esta))
 			 
 			 }
-#~ 		 }
 		 
 		 resultadosTotales <- list()
 		 
 		 for(conteo in 1:length(branchToUse)){
 			 	 
+		 
 			 	 
 			 resultadosTotales[[conteo]]  <-  evalBranch(tree = tree , 
 		    	 		                            distribution = distribution , 
@@ -144,7 +147,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                               root = root, 
                               index = index )
                               
-        initialLength <- round(tree$edge.length[branchToEval],redondeo)
+        initialLength <- round(tree$edge.length[branchToEval],3)
        
         
 #~         initialPD[is.na(initialPD)] <-   0.0
@@ -152,7 +155,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                 
         bestInitialArea <- c(bestValue(distribution,initialPD))
         
-        initialLength <- round(tree$edge.length[branchToEval],redondeo)
+        initialLength <- round(tree$edge.length[branchToEval],3)
        
         initialTreeLength <- tree$edge.length
         
@@ -266,7 +269,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
     
         ValorPrevio    <-  9999999999
                 
-        initial        <-  initialLength+(initialLength/1000)
+        initial        <-  initialLength+(initialLength/100)
         
         final          <-   maxVal
         }
