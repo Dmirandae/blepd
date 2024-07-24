@@ -146,13 +146,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                               distribution = distribution, 
                               root = root, 
                               index = index )
-                              
-        initialLength <- round(tree$edge.length[branchToEval],3)
-       
-        
-#~         initialPD[is.na(initialPD)] <-   0.0
-        
-                
+                                              
         bestInitialArea <- c(bestValue(distribution,initialPD))
         
         initialLength <- round(tree$edge.length[branchToEval],3)
@@ -377,7 +371,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         if ((tolower(approach) == "upper")  &
         !all(bestInitialArea %in% bestModifiedArea)){
             
-            promedio <- promedio + (promedio/100)
+#~             promedio <- promedio + (promedio/100000)
             
              ans <- list () ##rev
             

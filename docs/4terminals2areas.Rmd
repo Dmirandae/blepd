@@ -151,7 +151,7 @@ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
 #As expected, as all braches are EQUAL nothing happens
 
 
-#Now, let us see if the results could be assigned to the longest branches (or not).
+#Now, let us see if the results could be related to the branch length (or not).
 
 
 
@@ -170,7 +170,7 @@ AllTerminals <- evalBranch(tree=initialTree,
 
 ##str(AllTerminals)
 
-## Now we can print a far more friendly output
+## Now we can print a more friendly output
 
 
 printEvalBranch(AllTerminals, compact=FALSE)
