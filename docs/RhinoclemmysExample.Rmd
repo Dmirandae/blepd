@@ -416,6 +416,7 @@ AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
                            approach="all",
+                           redondeo=3,
                            printNames=TRUE)
 
 printEvalBranch(AllInternalsU)

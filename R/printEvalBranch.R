@@ -30,7 +30,7 @@
 #' 
 
 
-printEvalBranch <- function(objectToPrint, compact = TRUE, tabular= TRUE) {
+printEvalBranch <- function(objectToPrint, compact = FALSE, tabular= TRUE) {
 
 #~   # Check object class
 #~   if (!any(class(object0) %in% c("EvalBranch", "EvalBranch0", "EvalBranch1"))) {

@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: Four terminals and two areas"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 07 / 24"
+date: "2024 / 07 / 29"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -26,7 +26,7 @@ library(ggplot2)
 
 # Call the 4 terminals example
 
-data(package = "blepd")
+##data(package = "blepd")
 
 ## trees
 
@@ -126,17 +126,18 @@ initialPD
 
 ##?swapBL
 
- for( modelo in c("simpleswap","allswap","uniform") ){
+
+for( modelo in c("simpleswap","allswap","uniform") ){
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -145,7 +146,27 @@ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
   }
 
 
+ 
 
+val$bestModifiedArea
+
+
+t(val$bestModifiedArea)
+
+
+data.frame(t(val$bestModifiedArea))
+
+
+b <-  data.frame(t(val$bestModifiedArea))
+
+colnames(b) <- b[1,]
+						b <- b[2,]
+class(b)
+str(b)
+						print(b) 
+					
+
+##
 
 
 #As expected, as all braches are EQUAL nothing happens
@@ -211,13 +232,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -272,13 +293,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -334,13 +355,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -397,13 +418,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -458,13 +479,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
@@ -520,13 +541,13 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                          branch = rama
                          )
-        printBlepd(val)
+        printBlepd(val, compact=TRUE)
 
          cat( "\n\n" )
 
