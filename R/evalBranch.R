@@ -373,7 +373,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
             
 #~             promedio <- promedio + (promedio/100000)
             
-             ans <- list () ##rev
+             ans <- list ()
             
                          ans$branchToEval     =   getTerminalLabels(tree,
                                                                     branchToEval,
@@ -460,7 +460,7 @@ if(is.null(numberOrden)){return("XXXXX")}
 		
 	numberNode <- tree$edge[numberOrden,2]
 	
-#~ 	if (printNames){
+	if (printNames){
 	lista <- phytools::getDescendants(tree,numberNode) 
 
 	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
@@ -472,11 +472,11 @@ if(is.null(numberOrden)){return("XXXXX")}
 		 }
 
         return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]|",numberNode, collapse=" "))
-#~      }else{
+      }else{
 		 
-#~ 		 return(numberNode)
+ 		 return(numberNode)
 		 
-#~ 		 }
+ 		 }
 ## Revisar para nombres largos
 
 

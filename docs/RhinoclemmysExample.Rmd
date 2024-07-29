@@ -317,7 +317,7 @@ terminal and/or internal branch lengths using the three available models.
          cat( "\n\t Tree=",treeFiles,"\n\t Model=",modelo,
              "\n\t Branchs swapped=",rama,"\n" )
 
-        printBlepd(val)
+        printSwapBL(val)
 
          cat( "\n\n\n" )
 
@@ -350,7 +350,7 @@ for(repetir in 1:2){
                            nTimes = 10**repetir
                          )
                          
-            printBlepd(val)
+            printSwapBL(val)
 
 }
 ```
@@ -370,7 +370,7 @@ AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
                            approach="all",
-                           printNames=TRUE)
+                           printNames=FALSE)
 
 printEvalBranch(AllTerminals)
 
@@ -378,7 +378,7 @@ AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
                            approach="all",
-                           printNames=TRUE)
+                           printNames=FALSE)
 
 printEvalBranch(AllInternals)
 
@@ -403,7 +403,7 @@ AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
                            approach="all",
-                           printNames=TRUE)
+                           printNames=FALSE)
 
 cat("Ultrametric tree\n")
 
@@ -417,7 +417,7 @@ AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            branchToEval="internals", 
                            approach="all",
                            redondeo=3,
-                           printNames=TRUE)
+                           printNames=FALSE)
 
 printEvalBranch(AllInternalsU)
 
