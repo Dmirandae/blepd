@@ -5,11 +5,14 @@
 #' `EvalBranch` objects. It summarizes the branch evaluated, initial area, 
 #' modified area after evaluation, and delta value (percentage change). 
 # 
-#' @param object0 An `EvalBranch` object or a list containing `EvalBranch` objects.
+#' @param object0 An `EvalBranch` object.
 #' 
 #' @param compact A logical value indicating whether to print the information 
 #' in a compact format (e.g., branch number instead of full branch string) 
 #' (default = TRUE).
+#' 
+#' @param tabular A logical value indicating whether to print the information 
+#' in as a data.frame (default = TRUE).
 #' 
 #' @return Prints the formatted information to the console. 
 #' 
@@ -25,15 +28,9 @@
 #' # Print information from the object
 #' print.evalBranchAll(evalBranch)
 #' 
-#' # Create a list of EvalBranch objects
-#' multiEvalResults <- list(evalBranch, evalBranch)
-#' 
-#' # Print information from the list
-#' print.evalBranchAll(multiEvalResults, compact = FALSE)
 
 
-
-printEvalBranch <- function(objectToPrint, compact = TRUE) {
+printEvalBranch <- function(objectToPrint, compact = TRUE, tabular= TRUE) {
 
 #~   # Check object class
 #~   if (!any(class(object0) %in% c("EvalBranch", "EvalBranch0", "EvalBranch1"))) {
@@ -41,21 +38,42 @@ printEvalBranch <- function(objectToPrint, compact = TRUE) {
 #~   }
  
 
-  salida <- as.data.frame(matrix(unlist(objectToPrint), ncol=5, byrow = T))
 
-  colnames(salida) <- c("node","initialArea","FinalArea","Aproach","%Delta")
-
-  salida <- salida[!is.na(as.numeric(salida$"%Delta")),]
+#### staRt PRINTING FUNCTION
 
 
+initialMinimal <- objectToPrint$bestInitialArea ## compaCT
 
-  if(compact){
-	  
-	  salida <- salida[as.numeric(salida$"%Delta") !=  0,]
-	  
-	  }
+initialExtended <- data.frame(         ## no compact
+  Initial = objectToPrint$bestInitialArea,
+  Branch = objectToPrint$branch,
+  Model = objectToPrint$model)
 
-  return(salida)
+bestModified <- objectToPrint$bestModifiedArea
 
-}
+nameAreas     <- bestModified[,1]
+valueAreas    <- bestModified[,2]
+percentAreas  <- round(valueAreas/objectToPrint$nTimes*100,2)
+
+# bestModifiedTabularValue   <- data.frame(t(valueAreas))
+bestModifiedTabular <- data.frame(t(percentAreas))
+
+names(bestModifiedTabular) <- nameAreas 
+
+
+totalTabular <- merge(initialExtended,bestModifiedTabular)
+
+
+if(tabular  & compact)  print(bestModifiedTabular)
+
+if(tabular  & !compact)	print(totalTabular)
+
+if(!tabular & compact)	print(bestModified)
+
+if(!tabular & !compact)	print(t(totalTabular))
+						
+
+} ## end printing
+
+
 
