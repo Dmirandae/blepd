@@ -10,11 +10,15 @@ output:
 bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
+This is a worked example using a four terminals tree, distributed in two areas.
+Initially, all branches are equal.
+
+
 ```{r eval=TRUE, echo=TRUE}
 # Four taxa and two areas
 
 
-## Libraries
+## Load libraries
 
 library(blepd)
 library(ggtree)
@@ -22,9 +26,9 @@ library(ggplot2)
 
 
 
-## Data
+## Call the data
 
-# Call the 4 terminals example
+# Call the four terminals example
 
 ##data(package = "blepd")
 
@@ -32,15 +36,15 @@ library(ggplot2)
 
 data(tree)
 
-#str(tree)
 
+## Plot the tree
 
 plot(tree,use.edge.length =T)
 
 initialTree <- tree
 
 
-## distributions
+## Load and plot the distribution
 
 data(distribution)
 
@@ -48,7 +52,7 @@ data(distribution)
 
 dist4taxa <- distribution
 
-## distribution to XY to be able to plot the data, otherwise, skip the next step
+## Change distribution to XY to be able to plot the data, otherwise, skip the next step
 
 distXY <- matrix2XY(dist4taxa)
 
@@ -56,7 +60,7 @@ distXY
 
 ## plotting
 
-## the tree
+## the tree, using ggtree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
                     color="black", size=0.5, linetype="dotted") +
@@ -65,12 +69,12 @@ plotTree <-  ggtree(initialTree, ladderize=TRUE,
              ggtitle("Four terminals, all branches are == 1")
 
 
-##
+
 print(plotTree)
 
 
 
-## the distribution
+## The distribution using ggplot
 
 
 plotDistrib <- ggplot(data=distXY,
@@ -78,12 +82,11 @@ plotDistrib <- ggplot(data=distXY,
                geom_point()       +
                theme_bw()                                       +
                theme( axis.text.y = element_blank(),
-                      panel.grid.major = element_blank(),  # Remove major gridlines
-                      panel.grid.minor = element_blank(),  # Remove minor gridlines
-                      axis.line = element_line(colour = NA_character_),  # Remove axis lines
-                      axis.ticks = element_blank(),  # Remove axis ticks
-                      legend.position = "none"
-                      ) +
+                      panel.grid.major = element_blank(),  
+                      panel.grid.minor = element_blank(),  
+                      axis.line = element_line(colour = NA_character_),  
+                      axis.ticks = element_blank(),  
+                      legend.position = "none" )               +
                labs(title = "Distributions",
                     y = "",
                     x = "Area")                                 
@@ -96,7 +99,7 @@ cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 
 
 
-#We check whether names in both objects: initialTree and dist4taxa, are the same.
+# Check whether names in both objects, initialTree and dist4taxa, are the same.
 
 
 ##all(colnames(dist4taxa) == initialTree$tip.label)
@@ -104,7 +107,7 @@ cowplot::plot_grid(plotTree, plotDistrib, ncol=2)
 all(colnames(dist4taxa) %in% initialTree$tip.label)
 
 
-#We report the branch length, and calculate the PD values.
+#Report the branch length, and calculate the PD values.
 
 
 initialTree$edge.length
@@ -121,7 +124,6 @@ initialPD
 #Now, we can see the impact of swapping the branch lengths; we will use the three
 #available models to swap: "simpleswap","allswap","uniform", and we will swap the
 #three classes of branches: "terminals","internals","all".
-
 
 
 ##?swapBL
@@ -161,16 +163,15 @@ for( modelo in c("simpleswap","allswap","uniform") ){
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 
-## let's see the structure of the output
+## The structure of the output
 
 ##str(AllTerminals)
 
-## Now we can print a more friendly output
-
+## Print it as a friendly output
 
 printEvalBranch(AllTerminals, compact=FALSE)
 
@@ -178,7 +179,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -187,7 +188,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch
+#Now with a long branch
 
 
 initialTree <- tree
@@ -229,7 +230,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -238,7 +239,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -247,7 +248,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch
+# Now with a longer branch
 
 
 initialTree <- tree
@@ -290,7 +291,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -299,7 +300,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -308,7 +309,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch
+# With a short branch
 
 
 
@@ -352,7 +353,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -361,7 +362,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -370,10 +371,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch in brach 2
-
-
-#now with a longer branch
+#With a long branch in brach 2
 
 
 initialTree <- tree
@@ -415,7 +413,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -424,7 +422,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -433,7 +431,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch
+# Now with a longer branch2
 
 
 initialTree <- tree
@@ -476,7 +474,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -485,7 +483,7 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
@@ -538,7 +536,7 @@ print(plotTree)
 
 AllTerminals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="terminals", 
+                          branchToEval = "terminals", 
                           approach="all")
 
 printEvalBranch(AllTerminals, compact=FALSE)
@@ -547,13 +545,11 @@ printEvalBranch(AllTerminals, compact=FALSE)
 
 AllInternals <- evalBranch(tree=initialTree,
                           distribution = dist4taxa,
-                          branchToEval="internals", 
+                          branchToEval = "internals", 
                           approach="all")
 
 
 printEvalBranch(AllInternals, compact=FALSE)
-
-
 
 
 
