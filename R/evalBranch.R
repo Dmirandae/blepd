@@ -43,7 +43,7 @@ evalBranch   <- function(tree          = tree ,
                          redondeo      = 3,
                          verbose       = FALSE,
                          compact       = TRUE,
-                         printNames    = FALSE){
+                         printNames    = TRUE){
 
 ## potential errors
 
@@ -463,7 +463,7 @@ if(is.null(numberOrden)){return("XXXXX")}
 	if (printNames){
 	lista <- phytools::getDescendants(tree,numberNode) 
 
-	tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
+	#tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
 	
 	if (numberNode > length(tree$tip.label)){
 		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")

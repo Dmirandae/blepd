@@ -27,7 +27,7 @@ set.seed(121)
 options(warn=-1)
 library(ggplot2)
 suppressMessages(library(ggtree))
-#~ library(ape)
+
 suppressMessages(library(blepd))
 
 suppressMessages(library(phytools))
@@ -94,9 +94,7 @@ treeFiles <- gsub(".tre","",treeFiles)
 
 
 
-## Plotting
-
-#par(mfrow=c(2,1))
+## Plotting:
 
 ## The tree
 
@@ -112,81 +110,25 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
              ggtitle(treeFiles[1])
 
 
-##
+
 
 print(plotTree)
 
 
 #~ Alternatively, we can plot the trees using APE
 
-##
-## 
 
 plot.phylo(RhinoclemmysData$tree)
 
-##
 
 ####nodelabels()
 ####tiplabels()
-
-
-## to plot the distribution, we must transform it into a data.frame 
-## object 
-
-## distXY <- matrix2XY(RhinoclemmysData$distribution)
-
-
-## We could reorder the data.frame following the names on the trees
-
-## terminals <- colnames(RhinoclemmysData$distribution)
-
-## realOrder <- match(terminals,RhinoclemmysData$tree$tip.label)
-
-## equivalencias <- data.frame(terminals,realOrder)
-
-## dXY2 <-  distXY
-
-## for(cambiar in terminals){
-##    dXY2$Terminal[distXY$Terminal == cambiar]     <-
-##    equivalencias$realOrder[equivalencias$terminals==cambiar]
-##}
-
-## distGraficar <- distXY
-
-#~ distGraficar <- dXY2
-
-## plot using ggplot
-
-# plotDistrib <- ggplot(distGraficar,
-#                       aes(x= Area, y=Terminal), size =30) +
-#                geom_point(shape=19, fill="white", 
-#                           color="darkgrey", 
-#                           size=4) +
-#                labs(title = "Distribution",
-#                     y = "",
-#                     x = "Area") +
-#                theme(axis.line=element_blank(),
-# 		    			# axis.text.y=element_blank(), 
-# 					 axis.ticks=element_blank(), 
-# 			    		# axis.title.y=element_blank(), 
-# 					 legend.position="none", 
-# 					 panel.background=element_blank(), 
-# 					 panel.border=element_blank(), 
-# 					 panel.grid.major=element_blank(), 
-# 					 panel.grid.minor=element_blank(), 
-# 					 plot.background=element_blank()
-# 					 ) 
-#  
-## cowplot::plot_grid(plotTree,plotDistrib, ncol=1)
  
 plot(plotTree)
-
-#~ plot(plotDistrib)
  
 print(t(RhinoclemmysData$distribution))
 
 
-##dev.off()
 
 ```
 
@@ -230,19 +172,16 @@ c <- ggplot(data, aes(x=datos)) +
   ylim(c(0, 5))
 
 
-  ## 
+
 
 cowplot::plot_grid(a, b, c, nrow=3)
 
-##
 #
 #  cat("Terminals, with BL larger than 0.02 = ",
 # findTerminalgivenLength(RhinoclemmysData$tree,0.02))
 #
-##
 
 
-###dev.off()
 
 ```
 
@@ -277,7 +216,6 @@ row.names(RhinoclemmysData$matrixPD) <- "PD value"
 
  new <- (t(RhinoclemmysData$matrixPD))
 
- ## officially I am an Idiot
  
 values <-  new[order(new[,1])]
 names  <-  rownames(new)[order(new[,1])]
@@ -285,9 +223,6 @@ names  <-  rownames(new)[order(new[,1])]
 print(as.data.frame(paste(names,values)))
 
  
-## cat("Max value is:",max(t(RhinoclemmysData$matrixPD)),"Area:",
-## colnames(RhinoclemmysData$matrixPD)[which.max(t(RhinoclemmysData$matrixPD))])
-
 ```
 
 
@@ -311,7 +246,7 @@ terminal and/or internal branch lengths using the three available models.
             val <- swapBL(RhinoclemmysData$tree,
                           RhinoclemmysData$distribution,
                           model = modelo,
-                         branch = rama
+                          branch = rama
                )
 
          cat( "\n\t Tree=",treeFiles,"\n\t Model=",modelo,
@@ -319,7 +254,7 @@ terminal and/or internal branch lengths using the three available models.
 
         printSwapBL(val)
 
-         cat( "\n\n\n" )
+         cat( "\n\n" )
 
      }
 
@@ -370,7 +305,7 @@ AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
                            approach="all",
-                           printNames=FALSE)
+                           printNames=TRUE)
 
 printEvalBranch(AllTerminals)
 
@@ -378,7 +313,7 @@ AllInternals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="internals", 
                            approach="all",
-                           printNames=FALSE)
+                           printNames=TRUE)
 
 printEvalBranch(AllInternals)
 
@@ -403,7 +338,7 @@ AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            distribution=RhinoclemmysData$distribution,
                            branchToEval="terminals", 
                            approach="all",
-                           printNames=FALSE)
+                           printNames=TRUE)
 
 cat("Ultrametric tree\n")
 
@@ -417,7 +352,7 @@ AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
                            branchToEval="internals", 
                            approach="all",
                            redondeo=3,
-                           printNames=FALSE)
+                           printNames=TRUE)
 
 printEvalBranch(AllInternalsU)
 
