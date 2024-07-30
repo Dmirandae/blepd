@@ -38,13 +38,14 @@ evalBranch   <- function(tree          = tree ,
                          branchToEval  = branchToEval , 
                          approach      = "lower" , 
                          root          = FALSE ,
-                         index         = "PD",
-                         maxMultiplier = 1.01,
-                         redondeo      = 3,
-                         verbose       = FALSE,
-                         compact       = TRUE,
+                         index         = "PD" ,
+                         maxMultiplier = 1.01 ,
+                         redondeo      = 3 ,
+                         verbose       = FALSE ,
+                         compact       = TRUE ,
                          printNames    = TRUE){
 
+#~ cat ("\names",printNames,"\n")
 ## potential errors
 
 #~         if (is.na(branchToEval)){
@@ -78,7 +79,8 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 		                                approach = approaches,
 			 		                                root = root ,
 			 		                                index = index ,
-			 		                                maxMultiplier = maxMultiplier )			 
+			 		                                maxMultiplier = maxMultiplier,
+			 		                                printNames = printNames )			 
 			 }
 
 #~ 		class(resultadosParciales) <- c("multiBlepd","EvalBranch0")		 
@@ -121,11 +123,12 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			 	 
 			 resultadosTotales[[conteo]]  <-  evalBranch(tree = tree , 
 		    	 		                            distribution = distribution , 
-			 		                                branchToEval = branchToUse[conteo]  , 
+			 		                                branchToEval = branchToUse[conteo] , 
 			 		                                approach = approach ,
 			 		                                root = root ,
 			 		                                index = index ,
-			 		                                maxMultiplier = maxMultiplier )
+			 		                                maxMultiplier = maxMultiplier,
+			 		                                printNames = printNames )
 			}
 					 
 #~ 		class(resultadosTotales) <- c("multiBlepd","EvalBranch1")		 

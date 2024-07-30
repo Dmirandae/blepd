@@ -23,15 +23,8 @@
 #                           delta = 10)
 #' 
 #' # Print information from the object
-#' print.evalBranchAll(evalBranch)
+#' printEvalBranch(evalBranch)
 #' 
-#' # Create a list of EvalBranch objects
-#' multiEvalResults <- list(evalBranch, evalBranch)
-#' 
-#' # Print information from the list
-#' print.evalBranchAll(multiEvalResults, compact = FALSE)
-
-
 
 printEvalBranch <- function(objectToPrint, compact = TRUE) {
 
