@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhinoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 07 / 20"
+date: "2024 / 08 / 01"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -10,9 +10,7 @@ output:
 bibliography: "/home/rafael/bib/blepd.bib"
 ---
 
-To evaluate the effect of branch length on the area(s) chosen for conservation, I conduct a Phylogenetic Diversity (PD) analysis for the _Rhinoclemmys_ genus. The topology I will use corresponds to a Total Evidence analysis from @alarcon2020a, and the distribution will be modified from @le2008.
-
-
+I conducted a phylogenetic diversity (PD) analysis for the Rhinoclemmys genus to evaluate the effect of branch length on the chosen conservation area(s). The topology used corresponds to a total evidence analysis from @alarcon2020a, and the distribution was modified from @le2008.
 
 # Read the data: the distribution, and the tree
 
@@ -34,7 +32,7 @@ suppressMessages(library(phytools))
 
 #~ library(ggtree) 
 ##
-## Just in case, if you want to install ggtree. 
+## If you want to install ggtree. 
 ##
 ### https://bioconductor.org/packages/release/bioc/html/ggtree.html
 ##
@@ -64,7 +62,7 @@ csvFile <- list.files(pattern="csv")
 
 ## csvFile
 
-### the functions use a matrix object for the distributions
+### The functions use a matrix object for the distributions
 
 RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
                                   stringsAsFactors=FALSE,
@@ -77,7 +75,7 @@ RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
 print(t(RhinoclemmysData$distribution))
 
 
-## tree(s) in nexus or newick format
+## Tree(s) in nexus or newick format
 
 ##setwd("../tree/")
 
@@ -87,6 +85,11 @@ treeFiles <- list.files(pattern=".tre")
 
 RhinoclemmysData$tree  <-    read.tree(treeFiles)
 
+##getwd()
+
+##Save the object as a rda file
+
+##save(RhinoclemmysData, file = "../data/RhinoclemmysData.rda")
 
 ## name of tree(s)
 
@@ -111,18 +114,20 @@ plotTree <-  ggtree(RhinoclemmysData$tree, ladderize=TRUE,
 
 
 
-
 print(plotTree)
 
 
-#~ Alternatively, we can plot the trees using APE
+#~ Alternatively, we can plot the tree using APE
 
 
 plot.phylo(RhinoclemmysData$tree)
 
 
-####nodelabels()
-####tiplabels()
+# The number of the nodes / tips 
+#
+nodelabels()
+####
+tiplabels()
  
 plot(plotTree)
  
@@ -185,15 +190,15 @@ cowplot::plot_grid(a, b, c, nrow=3)
 
 ```
 
-The branch length histograms and the tree plot show that the internal length 
-branches are similar among each other, and different to terminals'; there are 
+The branch length histograms and the tree plot showed that the internal length 
+branches were similar among each other, and different to terminals'; there were 
 two longer branches (larger than 0.02), _R._ _nasuta_ (inhabiting Cho) and 
-_R._ _rubida_ (Pl), whereas Al and Cho are the richest.
+_R._ _rubida_ (Pl), whereas Al and Cho were the richest.
 
 
 # PD values
 
-First, I calculate the PD value for the areas, given this tree.
+First, I calculated the PD value for the areas, given this tree.
 
 
 ```{r eval=TRUE, echo=TRUE}
@@ -225,16 +230,12 @@ print(as.data.frame(paste(names,values)))
  
 ```
 
+The highest PD was for area Cho, followed by Al, the two richest areas. However, the difference in PD values was not determined by species richness alone, but also by the branch lengths of the species within each region.
 
-The  highest PD is for area Cho, followed by Al, the two richest areas, 
-and the difference in PD value is not given by the richness but the 
-species in each region.
 
 #Effect of branch lengths in the PD
 
-We test the effect of the branch length on the PD values by swapping 
-terminal and/or internal branch lengths using the three available models.
-
+I tested the effect of branch length on PD values by swapping terminal and/or internal branch lengths using three different models.
 
 ```{r eval=TRUE, echo=TRUE}
 
@@ -263,25 +264,19 @@ terminal and/or internal branch lengths using the three available models.
 ```
 
 
-The terminal branch length is critical in the decision taken, if we 
-swap all terminal branch lengths (model= "allswap"), or if we replace 
-them with a uniform distribution (model= "uniform"), the area selected 
-change from Cho to Al. 
 
-As the terminal branch lengths are distributed unequally, we might 
-suspect that the results could depend on the longest branches that 
-inhabit Cho/Al areas.
 
-First, we tested whether the number of replicates had any effect.
+I determined that terminal branch lengths were crucial in influencing the chosen area. When I swapped all terminal branch lengths (model = "allswap") or replaced them with a uniform distribution (model = "uniform"), the optimal area shifted from Cho to Al. Recognizing the uneven distribution of terminal branch lengths, I suspected that the longest branches within the Cho and/or Al areas were driving the results.
 
+I first investigated the impact of the number of replicates on the results.
 ```{r eval=TRUE, echo=TRUE}
 
-for(repetir in 1:2){
+for(repetir in 1:3){
 
             val <- swapBL( RhinoclemmysData$tree,
                            RhinoclemmysData$distribution,
                            model = "allswap",
-                           branch = "terminals",
+                           branch = "all",
                            nTimes = 10**repetir
                          )
                          
@@ -289,13 +284,9 @@ for(repetir in 1:2){
 
 }
 ```
+I found that results stabilized after approximately 1000 replicates, with the most substantial differences arising from using 10 or 100 replicates. As a general guideline, at least 100 replicates are necessary, but 1000 are preferable.
 
-Roughly speaking, from 1000 on the results are alike, and the largest 
-The difference was the use of 10 or 100 replicates. As a rule of thumb, we must 
-use at least 100 replicates, but 1000 replicates would be better.
-
-Now, let us see if the difference in results could be assigned to the longest 
-branches (or not).
+Next, I investigated whether the observed differences in results could be attributed to the length of the longest branches.
 
 ```{r testEvalBranch, eval=TRUE, echo=TRUE}
 
@@ -319,15 +310,10 @@ printEvalBranch(AllInternals)
 
 ```
 
-The selected area depended on the branch length. While the internal terminals had 
-almost no impact, if the terminal branch length of _R._ _nasuta_ is -47.18\% 
-shorter, or if the terminal branch length is 84.95% larger for _R._ _areolata_, 
-the area selected will change from Cho to Al, and if the terminal branch length 
-of _R._ _rubida_ is 61.32\% larger, and the area selected changes from Cho to Pl.
 
+I found that branch length significantly influenced the selected area. While modifying internal branches had minimal effects, altering terminal branch lengths substantially impacted area selection. Specifically, a 46% decrease in _R. nasuta_'s or an 86% increase in _R. areolata_'s terminal branch length shifted the optimal area from Cho to Al. Similarly, a 59% increase in _R. rubida_'s or a 116% increase in _R. pulcherrima_'s terminal branch length resulted in a shift from Cho to Pl. 
 
-If the tree is ultrametric, the pair of sister pairs will behave alike, and the 
-difference will be given by the distribution.
+As an additional exercise, I investigated the impact of ultrametricity. I hypothesized that if the tree were ultrametric, the terminal sister pairs would behave similarly, with differences primarily attributable to the underlying distribution. 
 
 
 ```{r testEvalBranchUltra, eval=TRUE, echo=TRUE}
@@ -361,6 +347,8 @@ printEvalBranch(AllInternals)
 
 
 ```
+
+These findings suggest that decisions to conserve solely area Cho may be misguided. Areas Al, and potentially Pl, should also be considered as essential components of the conservation range.
 
 
 

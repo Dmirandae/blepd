@@ -7,33 +7,42 @@
 evalBranch(
   tree = tree,
   distribution = distribution,
-  branchToEval = branchToEval,
-  approach = "lower",
+  branchToEval = "terminals",
+  approach = "upper",
   root = FALSE,
   index = "PD",
   maxMultiplier = 1.01,
-  redondeo = 2,
+  redondeo = 3,
   verbose = FALSE,
-  compact = TRUE
+  compact = TRUE,
+  printNames = FALSE
 )
 }
 \arguments{
-\item{tree}{is a single tree with T terminals, an APER phylo object.}
+\item{tree}{A single phylogenetic tree in APER format.}
 
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
+\item{distribution}{A matrix indicating the distribution of terminals across areas.}
 
-\item{branchToEval}{is the number/name of the branch to evaluate, "terminals" or "internals" evaluate only those named, while "all", evaluates all terminals/internals.}
+\item{branchToEval}{The branch(es) to evaluate (can be a numeric vector of node numbers, "terminals", "internals", or "all", default = "terminals").}
 
-\item{approach}{is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.0, or "all" (default = "upper").}
+\item{approach}{The type of branch length modification: "lower" (decrease to zero), "upper" (increase to maximum), or "all" for both (default = "upper").}
 
-\item{root}{is use.root in PD function (default = FALSE).}
+\item{root}{Logical indicating whether to use the root in PD calculation.}
 
-\item{maxMultiplier}{is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01).}
+\item{index}{The index used for PD calculation (e.g., "PD").}
 
-\item{verbose}{is the length of the speech (default = FALSE).}
+\item{maxMultiplier}{Multiplier for determining the upper limit of branch length modification (BL_sum * maxMultiplier, default = 1.01).}
+
+\item{redondeo}{Number of decimal places for rounding.}
+
+\item{verbose}{Logical indicating whether to print verbose output.}
+
+\item{compact}{Logical indicating whether to return a compact output.}
+
+\item{printNames}{Logical indicating whether to print terminal names in output.}
 }
 \value{
-Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
+A data frame or list containing information about the effect of branch length modifications on area selection.
 }
 \description{
 The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change.
@@ -43,7 +52,7 @@ library(blepd)
 data(tree)
 data(distribution)
 evalBranch(tree = tree , distribution = distribution , 
-           branchToEval = "all" ,  approach = "lower" , 
+           branchToEval = "internals" ,  approach = "lower" , 
            root = TRUE)
 
 

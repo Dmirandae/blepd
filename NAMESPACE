@@ -1,6 +1,7 @@
 import(
        ape,
-       picante
+       picante,
+       phytools
 )
 importFrom(utils,read.csv)
 exportPattern("^[[:alpha:]]+")

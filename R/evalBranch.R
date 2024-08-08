@@ -3,22 +3,21 @@
 #'
 #' @description The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change.  
 #' 
-#' @return Returns a S3 object [class blepd] with all the relevant information: whether there is no-change/change in area as we change the terminal branch length, the maxPD difference for the upper/lower limit, the branch length of the change, the best Initial Area, the actual (initial) branch length, and the area selected.
+#' @param tree A single phylogenetic tree in APER format.
 #'
-#' @param tree is a single tree with T terminals, an APER phylo object.
-#' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
-#' 
-#' @param branchToEval is the number/name of the branch to evaluate, "terminals" or "internals" evaluate only those named, while "all", evaluates all terminals/internals.
-#' 
-#' @param approach is the type of limit to evaluate, "upper": from the actual length to maxVal [*maxMultiplier], or "lower": from the actual length to 0.0, or "all" (default = "upper"). 
-#' 
-#' @param maxMultiplier is the value to multiply the sum of the branch length values. The upper limit to evaluate will be BL_sum * maxMultiplier (default = 1.01). 
-#' 
-#' @param root is use.root in PD function (default = FALSE). 
+#' @param distribution A matrix indicating the distribution of terminals across areas.
 #'
-#' @param verbose is the length of the speech (default = FALSE). 
+#' @param branchToEval The branch(es) to evaluate (can be a numeric vector of node numbers, "terminals", "internals", or "all", default = "terminals").
 #' 
+#' @param approach The type of branch length modification: "lower" (decrease to zero), "upper" (increase to maximum), or "all" for both (default = "upper").
+#' @param root Logical indicating whether to use the root in PD calculation.
+#' @param index The index used for PD calculation (e.g., "PD").
+#' @param maxMultiplier Multiplier for determining the upper limit of branch length modification (BL_sum * maxMultiplier, default = 1.01).
+#' @param redondeo Number of decimal places for rounding.
+#' @param verbose Logical indicating whether to print verbose output.
+#' @param compact Logical indicating whether to return a compact output.
+#' @param printNames Logical indicating whether to print terminal names in output.
+#' @return A data frame or list containing information about the effect of branch length modifications on area selection.
 #' 
 #' @examples
 #' library(blepd)
@@ -35,15 +34,15 @@
 
 evalBranch   <- function(tree          = tree , 
                          distribution  = distribution , 
-                         branchToEval  = branchToEval , 
-                         approach      = "lower" , 
+                         branchToEval  = "terminals" , 
+                         approach      = "upper" , 
                          root          = FALSE ,
                          index         = "PD" ,
                          maxMultiplier = 1.01 ,
                          redondeo      = 3 ,
                          verbose       = FALSE ,
                          compact       = TRUE ,
-                         printNames    = TRUE){
+                         printNames    = FALSE){
 
 #~ cat ("\names",printNames,"\n")
 ## potential errors
@@ -140,9 +139,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 		}  ## end loop for all branchToEval
 		 
 
-        
-
-        
+     
 ## initial stuff
 
         initialPD <- PDindex( tree = tree, 
@@ -154,7 +151,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
         initialLength <- round(tree$edge.length[branchToEval],3)
        
-        initialTreeLength <- tree$edge.length
+       ##initialTreeLength <- tree$edge.length ## ?? so 
         
         totalTreeLength <- sum(tree$edge.length)
         
@@ -180,7 +177,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			
 			newTree$edge.length[branchToEval] <-  maxVal
                         
-            maxPD <- max(initialPD) - min(initialPD) ## por que la diferencia ?
+            maxPD <- max(initialPD) - min(initialPD) 
             	
 			}
                    
@@ -200,7 +197,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 			   promedio <- initialLength
 			                 
                          
-                        ans <- list () ## rev
+                        ans <- list () 
             
                          ans$branchToEval     =   getTerminalLabels(tree,
                                                                     branchToEval,
@@ -429,58 +426,3 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
         
 ## end best
     
-
-### for utilities
-
-## in utils check name 
-
-bestValue <- function(distribution = distribution, initialVal){ 
-
-   best <- row.names(distribution)[which(initialVal == max(initialVal))]
-        
-   resp <- tmpBest <- gsub("area","",best)
-   
-   if(length(tmpBest) > 1){
-   resp <- paste(tmpBest,collapse="")
-   }
-   
-   return(as.data.frame(resp))
-}
-
-
-###NOT in utils
-
-
-
-
-getTerminalLabels <- function(tree, numberOrden, printNames=TRUE){
-
-library(phytools)
-		
-if(is.na(numberOrden)){return("XXXXX")}
-
-if(is.null(numberOrden)){return("XXXXX")}
-		
-	numberNode <- tree$edge[numberOrden,2]
-	
-	if (printNames){
-	lista <- phytools::getDescendants(tree,numberNode) 
-
-	#tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
-	
-	if (numberNode > length(tree$tip.label)){
-		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")
-	 }else{
-		 pegar <- "["
-		 }
-
-        return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]|",numberNode, collapse=" "))
-      }else{
-		 
- 		 return(numberNode)
-		 
- 		 }
-## Revisar para nombres largos
-
-
-}

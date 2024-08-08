@@ -1,17 +1,13 @@
-#' @title printevalBranch
-#' 
+#' @title printEvalBranch
+#'
 #' @description
-#' Prints information from an `EvalBranch` object or a list containing 
-#' `EvalBranch` objects. It summarizes the branch evaluated, initial area, 
-#' modified area after evaluation, and delta value (percentage change). 
-# 
-#' @param object0 An `EvalBranch` object or a list containing `EvalBranch` objects.
+#' Prints a formatted summary of information from an `EvalBranch` object or a list containing `EvalBranch` objects. 
 #' 
-#' @param compact A logical value indicating whether to print the information 
-#' in a compact format (e.g., branch number instead of full branch string) 
-#' (default = TRUE).
+#' @param object An `EvalBranch` object or a list containing `EvalBranch` objects.
 #' 
-#' @return Prints the formatted information to the console. 
+#' @param compact Logical indicating a concise format (default = TRUE).
+#' 
+#' @return Prints the formatted information to the console.
 #' 
 #' @examples
 #' library(blepd)  
@@ -25,6 +21,7 @@
 #' # Print information from the object
 #' printEvalBranch(evalBranch)
 #' 
+#' @author Miranda-Esquivel Daniel R.
 
 printEvalBranch <- function(objectToPrint, compact = TRUE) {
 

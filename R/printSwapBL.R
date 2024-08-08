@@ -23,6 +23,7 @@
 #' # Print information from the object
 #' printSwapBL(evalBranch)
 #' 
+#' @author Miranda-Esquivel Daniel R.
 
 
 printSwapBL <- function(objectToPrint, compact = FALSE, tabular= TRUE) {

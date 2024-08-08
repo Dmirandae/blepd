@@ -239,3 +239,57 @@ changeBLTerminal <- function(arbol,terminal,value){
 
   return(arbol)
 }
+
+
+### for utilities
+
+## in utils check name 
+
+bestValue <- function(distribution = distribution, initialVal){ 
+
+   best <- row.names(distribution)[which(initialVal == max(initialVal))]
+        
+   resp <- tmpBest <- gsub("area","",best)
+   
+   if(length(tmpBest) > 1){
+   resp <- paste(tmpBest,collapse="")
+   }
+   
+   return(as.data.frame(resp))
+}
+
+
+### utils
+
+
+getTerminalLabels <- function(tree, numberOrden, printNames=TRUE){
+
+		
+if(is.na(numberOrden)){return("XXXXX")}
+
+if(is.null(numberOrden)){return("XXXXX")}
+		
+	numberNode <- tree$edge[numberOrden,2]
+	
+	if (printNames){
+	lista <- phytools::getDescendants(tree,numberNode) 
+
+	#tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
+	
+	if (numberNode > length(tree$tip.label)){
+		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")
+	 }else{
+		 pegar <- "["
+		 }
+
+        return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]|",numberNode, collapse=" "))
+      }else{
+		 
+ 		 return(numberNode)
+		 
+ 		 }
+## Revisar para nombres largos
+
+
+}
+
