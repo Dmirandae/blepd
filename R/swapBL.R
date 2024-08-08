@@ -13,7 +13,7 @@
 #'   * `model`: The type of swap performed ("simpleswap", "allswap", or "uniform").
 #'   * `nTimes`: The number of times the swap was repeated.
 #'   * `root`: Whether the root was used in PD calculations.
-#'   * `index`: The PD index used (currently always "PD").
+#'   * `index`: The PD index used (currently: "PD").
 #'   * `branch`: The type of branches swapped ("terminals", "internals", or "all").
 
 #' @param tree A single phylogenetic tree with terminal labels, an `ape` phylo object.
@@ -39,16 +39,15 @@
 #' @author Miranda-Esquivel Daniel R.
 
 
-
 swapBL <- function( tree = tree , 
                     distribution = distribution , 
                     model  = "allswap" ,
                     nTimes = 100 ,  
                     root   = TRUE , 
                     index  = "PD" ,
-                    branch = "terminals", 
-                    percentual = FALSE,
-                    verbose = TRUE,
+                    branch = "terminals" , 
+                    percentual = FALSE ,
+                    verbose = TRUE ,
                     compact = TRUE
                     ){					   
 					
@@ -159,7 +158,7 @@ swapBL <- function( tree = tree ,
             resultados$index             <-   index
 	      }
         
-        class(resultados) <- "blepd1"
+        class(resultados) <- "swapBL"
 
   return(resultados)
 
