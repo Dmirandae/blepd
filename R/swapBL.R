@@ -13,14 +13,14 @@
 #'   * `model`: The type of swap performed ("simpleswap", "allswap", or "uniform").
 #'   * `nTimes`: The number of times the swap was repeated.
 #'   * `root`: Whether the root was used in PD calculations.
-#'   * `index`: The PD index used (currently: "PD").
+#'   * `index`: The PD index used (currently always "PD").
 #'   * `branch`: The type of branches swapped ("terminals", "internals", or "all").
 
 #' @param tree A single phylogenetic tree with terminal labels, an `ape` phylo object.
 
 #' @param distribution A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).
 
-#' @param model The type of swap to be performed. Valid values are: * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` function.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
+#' @param model The type of swap to be performed. Valid values are: * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` parameter.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.
 
 #' @param nTimes The number of times to repeat the swap.
 
@@ -39,15 +39,16 @@
 #' @author Miranda-Esquivel Daniel R.
 
 
+
 swapBL <- function( tree = tree , 
                     distribution = distribution , 
                     model  = "allswap" ,
                     nTimes = 100 ,  
                     root   = TRUE , 
                     index  = "PD" ,
-                    branch = "terminals" , 
-                    percentual = FALSE ,
-                    verbose = TRUE ,
+                    branch = "terminals", 
+                    percentual = FALSE,
+                    verbose = TRUE,
                     compact = TRUE
                     ){					   
 					
@@ -158,7 +159,7 @@ swapBL <- function( tree = tree ,
             resultados$index             <-   index
 	      }
         
-        class(resultados) <- "swapBL"
+        class(resultados) <- "blepd1"
 
   return(resultados)
 
