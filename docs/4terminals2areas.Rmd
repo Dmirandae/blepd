@@ -1,13 +1,13 @@
 ---
 title: "An empirical example: Four terminals and two areas"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 07 / 29"
+date: "2024 / 12 / 24"
 output:
   pdf_document:
     latex_engine: xelatex
   html_document:
     df_print: paged
-bibliography: "/home/rafael/bib/blepd.bib"
+bibliography: "../../paperBlepd/bib/blepd002.bib"
 ---
 
 This is a worked example using a four terminals tree, distributed in two areas.
@@ -133,7 +133,7 @@ for( modelo in c("simpleswap","allswap","uniform") ){
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -211,7 +211,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+           cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -272,7 +272,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -334,7 +334,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -394,7 +394,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -455,7 +455,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
@@ -517,7 +517,7 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
-## cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
