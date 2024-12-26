@@ -1,7 +1,7 @@
 #'
 #' @title evalBranch
 #'
-#' @description The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change.  
+#' @description The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change. 
 #' 
 #' @param tree A single phylogenetic tree in APER format.
 #'

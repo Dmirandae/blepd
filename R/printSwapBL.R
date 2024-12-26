@@ -26,17 +26,17 @@
 #' @author Miranda-Esquivel Daniel R.
 
 
-printSwapBL <- function(objectToPrint, compact = FALSE, tabular= TRUE, redondeo = 2) {
+printSwapBL <- function(objectToPrint, compact = FALSE, tabular= TRUE) {
 
-  # Check object class
-  if (!any(class(objectToPrint) %in% c("swapBL"))) {
-    return(print("Wrong class, object must be swapBL"))
-  }
+#~   # Check object class
+#~   if (!any(class(object0) %in% c("EvalBranch", "EvalBranch0", "EvalBranch1"))) {
+#~     return(print("Wrong class, object must be EvalBranch"))
+#~   }
  
 
-initialMinimal <- objectToPrint$bestInitialArea                         ## compact
+initialMinimal <- objectToPrint$bestInitialArea ## compaCT
 
-initialExtended <- data.frame(                                          ## no compact
+initialExtended <- data.frame(         ## no compact
   Initial = objectToPrint$bestInitialArea,
   Branch = objectToPrint$branch,
   Model = objectToPrint$model)
@@ -45,7 +45,7 @@ bestModified <- objectToPrint$bestModifiedArea
 
 nameAreas     <- bestModified[,1]
 valueAreas    <- bestModified[,2]
-percentAreas  <- round(valueAreas/objectToPrint$nTimes*100,redondeo)
+percentAreas  <- round(valueAreas/objectToPrint$nTimes*100,2)
 
 # bestModifiedTabularValue   <- data.frame(t(valueAreas))
 bestModifiedTabular <- data.frame(t(percentAreas))
