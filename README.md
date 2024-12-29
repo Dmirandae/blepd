@@ -1,7 +1,7 @@
 ---
 title: "blepd: Branch Length Evaluation in Phylogenetic Diversity Analysis"  
 author: "D.R. Miranda-Esquivel"
-date: "2024-12-26" 
+date: "2024-12-29" 
 ---
 
 These functions evaluate:
@@ -13,3 +13,8 @@ A worked example (using _Rhinnoclemmys_) can be found at [https://github.com/Dmi
 
 The algorithm's description can be found at [https://github.com/Dmirandae/blepd/blob/master/docs/blepdAlgorithm.Rmd].
 
+Depends: ape, picante
+
+License: GPL 2.x
+
+Encoding: UTF-8

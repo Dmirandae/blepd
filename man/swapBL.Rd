@@ -2,7 +2,7 @@
 % Please edit documentation in R/swapBL.R
 \name{swapBL}
 \alias{swapBL}
-\title{swapBL}
+\title{swapBL: Analyze Effect of Branch Length Swapping on Phylogenetic Diversity}
 \usage{
 swapBL(
   tree = tree,
@@ -18,41 +18,30 @@ swapBL(
 )
 }
 \arguments{
-\item{tree}{A single phylogenetic tree with terminal labels, an `ape` phylo object.}
+\item{tree}{(required): A phylogenetic tree object in the `ape` format, containing terminal labels (tips).}
 
-\item{distribution}{A labeled matrix object, with the distribution of terminal taxa (columns) across areas (rows).}
+\item{distribution}{(required): A matrix representing the distribution of terminal taxa across areas (rows represent areas, columns represent terminal taxa). Ensure the column names in this matrix match the terminal labels (tips) in the tree.}
 
-\item{model}{The type of swap to be performed. Valid values are: * "simpleswap" - Two branch lengths are swapped.  * "allswap" (default) - Branch lengths are swapped within the specified branch scope, defined using the `sample` parameter.   * "uniform" - Branch lengths are replaced by uniformly distributed values between the minimum and maximum values of the original lengths.}
+\item{model}{(optional, default="allswap"): The type of branch length swapping to perform. Valid options are:}
 
-\item{nTimes}{The number of times to repeat the swap.}
+\item{nTimes}{(optional, default=100): The number of times to repeat the swapping process (iterations).}
 
-\item{root}{Whether to use the root node in PD calculations (default = FALSE).}
+\item{root}{(optional, default=TRUE): A logical value indicating whether to use the root node in PD calculations.}
 
-\item{branch}{The type of branches to swap: "terminals" (default), "internals", or "all".}
+\item{branch}{(optional, default="terminals"): The type of branches to swap lengths for. Valid options are:}
 
-\item{verbose}{Logical indicating whether to print messages during execution (default = TRUE).}
-}
-\value{
-Returns an object containing:
-  * `initialPD`: The PD value of the initial tree.
-  * `bestInitialArea`: The area(s) with the highest PD value in the initial tree.
-  * `bestModifiedArea`: A data frame summarizing the frequency of each area recovered after swaps.
-  * `tree`: The original tree object.
-  * `distribution`: The distribution matrix used for PD calculations.
-  * `model`: The type of swap performed ("simpleswap", "allswap", or "uniform").
-  * `nTimes`: The number of times the swap was repeated.
-  * `root`: Whether the root was used in PD calculations.
-  * `index`: The PD index used (currently always "PD").
-  * `branch`: The type of branches swapped ("terminals", "internals", or "all").
+\item{verbose}{(optional, default=TRUE): A logical value indicating whether to print informative messages during function execution.}
+
+\item{compact}{(optional, default=TRUE): A logical value determining the output content. If `FALSE`, all available information is returned. If `TRUE` (default), a more concise output is provided.}
 }
 \description{
-The function calculates the effect on PD of swapping terminal and/or internal branch lengths.
+swapBL: Analyze Effect of Branch Length Swapping on Phylogenetic Diversity
 }
 \examples{
 library(blepd)
 data(tree)
 data(distribution)
-swapBL(tree = tree, distribution = distribution, model = "allswap", nTimes = 100, branch = "terminals")
+swapBL(tree = tree, distribution = distribution, model = "allswap", nTimes = 100, branch = "terminals") 
 }
 \author{
 Miranda-Esquivel Daniel R.

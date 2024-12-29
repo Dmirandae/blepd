@@ -1,35 +1,57 @@
-#'
 #' @title evalBranch
 #'
-#' @description The function calculates whether a change in a branch length generates a change in the area selected; and when applies, the branch length value for that change. 
-#' 
+#' @description 
+#' This function evaluates the effect of modifying a single branch length on 
+#' Phylogenetic Diversity (PD) and the selection of areas with the highest PD. 
+#' It allows for both decreasing (to zero) and increasing (to a user-defined maximum) 
+#' branch lengths. 
+#'
 #' @param tree A single phylogenetic tree in APER format.
-#'
-#' @param distribution A matrix indicating the distribution of terminals across areas.
-#'
-#' @param branchToEval The branch(es) to evaluate (can be a numeric vector of node numbers, "terminals", "internals", or "all", default = "terminals").
-#' 
-#' @param approach The type of branch length modification: "lower" (decrease to zero), "upper" (increase to maximum), or "all" for both (default = "upper").
-#' @param root Logical indicating whether to use the root in PD calculation.
+#' @param distribution A matrix indicating the distribution of terminal taxa across areas.
+#' @param branchToEval The branch(es) to evaluate (can be a numeric vector of node 
+#'                    numbers, "terminals", "internals", or "all", default = "terminals").
+#' @param approach The type of branch length modification: 
+#'                    "lower" (decrease to zero), "upper" (increase to maximum), 
+#'                    or "all" for both (default = "upper").
+#' @param root Logical indicating whether to use the root in PD calculation (default = FALSE).
 #' @param index The index used for PD calculation (e.g., "PD").
-#' @param maxMultiplier Multiplier for determining the upper limit of branch length modification (BL_sum * maxMultiplier, default = 1.01).
+#' @param maxMultiplier Multiplier for determining the upper limit of branch length 
+#'                    modification (BL_sum * maxMultiplier, default = 1.01).
 #' @param redondeo Number of decimal places for rounding.
-#' @param verbose Logical indicating whether to print verbose output.
-#' @param compact Logical indicating whether to return a compact output.
+#' @param verbose Logical indicating whether to print verbose output (default = FALSE).
+#' @param compact Logical indicating whether to return a compact output (default = TRUE).
 #' @param printNames Logical indicating whether to print terminal names in output.
-#' @return A data frame or list containing information about the effect of branch length modifications on area selection.
-#' 
+#'
+#' @return 
+#' A data frame or list containing information about the effect of branch length 
+#' modifications on area selection, including:
+#'   - `branchToEval`: The evaluated branch(es).
+#'   - `bestInitialArea`: The area(s) with the highest PD in the initial tree.
+#'   - `bestModifiedArea`: The area(s) with the highest PD in the modified tree.
+#'   - `approach`: The type of branch length modification used.
+#'   - `delta`: The percentage change in branch length.
+#'   - `initialPD`: The initial PD value.
+#'   - `modifiedPD`: The PD value after the branch length modification.
+#'   - `initialLength`: The initial branch length.
+#'   - `finalLength`: The final branch length after modification.
+#'   - `areas`: A vector of area names.
+#'   - `terminals`: A vector of terminal taxa names.
+#'   - `root`: Logical indicating whether the root was used in PD calculation.
+#'   - `index`: The PD index used.
+#'
 #' @examples
-#' library(blepd)
+#' library(blepd) 
 #' data(tree)
 #' data(distribution)
-#' evalBranch(tree = tree , distribution = distribution , 
-#'            branchToEval = "internals" ,  approach = "lower" , 
-#'            root = TRUE)
+#' 
+
+#' # Evaluate the effect of increasing the length of terminal branches
+#' result_upper <- evalBranch(tree = tree, distribution = distribution, 
+#'                          branchToEval = "terminals", approach = "upper") 
 #'
-#'
-#'@author Miranda-Esquivel Daniel R.
-#'
+
+#' @author Miranda-Esquivel Daniel R.
+#' @export
 #'
 
 evalBranch   <- function(tree          = tree , 
