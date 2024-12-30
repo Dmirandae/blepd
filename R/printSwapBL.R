@@ -1,12 +1,12 @@
-#' @title printSwapBL
+#' @title Print Information from a swapBL Object
 #' 
-#' @description
-#' Prints information from an `swapBL` object. 
+#' @description 
+#' Prints information from a `swapBL` object. 
 #' The output format can be controlled using the `compact` and `tabular` arguments.
 #'
 #' @param objectToPrint An `swapBL` object.
-#' @param compact Logical indicating whether to print a compact output.
-#' @param tabular Logical indicating whether to print a tabular output.
+#' @param compact Logical indicating whether to print a compact output (default: FALSE).
+#' @param tabular Logical indicating whether to print output in tabular format (default: TRUE).
 #' @return No return value, but prints information to the console.
 #' 
 #' @examples
@@ -24,7 +24,7 @@
 #' printSwapBL(evalBranch)
 #' 
 #' @author Miranda-Esquivel Daniel R.
-
+#'
 
 printSwapBL <- function(objectToPrint, compact = FALSE, tabular= TRUE) {
 

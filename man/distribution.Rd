@@ -5,13 +5,13 @@
 \alias{distribution}
 \title{Distribution of four taxa.}
 \format{
-A matrix object with two areas (rows) and four species (rows).
+A matrix object with two areas (rows) and four species (columns).
 }
 \usage{
 distribution
 }
 \description{
-A matrix with four species distributions in two areas.
+A matrix with four species distributed in two areas.
 }
 \author{
 Miranda-Esquivel Daniel R.

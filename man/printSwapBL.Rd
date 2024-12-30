@@ -2,22 +2,22 @@
 % Please edit documentation in R/printSwapBL.R
 \name{printSwapBL}
 \alias{printSwapBL}
-\title{printSwapBL}
+\title{Print Information from a swapBL Object}
 \usage{
 printSwapBL(objectToPrint, compact = FALSE, tabular = TRUE)
 }
 \arguments{
 \item{objectToPrint}{An `swapBL` object.}
 
-\item{compact}{Logical indicating whether to print a compact output.}
+\item{compact}{Logical indicating whether to print a compact output (default: FALSE).}
 
-\item{tabular}{Logical indicating whether to print a tabular output.}
+\item{tabular}{Logical indicating whether to print output in tabular format (default: TRUE).}
 }
 \value{
 No return value, but prints information to the console.
 }
 \description{
-Prints information from an `swapBL` object. 
+Prints information from a `swapBL` object. 
 The output format can be controlled using the `compact` and `tabular` arguments.
 }
 \examples{

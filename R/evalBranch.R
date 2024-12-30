@@ -23,21 +23,34 @@
 #' @param printNames Logical indicating whether to print terminal names in output.
 #'
 #' @return 
-#' A data frame or list containing information about the effect of branch length 
-#' modifications on area selection, including:
+#' A data frame or list containing information about the effect of branch length modifications on area selection, including:
+#'
 #'   - `branchToEval`: The evaluated branch(es).
+#'
 #'   - `bestInitialArea`: The area(s) with the highest PD in the initial tree.
+#'
 #'   - `bestModifiedArea`: The area(s) with the highest PD in the modified tree.
+#'
 #'   - `approach`: The type of branch length modification used.
+#'
 #'   - `delta`: The percentage change in branch length.
+#'
 #'   - `initialPD`: The initial PD value.
+#'
 #'   - `modifiedPD`: The PD value after the branch length modification.
+#'
 #'   - `initialLength`: The initial branch length.
+#'
 #'   - `finalLength`: The final branch length after modification.
+#'
 #'   - `areas`: A vector of area names.
+#'
 #'   - `terminals`: A vector of terminal taxa names.
+#'
 #'   - `root`: Logical indicating whether the root was used in PD calculation.
+#'
 #'   - `index`: The PD index used.
+#'
 #'
 #' @examples
 #' library(blepd) 
@@ -46,6 +59,7 @@
 #' 
 
 #' # Evaluate the effect of increasing the length of terminal branches
+#'
 #' result_upper <- evalBranch(tree = tree, distribution = distribution, 
 #'                          branchToEval = "terminals", approach = "upper") 
 #'
