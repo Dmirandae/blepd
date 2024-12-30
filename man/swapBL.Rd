@@ -22,17 +22,33 @@ swapBL(
 
 \item{distribution}{(required): A matrix representing the distribution of terminal taxa across areas (rows represent areas, columns represent terminal taxa). Ensure the column names in this matrix match the terminal labels (tips) in the tree.}
 
-\item{model}{(optional, default="allswap"): The type of branch length swapping to perform. Valid options are:}
+\item{model}{(optional, default="allswap"): The type of branch length swapping to perform. Valid options are:
+"simpleswap": Swaps the lengths of two randomly chosen branches.
+"allswap" (default): Randomly permutes the branch lengths within the specified branch scope (defined by the `branch` argument).
+"uniform": Replaces the branch lengths of chosen nodes with random values drawn from a uniform distribution between the minimum and maximum values of the original lengths.}
 
 \item{nTimes}{(optional, default=100): The number of times to repeat the swapping process (iterations).}
 
 \item{root}{(optional, default=TRUE): A logical value indicating whether to use the root node in PD calculations.}
 
-\item{branch}{(optional, default="terminals"): The type of branches to swap lengths for. Valid options are:}
+\item{branch}{(optional, default="terminals"): The type of branches to swap lengths for. Valid options are:
+"terminals": Swaps lengths among terminal branches.
+"internals": Swaps lengths among internal branches.
+"all": Swaps lengths among all branches (terminals and internals).}
 
 \item{verbose}{(optional, default=TRUE): A logical value indicating whether to print informative messages during function execution.}
 
 \item{compact}{(optional, default=TRUE): A logical value determining the output content. If `FALSE`, all available information is returned. If `TRUE` (default), a more concise output is provided.}
+}
+\value{
+`initialPD`: The PD value of the original tree.
+ `bestInitialArea`: The area(s) with the highest PD in the initial tree.
+ `bestModifiedArea`: A data frame summarizing the frequency of each area identified with the highest PD across iterations.
+ `model`: The type of branch length swapping performed ("simpleswap", "allswap", or "uniform").
+ `nTimes`: The number of times the swapping process was repeated.
+ `branch`: The type of branches swapped ("terminals", "internals", or "all").
+ `root` (optional): A logical value indicating whether the root node was used during PD calculations (default: TRUE).
+ `index` (optional): The PD index used (currently always "PD").
 }
 \description{
 swapBL: Analyze Effect of Branch Length Swapping on Phylogenetic Diversity
