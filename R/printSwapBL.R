@@ -7,7 +7,7 @@
 #' @param objectToPrint An `swapBL` object.
 #' @param compact Logical indicating whether to print a compact output (default: FALSE).
 #' @param tabular Logical indicating whether to print output in tabular format (default: TRUE).
-#' @return No return value, but prints information to the console.
+#' @return Invisibly returns the `objectToPrint` object.
 #' 
 #' @examples
 #' library(blepd)  

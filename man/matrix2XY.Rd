@@ -2,21 +2,21 @@
 % Please edit documentation in R/utilities.R
 \name{matrix2XY}
 \alias{matrix2XY}
-\title{matrix2XY}
+\title{Convert Distribution Matrix to XY Coordinates}
 \usage{
 matrix2XY(distribution = distribution)
 }
 \arguments{
-\item{distribution}{is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
+\item{distribution}{A labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
 }
 \description{
-Converts a distribution object into a XY data.frame, suitable to plot.
+Converts a distribution matrix into a data.frame with X and Y coordinates, 
+suitable for plotting (e.g., with `plot()`).
 }
 \examples{
 library(blepd)
 data(distribution)
 matrix2XY(distribution)
-
 
 }
 \author{

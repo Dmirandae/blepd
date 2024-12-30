@@ -1,27 +1,28 @@
-#' @title printEvalBranch
+#' @title Print Information from an EvalBranch Object
 #'
 #' @description
-#' Prints a formatted summary of information from an `EvalBranch` object or a list containing `EvalBranch` objects. 
+#' Prints a formatted summary of information from an `EvalBranch` object or a list 
+#' containing `EvalBranch` objects. 
 #' 
 #' @param object An `EvalBranch` object or a list containing `EvalBranch` objects.
-#' 
-#' @param compact Logical indicating a concise format (default = TRUE).
-#' 
-#' @return Prints the formatted information to the console.
+#'
+#' @param compact Logical indicating whether to print a concise format (default = TRUE).
+#'
+#' @return Invisibly returns the `object`.
 #' 
 #' @examples
 #' library(blepd)  
 #' 
-#' # Create an EvalBranch object
-#' evalBranch <- EvalBranch(branchToEval = "Branch1", 
-#                           bestInitialArea = 0.3, 
-#                           bestModifiedArea = 0.4, 
-#                           delta = 10)
+#' # Create an EvalBranch object: Evaluate the effect of increasing the length of terminal branches
+#'
+#' result_upper <- evalBranch(tree = tree, distribution = distribution, 
+#'                          branchToEval = "terminals", approach = "upper") 
 #' 
 #' # Print information from the object
-#' printEvalBranch(evalBranch)
+#' printEvalBranch(result_upper)
 #' 
 #' @author Miranda-Esquivel Daniel R.
+#' 
 
 printEvalBranch <- function(objectToPrint, compact = TRUE) {
 

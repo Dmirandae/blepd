@@ -38,10 +38,17 @@ swapBL(
 swapBL: Analyze Effect of Branch Length Swapping on Phylogenetic Diversity
 }
 \examples{
+
 library(blepd)
+
 data(tree)
+
 data(distribution)
+
+# Evaluate the effect of swapping all terminal branch lengths 100 times
+
 swapBL(tree = tree, distribution = distribution, model = "allswap", nTimes = 100, branch = "terminals") 
+
 }
 \author{
 Miranda-Esquivel Daniel R.

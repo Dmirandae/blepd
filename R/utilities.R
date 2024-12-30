@@ -179,24 +179,22 @@ return(arbol$tip.label[listado])
 }
 
 
+#' @title Convert Distribution Matrix to XY Coordinates
 #'
-#' @title matrix2XY
-#'
-#' @description Converts a distribution object into a XY data.frame, suitable to plot.
+#' @description 
+#' Converts a distribution matrix into a data.frame with X and Y coordinates, 
+#' suitable for plotting (e.g., with `plot()`).
 #' 
-#' @param distribution is a labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
-#' 
-
+#' @param distribution A labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).
 #' 
 #' @examples
 #' library(blepd)
 #' data(distribution)
 #' matrix2XY(distribution)
 #'
-#'
 #' @author Miranda-Esquivel Daniel R.
 #'
-#'
+#' @export 
 
 matrix2XY <- function(distribution = distribution){
 
@@ -241,9 +239,7 @@ changeBLTerminal <- function(arbol,terminal,value){
 }
 
 
-### for utilities
-
-## in utils check name 
+## utils check name 
 
 bestValue <- function(distribution = distribution, initialVal){ 
 
@@ -258,8 +254,6 @@ bestValue <- function(distribution = distribution, initialVal){
    return(as.data.frame(resp))
 }
 
-
-### utils
 
 
 getTerminalLabels <- function(tree, numberOrden, printNames=TRUE){

@@ -2,29 +2,32 @@
 % Please edit documentation in R/printEvalBranch.R
 \name{printEvalBranch}
 \alias{printEvalBranch}
-\title{printEvalBranch}
+\title{Print Information from an EvalBranch Object}
 \usage{
 printEvalBranch(objectToPrint, compact = TRUE)
 }
 \arguments{
-\item{compact}{Logical indicating a concise format (default = TRUE).}
+\item{compact}{Logical indicating whether to print a concise format (default = TRUE).}
 
 \item{object}{An `EvalBranch` object or a list containing `EvalBranch` objects.}
 }
 \value{
-Prints the formatted information to the console.
+Invisibly returns the `object`.
 }
 \description{
-Prints a formatted summary of information from an `EvalBranch` object or a list containing `EvalBranch` objects.
+Prints a formatted summary of information from an `EvalBranch` object or a list 
+containing `EvalBranch` objects.
 }
 \examples{
 library(blepd)  
 
-# Create an EvalBranch object
-evalBranch <- EvalBranch(branchToEval = "Branch1", 
+# Create an EvalBranch object: Evaluate the effect of increasing the length of terminal branches
+
+result_upper <- evalBranch(tree = tree, distribution = distribution, 
+                         branchToEval = "terminals", approach = "upper") 
 
 # Print information from the object
-printEvalBranch(evalBranch)
+printEvalBranch(result_upper)
 
 }
 \author{

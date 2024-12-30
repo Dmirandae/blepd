@@ -46,33 +46,31 @@ modification (BL_sum * maxMultiplier, default = 1.01).}
 \item{printNames}{Logical indicating whether to print terminal names in output.}
 }
 \value{
-A data frame or list containing information about the effect of branch length modifications on area selection, including:
+* `branchToEval`: The evaluated branch(es).
 
-  - `branchToEval`: The evaluated branch(es).
+ * `bestInitialArea`: The area(s) with the highest PD in the initial tree.
 
-  - `bestInitialArea`: The area(s) with the highest PD in the initial tree.
+ * `bestModifiedArea`: The area(s) with the highest PD in the modified tree.
 
-  - `bestModifiedArea`: The area(s) with the highest PD in the modified tree.
+ * `approach`: The type of branch length modification used.
 
-  - `approach`: The type of branch length modification used.
+ * `delta`: The percentage change in branch length.
 
-  - `delta`: The percentage change in branch length.
+ * `initialPD`: The initial PD value.
 
-  - `initialPD`: The initial PD value.
+ * `modifiedPD`: The PD value after the branch length modification.
 
-  - `modifiedPD`: The PD value after the branch length modification.
+ * `initialLength`: The initial branch length.
 
-  - `initialLength`: The initial branch length.
+ * `finalLength`: The final branch length after modification.
 
-  - `finalLength`: The final branch length after modification.
+ * `areas`: A vector of area names.
 
-  - `areas`: A vector of area names.
+ * `terminals`: A vector of terminal taxa names.
 
-  - `terminals`: A vector of terminal taxa names.
+ * `root`: Logical indicating whether the root was used in PD calculation.
 
-  - `root`: Logical indicating whether the root was used in PD calculation.
-
-  - `index`: The PD index used.
+ * `index`: The PD index used.
 }
 \description{
 This function evaluates the effect of modifying a single branch length on 

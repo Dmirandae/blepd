@@ -14,7 +14,7 @@ printSwapBL(objectToPrint, compact = FALSE, tabular = TRUE)
 \item{tabular}{Logical indicating whether to print output in tabular format (default: TRUE).}
 }
 \value{
-No return value, but prints information to the console.
+Invisibly returns the `objectToPrint` object.
 }
 \description{
 Prints information from a `swapBL` object. 

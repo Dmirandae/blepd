@@ -1,19 +1,12 @@
-#'
-#' @title
-#' A tree with four terminals.
+#' @title A tree with four terminals. 
 #' 
-#' @description
-#' A tree as an APE object with four terminals.
-#'
+#' @description 
+#' An APER object representing a phylogenetic tree with four terminals.
 #' 
-#' @format An APE object, class phylo. A tree dataset with four terminals.
-#'
-#'
-#'
-#'@author Miranda-Esquivel Daniel R.
-#'
-#'
-
-
-
+#' @format An APER object of class `phylo` representing a tree with four terminals.
+#' 
+#' @author Miranda-Esquivel Daniel R.
+#' 
+#' @docType data
+#' 
 "tree"

@@ -5,13 +5,13 @@
 \alias{tree}
 \title{A tree with four terminals.}
 \format{
-An APE object, class phylo. A tree dataset with four terminals.
+An APER object of class `phylo` representing a tree with four terminals.
 }
 \usage{
 tree
 }
 \description{
-A tree as an APE object with four terminals.
+An APER object representing a phylogenetic tree with four terminals.
 }
 \author{
 Miranda-Esquivel Daniel R.
