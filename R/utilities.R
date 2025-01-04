@@ -270,13 +270,16 @@ if(is.null(numberOrden)){return("XXXXX")}
 
 	#tree$tip.label[lista[lista <= length(tree$tip.label)]] ## ??
 	
-	if (numberNode > length(tree$tip.label)){
-		 pegar <- paste0("[node number:",numberNode,":",collapse=" ")
-	 }else{
-		 pegar <- "["
-		 }
+#~ 	if (numberNode > length(tree$tip.label)){
+#~ 		 pegar <- "["
+#~ 		 pegar <- "[InternalNode:"
+#~ 	 }else{
+#~ 		 pegar <- "["
+#~ 		 }
 
-        return(paste0(pegar,paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]|",numberNode, collapse=" "))
+        return(paste0("[",paste0(tree$tip.label[lista[lista <= length(tree$tip.label)]],collapse="/"),"]",
+        collapse=" "))
+#~                       numberNode, collapse=" "))
       }else{
 		 
  		 return(numberNode)
