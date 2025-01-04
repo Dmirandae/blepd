@@ -232,7 +232,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          ans$approach         =   approach 
                          
                          ans$delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo ) 
+                                                       initialLength ) * 100 , 0 )  ## rounding to 0
                          
                          
                          if (!compact){
@@ -360,7 +360,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          ans$approach         =   approach 
                          
                          ans$delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo ) 
+                                                       initialLength ) * 100 , 0 )  ## rounding to 0
                          
                          
                          if (!compact){
@@ -408,7 +408,7 @@ if(any(apply(distribution,2,sum)==1)){root = TRUE}
                          ans$approach         =   approach 
                          
                          ans$delta            =   round((( promedio - initialLength ) / 
-                                                       initialLength ) * 100 , redondeo ) 
+                                                       initialLength ) * 100 , 0 )  ## rounding to 0
                          
                          
                          if (!compact){

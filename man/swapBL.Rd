@@ -18,7 +18,7 @@ swapBL(
 )
 }
 \arguments{
-\item{tree}{(required): A phylogenetic tree object in the `ape` format, containing terminal labels (tips).}
+\item{tree}{(required): A phylogenetic tree object in the APER format, containing terminal labels (tips).}
 
 \item{distribution}{(required): A matrix representing the distribution of terminal taxa across areas (rows represent areas, columns represent terminal taxa). Ensure the column names in this matrix match the terminal labels (tips) in the tree.}
 
