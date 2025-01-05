@@ -1,13 +1,13 @@
 ---
 title: "An empirical example: Four terminals and two areas"
 author: "Daniel R. Miranda-Esquivel"
-date: "2024 / 12 / 24"
+date: "2025 / 01 / 05"
 output:
   pdf_document:
     latex_engine: xelatex
   html_document:
     df_print: paged
-bibliography: "../../paperBlepd/bib/blepd002.bib"
+bibliography: "../../bib/blepd002.bib"
 ---
 
 This is a worked example using a four terminals tree, distributed in two areas.
@@ -63,10 +63,10 @@ distXY
 ## the tree, using ggtree
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
-             ggtitle("Four terminals, all branches are == 1")
+                    color="black", size=0.5, linetype="dotted")  +
+             geom_tiplab(size=4.5, color="black")                +
+             theme_tree2()                                       +
+             ggtitle("Four terminals, all branches are equal to 1")
 
 
 
@@ -79,7 +79,7 @@ print(plotTree)
 
 plotDistrib <- ggplot(data=distXY,
                       aes(x= Area, y= Terminal , size =150))    +
-               geom_point()       +
+               geom_point()                                     +
                theme_bw()                                       +
                theme( axis.text.y = element_blank(),
                       panel.grid.major = element_blank(),  
@@ -118,12 +118,12 @@ initialPD
 
 
 
-#As expected there is a tie between both areas.
+#As expected, there is a tie between both areas.
 
 
 #Now, we can see the impact of swapping the branch lengths; we will use the three
-#available models to swap: "simpleswap","allswap","uniform", and we will swap the
-#three classes of branches: "terminals","internals","all".
+#available models to swap: "simpleswap", "allswap", "uniform", and we will swap the
+#three classes of branches: "terminals", "internals", "all".
 
 
 ##?swapBL
@@ -149,10 +149,10 @@ for( modelo in c("simpleswap","allswap","uniform") ){
 
 
 
-#As expected, as all braches are EQUAL nothing happens
+#As expected, as all braches are EQUAL, nothing happens
 
 
-#Now, let us see if the results could be related to the branch length (or not).
+#Now, let's see if the results could be related to the branch length (or not).
 
 
 
@@ -196,9 +196,9 @@ initialTree <- tree
 initialTree$edge.length[1] <- 5
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")    +
+             geom_tiplab(size=4.5, color="black")                  +
+             theme_tree2()                                         +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -212,11 +212,13 @@ print(plotTree)
         for( rama in c("terminals","internals","all") ){
 
            cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+           
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
+                         
         printSwapBL(val, compact=TRUE)
 
          cat( "\n\n" )
@@ -257,9 +259,9 @@ initialTree$edge.length[1] <- 10
 
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")       +
+             geom_tiplab(size=4.5, color="black")                     +
+             theme_tree2()                                            +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -319,9 +321,9 @@ initialTree$edge.length[1] <- 0.1
 
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")  +
+             geom_tiplab(size=4.5, color="black")                +
+             theme_tree2()                                       +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -335,11 +337,13 @@ print(plotTree)
         for( rama in c("terminals","internals","all") ){
 
  cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ 
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
+                         
         printSwapBL(val, compact=TRUE)
 
          cat( "\n\n" )
@@ -371,7 +375,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#With a long branch in brach 2
+#With a long branch in branch 2
 
 
 initialTree <- tree
@@ -379,9 +383,9 @@ initialTree <- tree
 initialTree$edge.length[2] <- 5
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")  +
+             geom_tiplab(size=4.5, color="black")                +
+             theme_tree2()                                       +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -395,11 +399,13 @@ print(plotTree)
         for( rama in c("terminals","internals","all") ){
 
  cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ 
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
+                         
         printSwapBL(val, compact=TRUE)
 
          cat( "\n\n" )
@@ -440,9 +446,9 @@ initialTree$edge.length[2] <- 10
 
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")  +
+             geom_tiplab(size=4.5, color="black")                +
+             theme_tree2()                                       +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -455,12 +461,14 @@ print(plotTree)
 
         for( rama in c("terminals","internals","all") ){
 
- cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ cat( "\n\t Branchs swapped=\t",rama,".\t",sep="") 
+ 
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
+                         
         printSwapBL(val, compact=TRUE)
 
          cat( "\n\n" )
@@ -492,7 +500,7 @@ printEvalBranch(AllInternals, compact=FALSE)
 
 
 
-#now with a longer branch
+#now with a shorter branch
 
 
 
@@ -502,9 +510,9 @@ initialTree$edge.length[2] <- 0.1
 
 
 plotTree <-  ggtree(initialTree, ladderize=TRUE,
-                    color="black", size=0.5, linetype="dotted") +
-             geom_tiplab(size=4.5, color="black") +
-             theme_tree2() +
+                    color="black", size=0.5, linetype="dotted")             +
+             geom_tiplab(size=4.5, color="black")                           +
+             theme_tree2()                                                  +
              ggtitle(paste("Four terminals. Branches 1=",initialTree$edge.length[1],
              ".  2=",initialTree$edge.length[2],".",sep=""))
 
@@ -518,11 +526,13 @@ print(plotTree)
         for( rama in c("terminals","internals","all") ){
 
  cat( "\n\t Branchs swapped=\t",rama,".\t",sep="")
+ 
             val <- swapBL(tree=initialTree,
                           distribution = dist4taxa,
                           model = modelo,
                           branch = rama
                          )
+                         
         printSwapBL(val, compact=TRUE)
 
          cat( "\n\n" )
