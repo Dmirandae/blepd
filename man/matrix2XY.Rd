@@ -2,23 +2,22 @@
 % Please edit documentation in R/utilities.R
 \name{matrix2XY}
 \alias{matrix2XY}
-\title{Convert Distribution Matrix to XY Coordinates}
+\title{Convert a species distribution matrix into a data frame of terminal taxa and their associated distribution.}
 \usage{
 matrix2XY(distribution = distribution)
 }
 \arguments{
-\item{distribution}{A labeled matrix object, with the distribution of T terminals (columns) in A areas (rows).}
+\item{distribution}{A matrix or data frame representing the presence/absence of species in different sets. Rows represent sets and columns represent species.}
+}
+\value{
+A data frame with two columns: "Terminal" (the species name) and "Area" (the area where the species is present).
 }
 \description{
-Converts a distribution matrix into a data.frame with X and Y coordinates, 
-suitable for plotting (e.g., with `plot()`).
+This function takes a matrix or data frame representing the presence/absence of species in different sets and converts it into a data frame where each row represents a terminal taxon and its corresponding area.
 }
 \examples{
-library(blepd)
-data(distribution)
-matrix2XY(distribution)
 
-}
-\author{
-Miranda-Esquivel Daniel R.
+# Convert distribution matrix to data frame
+xy_df <- matrix2XY(distribution = distribution)
+
 }
