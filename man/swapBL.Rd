@@ -20,7 +20,7 @@ swapBL(
 \arguments{
 \item{tree}{(required): A phylogenetic tree object in the APER format, containing terminal labels (tips).}
 
-\item{distribution}{(required): A matrix representing the distribution of terminal taxa across areas (rows represent areas, columns represent terminal taxa). Ensure the column names in this matrix match the terminal labels (tips) in the tree.}
+\item{distribution}{(required): A matrix representing the distribution of terminal taxa across sets (rows represent sets, columns represent terminal taxa). Ensure the column names in this matrix match the terminal labels (tips) in the tree.}
 
 \item{model}{(optional, default="allswap"): The type of branch length swapping to perform. Valid options are:
 "simpleswap": Swaps the lengths of two randomly chosen branches.
@@ -42,16 +42,23 @@ swapBL(
 }
 \value{
 `initialPD`: The PD value of the original tree.
- `bestInitialArea`: The area(s) with the highest PD in the initial tree.
- `bestModifiedArea`: A data frame summarizing the frequency of each area identified with the highest PD across iterations.
+
+ `bestInitialArea`: The set(s) with the highest PD in the initial tree.
+
+ `bestModifiedArea`: A data frame summarizing the frequency of each set identified with the highest PD across iterations.
+
  `model`: The type of branch length swapping performed ("simpleswap", "allswap", or "uniform").
+
  `nTimes`: The number of times the swapping process was repeated.
+
  `branch`: The type of branches swapped ("terminals", "internals", or "all").
+
  `root` (optional): A logical value indicating whether the root node was used during PD calculations (default: TRUE).
+
  `index` (optional): The PD index used (currently always "PD").
 }
 \description{
-swapBL: Analyze Effect of Branch Length Swapping on Phylogenetic Diversity
+This function evaluates how swapping terminal or internal branch lengths affects Phylogenetic Diversity (PD) in a phylogenetic tree. It achieves this by simulating branch length modifications and assessing the resulting changes in PD.
 }
 \examples{
 

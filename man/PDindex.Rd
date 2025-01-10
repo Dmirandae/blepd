@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{PDindex}
 \alias{PDindex}
-\title{@title Calculate Phylogenetic Diversity (PD) or Phylogenetic Endemism (PE) for a given distribution.}
+\title{Calculate Phylogenetic Diversity (PD) or Phylogenetic Endemism (PE) for a given distribution.}
 \usage{
 PDindex(
   tree = tree,

@@ -21,7 +21,7 @@ evalBranch(
 \arguments{
 \item{tree}{A single phylogenetic tree in APER format.}
 
-\item{distribution}{A matrix indicating the distribution of terminal taxa across areas.}
+\item{distribution}{A matrix indicating the distribution of terminal taxa across sets.}
 
 \item{branchToEval}{The branch(es) to evaluate (can be a numeric vector of node 
 numbers, "terminals", "internals", or "all", default = "terminals").}
@@ -46,24 +46,37 @@ modification (BL_sum * maxMultiplier, default = 1.01).}
 \item{printNames}{Logical indicating whether to print terminal names in output.}
 }
 \value{
-The function returns a list containing information about the effect of branch length modifications on area selection, including:
+The function returns a list containing information about the effect of branch length modifications on set selection, including:
+
   `branchToEval`: The evaluated branch(es).
-  `bestInitialArea`: The area(s) with the highest PD in the initial tree.
-  `bestModifiedArea`: The area(s) with the highest PD in the modified tree.
+
+  `bestInitialArea`: The set(s) with the highest PD in the initial tree.
+
+  `bestModifiedArea`: The set(s) with the highest PD in the modified tree.
+
   `approach`: The type of branch length modification used.
+
   `delta`: The percentage change in branch length.
+
   `initialPD`: The initial PD value.
+
   `modifiedPD`: The PD value after the branch length modification.
+
   `initialLength`: The initial branch length.
+
   `finalLength`: The final branch length after modification.
-  `areas`: A vector of area names.
+
+  `areas`: A vector of set names.
+
   `terminals`: A vector of terminal taxa names.
+
   `root`: Logical indicating whether the root was used in PD calculation.
+
   `index`: The PD index used.
 }
 \description{
 This function evaluates the effect of modifying a single branch length on 
-Phylogenetic Diversity (PD) and the selection of areas with the highest PD. 
+Phylogenetic Diversity (PD) and the selection of sets with the highest PD. 
 It allows for both decreasing (to zero) and increasing (to a user-defined maximum).
 }
 \examples{

@@ -27,6 +27,7 @@ result_upper <- evalBranch(tree = tree, distribution = distribution,
                          branchToEval = "terminals", approach = "upper") 
 
 # Print information from the object
+
 printEvalBranch(result_upper)
 
 }

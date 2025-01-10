@@ -19,6 +19,7 @@
 #'                          branchToEval = "terminals", approach = "upper") 
 #' 
 #' # Print information from the object
+#' 
 #' printEvalBranch(result_upper)
 #' 
 #' @author Miranda-Esquivel Daniel R.

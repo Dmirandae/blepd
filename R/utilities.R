@@ -56,7 +56,7 @@
 ##
 ###
 
-#'  @title Calculate Phylogenetic Diversity (PD) or Phylogenetic Endemism (PE) for a given distribution.
+#'@title Calculate Phylogenetic Diversity (PD) or Phylogenetic Endemism (PE) for a given distribution.
 #'
 #' @description 
 #' This function calculates the Phylogenetic Diversity (PD) or Phylogenetic Endemism (PE) for a given distribution of species across a phylogeny.
