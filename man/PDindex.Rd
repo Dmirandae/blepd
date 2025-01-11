@@ -7,7 +7,7 @@
 PDindex(
   tree = tree,
   distribution = distribution,
-  root = FALSE,
+  root = root,
   index = "PD",
   percentual = FALSE
 )

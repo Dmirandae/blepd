@@ -21,6 +21,21 @@
 
 
 
+bestValue <- function(distribution = distribution, initialVal){ 
+
+   best <- row.names(distribution)[which(initialVal == max(initialVal))]
+        
+   resp <- tmpBest <- gsub("area","",best)
+   
+   if(length(tmpBest) > 1){
+   resp <- paste(tmpBest,collapse="")
+   }
+   
+   return(as.data.frame(resp))
+}
+
+
+
 .createTable <- function(tree = tree){
     ## create table
     allDataTable <- tree$edge
@@ -78,7 +93,7 @@
 
 PDindex <- function (tree = tree, 
                      distribution = distribution, 
-                     root = FALSE, 
+                     root = root, 
                      index= "PD", 
                      percentual = FALSE){
 						 
@@ -268,19 +283,6 @@ changeBLTerminal <- function(arbol,terminal,value){
 
 
 ## utils check name 
-
-bestValue <- function(distribution = distribution, initialVal){ 
-
-   best <- row.names(distribution)[which(initialVal == max(initialVal))]
-        
-   resp <- tmpBest <- gsub("area","",best)
-   
-   if(length(tmpBest) > 1){
-   resp <- paste(tmpBest,collapse="")
-   }
-   
-   return(as.data.frame(resp))
-}
 
 
 

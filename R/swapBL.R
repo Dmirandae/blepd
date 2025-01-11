@@ -82,9 +82,9 @@ swapBL <- function( tree = tree ,
 				stop("Check models/branch selection. Mind the closing door.")
 				}
 				
-		if( any(apply(distribution,2,sum)==1) ){
-			root = TRUE
-			}		
+#~ 		if( any(apply(distribution,2,sum)==1) ){
+#~ 			root = TRUE
+#~ 			}		
         
 
 ## initial stuff from the initial tree

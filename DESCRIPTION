@@ -1,7 +1,7 @@
 Package: blepd
 Type: Package
 Title: Branch Length Evaluation in Phylogenetic Diversity Analysis
-Version: 0.3.8-2025-01-10
+Version: 0.4.0-2025-01-11
 Author: Daniel Rafael Miranda-Esquivel
 Maintainer: D. Miranda-Esquivel <dmiranda@uis.edu.co>
 Description: These functions evaluate whether a change in one or more branch lengths generates a change in the area selected using PD, and, if applicable, the branch length value at which this change occurs, also, the behavior of PD under different null models, such as swapping terminal branch lengths or replacing them with values drawn from a known distribution.
@@ -10,5 +10,5 @@ License: GPL 2.x
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Packaged: 0.3.8-2025-01-010:00.00 -5 UTC; rafael
+Packaged: 0.4.0-2025-01-011:00.00 -5 UTC; rafael
 RoxygenNote: 7.3.2

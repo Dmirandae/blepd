@@ -93,7 +93,7 @@ evalBranch   <- function(tree          = tree ,
        #!!! .checkInput(tree = tree , distribution = distribution)
 
 
-if(any(apply(distribution,2,sum)==1)){root = TRUE}
+#~ if(any(apply(distribution,2,sum)==1)){root = TRUE}
 
        
 ## loop for all approach
