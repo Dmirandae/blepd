@@ -1,7 +1,7 @@
 ---
 title: "An empirical example: _Rhinoclemmys_ data"
 author: "Daniel R. Miranda-Esquivel"
-date: "2025 / 01 / 05"
+date: "2025 / 01 / 10"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -11,8 +11,12 @@ bibliography: "../../bib/blepd002.bib"
 
 ---
 
+# General description
 
-I conducted a phylogenetic diversity (PD) analysis for the _Rhinoclemmys_ genus to evaluate the effect of branch length on the chosen conservation area(s). The topology used corresponds to a total evidence analysis from [@alarcon2020a], while the distribution was modified from [@le2008]. 
+I conducted a phylogenetic diversity (PD) analysis for the _Rhinoclemmys_ genus
+to evaluate the effect of branch length on the chosen conservation area(s). The
+topology used corresponds to a total evidence analysis from [@alarcon2020a],
+while the distribution was modified from [@le2008].
 
 
 
@@ -36,27 +40,33 @@ suppressMessages(library(phytools))
 
 ## library(ggtree) 
 
-##
+###
 ## If you want to install ggtree. 
 ##
-### https://bioconductor.org/packages/release/bioc/html/ggtree.html
+## https://bioconductor.org/packages/release/bioc/html/ggtree.html
 ##
 ####
-#  if (!require("BiocManager", quietly = TRUE))
-#      install.packages("BiocManager")
-#  BiocManager::install("ggtree")
+##  if (!require("BiocManager", quietly = TRUE))
+##      install.packages("BiocManager")
+##  BiocManager::install("ggtree")
+###
 
+###
 ## Version
+###
 
-cat("Analyses made with blepd version:",unlist(packageVersion("blepd")))
+cat("Analyses made with blepd version:",
+    unlist(packageVersion("blepd")),"\n")
 
-##
+###
 ## The tree file (in Newick format) and the distribution file (in CSV format) 
 ## can be found in the data directory or as a data set within the package. 
-##
+###
 
-## Assuming data are read from files, create an object to store the 
+###
+## Assuming data is read from files, create an object to store the 
 ## distribution and the tree.
+###
 
 RhinoclemmysData <- list()
 
@@ -85,11 +95,11 @@ RhinoclemmysData$distribution <-  as.matrix(read.table(csvFile,
 
 print(t(RhinoclemmysData$distribution))
 
-##
+###
 ## Tree(s) in nexus or newick format
 ##
 ## setwd("../tree/")
-##
+###
 
 treeFiles <- list.files(pattern=".tre")
 
@@ -105,11 +115,11 @@ treeFiles <- gsub(".tre","",treeFiles)
 
 ##getwd()
 
+###
 ## You might need to save the object as an .Rda file.
-
 ##
-save(RhinoclemmysData, file = "../data/RhinoclemmysData.rda")
-
+## save(RhinoclemmysData, file = "../data/RhinoclemmysData.rda")
+###
 
 
 ## Plotting:
@@ -134,24 +144,20 @@ print(plotTree)
 
 ##dev.off()
 
-
-#~ Alternatively, we can plot the tree using APE
-
+###
+## Alternatively, we can plot the tree using APE
+###
 
 plot.phylo(RhinoclemmysData$tree)
 
-
-# The number of the nodes / tips 
-#
+###
+## The number of the nodes / tips 
+##
 nodelabels()
-####
+#
 tiplabels()
+###
  
-plot(plotTree)
- 
-print(t(RhinoclemmysData$distribution))
-
-
 
 ```
 
@@ -164,6 +170,11 @@ library(ggplot2)
 ##par(mfrow=c(2,1))
 
 datos <- RhinoclemmysData$tree$edge.length
+
+
+cat("s.d. All=",formatC(sd(datos),format = "e", digits = 1),"\n")
+
+
 data <- as.data.frame(datos)
 
 a <- ggplot2::ggplot(data, aes(x=datos)) +
@@ -175,6 +186,9 @@ a <- ggplot2::ggplot(data, aes(x=datos)) +
 terminals <- RhinoclemmysData$tree$edge[,2] < 1 + length(RhinoclemmysData$tree$tip.label)
 
 datos <- RhinoclemmysData$tree$edge.length[terminals]
+
+cat("s.d. Terminals=",formatC(sd(datos),format = "e", digits = 1),"\n")
+
 data <- as.data.frame(datos)
 
 b <- ggplot(data, aes(x=datos)) +
@@ -186,6 +200,11 @@ b <- ggplot(data, aes(x=datos)) +
 
   
 datos <- RhinoclemmysData$tree$edge.length[!terminals]
+
+
+cat("s.d. Internals=",formatC(sd(datos),format = "e", digits = 1),"\n")
+
+
 data <- as.data.frame(datos)
 
 c <- ggplot(data, aes(x=datos)) +
@@ -195,17 +214,17 @@ c <- ggplot(data, aes(x=datos)) +
   ylim(c(0, 5))
 
 
+
 ##pdf("RhinoclemmysBranchLength.pdf", onefile = TRUE)
 
 cowplot::plot_grid(a, b, c, nrow=3)
 
 ##dev.off()
 
-
-#
-# cat("Terminals, with BL larger than 0.02 = ",
-# findTerminalgivenLength(RhinoclemmysData$tree,0.02))
-#
+###
+## cat("Terminals, with BL larger than 0.02 = ",
+## findTerminalgivenLength(RhinoclemmysData$tree,0.02))
+###
 
 
 
@@ -251,42 +270,12 @@ print(as.data.frame(paste(names,values)))
  
 ```
 
-The highest PD was for area Cho, followed by Al, the two richest areas. However, the difference in PD values was not determined by species richness alone, but also by the branch lengths of the species within each region.
+The highest PD was for area Cho, followed by Al, the two richest areas. However,
+the difference in PD values was [?] not determined by species richness alone, but
+also by the branch lengths of the species within each region.
 
 
-#Effect of branch lengths in the PD
-
-I tested the effect of branch length on PD values by swapping terminal and/or internal branch lengths using three different models.
-
-```{r eval=TRUE, echo=TRUE}
-
-
- for( modelo in c("simpleswap","allswap","uniform") ){
-
-        for( rama in c("terminals","internals","all") ){
-
-            val <- swapBL(RhinoclemmysData$tree,
-                          RhinoclemmysData$distribution,
-                          model = modelo,
-                          branch = rama
-               )
-
-         cat( "\n\t Tree=",treeFiles,"\n\t Model=",modelo,
-             "\n\t Branchs swapped=",rama,"\n" )
-
-        printSwapBL(val)
-
-         cat( "\n\n" )
-
-     }
-
-  }
-
-```
-
-
-I determined that terminal branch lengths were crucial in influencing the chosen area. When I swapped all terminal branch lengths (model = "allswap") or replaced them with a uniform distribution (model = "uniform"), the optimal area shifted from Cho to Al. Recognizing the uneven distribution of terminal branch lengths, I suspected that the longest branches within the Cho and/or Al areas were driving these results.
-
+# Effect of branch lengths in the PD
 
 I first investigated the impact of the number of replicates on the results.
 
@@ -306,15 +295,55 @@ for(repetir in 1:4){
 }
 ```
 
-I found that results stabilized after approximately 1000 replicates, with most differences arising from using 10 or 100 replicates. As a general guideline, at least 100 replicates are necessary, but 1000 are preferable. 
+I found that results stabilized after approximately 1000 replicates, with most
+differences arising from using 10 or 100 replicates. As a general guideline, at
+least 100 replicates are necessary, but 1000 are preferable.
 
-I investigated whether the observed differences in results could be attributed to the lengths of the longest branches.
+
+I tested the effect of branch length on PD values by swapping terminal and/or
+internal branch lengths using three different models.
 
 
+```{r eval=TRUE, echo=TRUE}
+
+ for( modelo in c("simpleswap","allswap","uniform") ){
+
+        for( rama in c("terminals","internals","all") ){
+
+            val <- swapBL(RhinoclemmysData$tree,
+                          RhinoclemmysData$distribution,
+                          model   =  modelo,
+                          branch  =  rama,
+                          nTimes  =  1000
+               )
+
+         cat( "\n\t Tree=",treeFiles,
+               "\n\t Model=",modelo,
+               "\n\t Branchs swapped=",rama,"\n" )
+
+        printSwapBL(val)
+
+         cat( "\n\n" )
+
+     }
+
+  }
+
+```
+
+I determined that internal branch length has no impact on the swapping
+evaluation, while the terminal branch lengths were crucial in the chosen area.
+For most models tested, Cho was the selected area. Only when I swapped all or
+terminal branch lengths (model = "allswap") or replaced them with a uniform
+distribution (model = "uniform") did the optimal area shift from Cho to Al, but
+at a "significant" level.
+
+Recognizing the uneven distribution of terminal branch lengths, I suspected that
+the longest branches within the Cho and/or Al areas were driving these results.
+Therefore, I investigated whether the results could be attributed to the lengths
+of the longest branches.
 
 ```{r testEvalBranch, eval=TRUE, echo=TRUE}
-
-## we can use a single command (*evalBranch*)
 
 AllTerminals <- evalBranch(tree=RhinoclemmysData$tree,
                            distribution=RhinoclemmysData$distribution,
@@ -334,47 +363,17 @@ printEvalBranch(AllInternals)
 
 ```
 
-I found that branch length significantly influenced the selected area. While modifying internal branches had minimal to no effect, altering terminal branch lengths might have an impact on area selection. Specifically, a 46% decrease in the branch length of _R. nasuta_ or an 86% increase in the branch length of _R. areolata shifted the optimal area from Cho to Al. Similarly, a 59% increase in the branch length of _R. rubida or a 116% increase in the branch length of _R. pulcherrima resulted in a shift from Cho to Pl.
+I found that terminal branch length influenced the selected area. While
+modifying internal branches had minimal to no effect, altering terminal branch
+lengths could impact area selection. Specifically, a 46% decrease in the branch
+length of *R. nasuta* qor an 86% increase in the branch length of *R. areolata*
+shifted the optimal area from Cho to Al. Similarly, a 59% increase in the branch
+length of *R. rubida* or a 116% increase in the branch length of *R.
+pulcherrima* resulted in a shift from Cho to Pl.
 
-
-As an additional exercise, I investigated the impact of ultrametricity. I hypothesized that if the tree were ultrametric, terminal sister pairs would exhibit similar behavior, with differences primarily attributable to the underlying distribution.
-
-
-
-```{r testEvalBranchUltra, eval=TRUE, echo=TRUE}
-
-## now let's see the impact of ultra-metricity
-
-AllTerminalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
-                           distribution=RhinoclemmysData$distribution,
-                           branchToEval="terminals", 
-                           approach="all",
-                           printNames=TRUE)
-
-cat("Ultrametric tree\n")
-
-printEvalBranch(AllTerminalsU)
-
-
-printEvalBranch(AllTerminals)
-                    
-AllInternalsU <- evalBranch(tree=force.ultrametric(RhinoclemmysData$tree),
-                           distribution=RhinoclemmysData$distribution,
-                           branchToEval="internals", 
-                           approach="all",
-                           redondeo=3,
-                           printNames=TRUE)
-
-printEvalBranch(AllInternalsU)
-
-printEvalBranch(AllInternals)
-
-
-
-```
-
-These findings suggest that decisions to conserve solely area Cho are not misguided. Areas Al, and potentially Pl, should not be considered as essential components of the conservation range.
-
+These findings suggest that decisions to conserve solely area Cho are misguided.
+Areas Al, and potentially Pl, should be considered essential components of the
+conservation range.
 
 
 # Literature cited
