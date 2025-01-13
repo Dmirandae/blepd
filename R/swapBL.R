@@ -33,7 +33,7 @@
 #' 
 #'  `branch`: The type of branches swapped ("terminals", "internals", or "all").
 #' 
-#'  `root` (optional): A logical value indicating whether the root node was used during PD calculations (default: TRUE).
+#'  `root` (optional): A logical value indicating whether the root node was used during PD calculations (default: FALSE).
 #' 
 #'  `index` (optional): The PD index used (currently always "PD").
 #' 
@@ -56,7 +56,7 @@ swapBL <- function( tree = tree ,
                     distribution = distribution , 
                     model  = "allswap" ,
                     nTimes = 100 ,  
-                    root   = TRUE , 
+                    root   = FALSE , 
                     index  = "PD" ,
                     branch = "terminals", 
                     percentual = FALSE,

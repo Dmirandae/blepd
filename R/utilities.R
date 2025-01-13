@@ -93,7 +93,7 @@ bestValue <- function(distribution = distribution, initialVal){
 
 PDindex <- function (tree = tree, 
                      distribution = distribution, 
-                     root = root, 
+                     root = FALSE, 
                      index= "PD", 
                      percentual = FALSE){
 						 
@@ -283,7 +283,6 @@ changeBLTerminal <- function(arbol,terminal,value){
 
 
 ## utils check name 
-
 
 
 getTerminalLabels <- function(tree, numberOrden, printNames=TRUE){

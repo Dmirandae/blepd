@@ -185,8 +185,6 @@ evalBranch   <- function(tree          = tree ,
         
         initialLength <- round(tree$edge.length[branchToEval],3)
        
-       ##initialTreeLength <- tree$edge.length ## ?? so 
-        
         totalTreeLength <- sum(tree$edge.length)
         
                
@@ -222,7 +220,7 @@ evalBranch   <- function(tree          = tree ,
                                index = index )
           
         bestModifiedArea <-  c(bestValue(distribution,modifiedPD))
-        
+
               
         if(all(bestInitialArea %in% bestModifiedArea) &
            all(bestModifiedArea %in% bestInitialArea)){
@@ -313,7 +311,6 @@ evalBranch   <- function(tree          = tree ,
                                         index = index )
             
             bestModifiedArea <-  c(bestValue(distribution,reCalculatedPD))
-        
 
      
     if(round(promedio,redondeo) != round(ValorPrevio,redondeo)) { 
@@ -357,6 +354,7 @@ evalBranch   <- function(tree          = tree ,
                                         index = index )
             
             bestModifiedArea <-  c(bestValue(distribution,reCalculatedPD))
+#~             bestModifiedArea <-  c(as.data.frame(.bestVal(distribution,reCalculatedPD)))
             
             
         ans <- list () ## rev
